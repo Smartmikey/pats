@@ -1,6 +1,5 @@
 import { Star } from "@mui/icons-material";
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import React from "react";
+import { Card, CardContent, CardMedia, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 interface Props {

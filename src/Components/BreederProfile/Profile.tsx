@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/styles";
-import { bgcolor } from "@mui/system";
 import React, { useState } from "react";
 import { colors } from "../../Constants";
 import AboutMe from "./AboutMe";

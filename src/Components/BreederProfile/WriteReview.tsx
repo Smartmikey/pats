@@ -1,11 +1,8 @@
-import { Star } from "@mui/icons-material";
 import {
   Box,
   Button,
   FormControl,
   Grid,
-  Icon,
-  InputLabel,
   Rating,
   TextField,
   Typography,

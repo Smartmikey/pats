@@ -22,7 +22,7 @@ const HeaderNav = (props: Props) => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-      <img src='Loo.svg' />
+      <img src='Loo.svg' alt="logo" />
       </Typography>
       <Divider />
       <List>
@@ -54,7 +54,7 @@ const HeaderNav = (props: Props) => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            <img src='Loo.svg' />
+            <img src='Loo.svg' alt="logo" />
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (

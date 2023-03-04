@@ -65,7 +65,7 @@ const Discovery = () => {
             />
             <div>
               <Button
-                startIcon={<img src="sortIcon.svg" />}
+                startIcon={<img src="sortIcon.svg"  alt="sort icon"/>}
                 sx={{ background: colors.white, px: 1.5 }}
               >
                 Sort
