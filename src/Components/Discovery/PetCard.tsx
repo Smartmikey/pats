@@ -18,18 +18,20 @@ import {
 import { red } from "@mui/material/colors";
 import { styled } from "@mui/styles";
 import { colors } from "../../Constants";
+import { Pet } from "../../interface/Pet";
 interface Props {
   size: number;
+  data: Pet
 }
-const PetCard = ({size}: Props) => {
+const PetCard = ({size, data}: Props) => {
   return (
-    <Grid item xs={size}>
+    <Grid item xs={12} md={size}>
       <Card sx={{ maxWidth: 312, borderRadius: "12px", pb:3 }}>
         <CardHeader
         sx={{'&.MuiCardHeader-title': {fontWeight: 700}}}
           avatar={
             <Avatar sx={{ bgcolor: colors.primary }} aria-label="recipe">
-              R
+              {data.name[0]}
             </Avatar>
           }
           action={
@@ -37,8 +39,8 @@ const PetCard = ({size}: Props) => {
               {/* <MoreVertIcon /> */}
             </IconButton>
           }
-          title="Pows shelter"
-          subheader="South Carolina"
+          title={data.name}
+          subheader={data.location}
         />
         <Box 
           sx={{position: 'relative'}}>
@@ -46,20 +48,19 @@ const PetCard = ({size}: Props) => {
         <CardMedia
           component="img"
           height="194"
-          image="_placeholderimage.png"
-          alt="Paella dish"
+          image={data.image}
+          alt={data.name}
         />
         <BannerOnImage variant="overline" >3+ more photos</BannerOnImage>
         </Box>
         
         <CardContent>
-            <Typography sx={{fontWeight: 600}}>Max</Typography>
-            <Typography variant="subtitle2">Mixed Breed</Typography>
-            <Typography variant="subtitle2">2 years old | Male</Typography>
+            <Typography sx={{fontWeight: 600}}>{data.breeder}</Typography>
+            <Typography variant="subtitle2">{data.breed}</Typography>
+            <Typography variant="subtitle2">{data.age} | {data.gender}</Typography>
             <Divider sx={{my: 1.5}} />
           <Typography variant="body2" color="text.secondary">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together.
+            {data.description}
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: "end" }}>

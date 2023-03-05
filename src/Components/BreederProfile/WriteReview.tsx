@@ -16,11 +16,11 @@ const WriteReview = () => {
   return (
     <Box
       sx={{
-        width: "80%",
-        px: 20,
+        width: {xs: '80%', md:"70%"},
         my: 6,
         boxShadow: " 0 3px 8px rgb(0 0 0 / 0.15)",
-        p: 8,
+        p: {xs:2, md:8},
+        px: {xs:2,md:20},
         mx: "auto",
         borderRadius: "8px",
       }}

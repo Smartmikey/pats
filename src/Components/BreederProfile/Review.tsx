@@ -7,7 +7,7 @@ interface Props {
 }
 const Review = ({ size }: Props) => {
   return (
-    <Grid item xs={size}>
+    <Grid item xs={12} md={size}>
       <Card sx={{ maxWidth: 345, p:2}}>
         <CardMedia
           component="img"

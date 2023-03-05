@@ -4,10 +4,10 @@ import { colors } from '../../Constants'
 
 const Explore = () => {
   return (
-    <Container sx={{my: 6, px: 12}}>
+    <Container sx={{my: 6, px: {xs:3,md:12}}}>
         <Typography variant="h5" sx={{my:6, color: colors.textHeading}}>Explore more pets near you</Typography>
         <Grid container >
-            <Grid item xs={3}>
+            <Grid item xs={6} md={3}>
                 <List dense={false} sx={{lineHeight: 2}}>
                     <ListItem>North Carolina</ListItem>
                     <ListItem>Tennessee</ListItem>
@@ -15,7 +15,7 @@ const Explore = () => {
                     <ListItem>Washington, D.C</ListItem>
                 </List>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={3}>
                 <List sx={{lineHeight: 2}}>
                     <ListItem>Florida</ListItem>
                     <ListItem>Maryland</ListItem>
@@ -23,7 +23,7 @@ const Explore = () => {
                     <ListItem>New york</ListItem>
                 </List>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={3}>
                 <List sx={{lineHeight: 2}}>
                     <ListItem>Massachusetts</ListItem>
                     <ListItem>Virginia</ListItem>
@@ -31,7 +31,7 @@ const Explore = () => {
                     <ListItem>Illinios</ListItem>
                 </List>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={3}>
                 <List sx={{lineHeight: 2}}>
                     <ListItem>Texas</ListItem>
                     <ListItem>Ohio</ListItem>

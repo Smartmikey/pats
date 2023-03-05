@@ -37,9 +37,10 @@ const Profile = () => {
         >
           <Box
             sx={{
-              px: 10,
+              px: {xs:1.5, md:10},
               py: 3,
               display: "flex",
+              flexDirection: {xs: "column", md: 'row'},
               alignItems: "center",
               gap: 4,
             }}
@@ -49,7 +50,7 @@ const Profile = () => {
               sx={{ width: 150, height: 150, mt: -9 }}
             />
             <Box sx={{ flex: 1 }}>
-              <Typography variant="h4">Little Paws Breeder</Typography>
+              <Typography variant="h4" sx={{fontSize: {xs: '24px'}}}>Little Paws Breeder</Typography>
               <Typography variant="subtitle2">Random things</Typography>
             </Box>
             <Button
@@ -67,9 +68,10 @@ const Profile = () => {
 
       <Box
         sx={{
-          width: "80%",
-          px: 20,
-          my: 6,
+          width: {xs: '85%', md:"80%"},
+          px: {xs: 2,md:20},
+          my: {xs:30, md:6},
+          mb: {xs: 5},
           boxShadow: " 0 3px 8px rgb(0 0 0 / 0.15)",
           p: 8,
           mx: "auto",
@@ -83,10 +85,13 @@ const Profile = () => {
           TabIndicatorProps={{
             style: { display: "none" },
           }}
+
+        variant="scrollable"
+        scrollButtons={false}
         >
-          <ModifiedTab value="one" label="About me" />
-          <ModifiedTab value="two" label="Available pets" />
-          <ModifiedTab value="three" label="Reviews" />
+          <ModifiedTab sx={{fontSize: {xs: '10px', md: '18px'}}} value="one" label="About me" />
+          <ModifiedTab sx={{fontSize: {xs: '10px', md: '18px'}}} value="two" label="Available pets" />
+          <ModifiedTab sx={{fontSize: {xs: '10px', md: '18px'}}} value="three" label="Reviews" />
         </Tabs>
         {value === 'one' &&(<AboutMe />)}
         {value === 'two' &&(<AvailablePets />)}

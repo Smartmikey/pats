@@ -10,23 +10,23 @@ const SimilarBreed = () => {
 
         <Typography sx={{my: 6, pl: 5}} variant='h5' >Similar Breeds</Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <Container>
-            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog image " />
+            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog " />
             <Typography>Maltese</Typography>
             <Link to="#">Learn More</Link>
           </Container>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <Container>
-            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog image " />
+            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog " />
             <Typography>Maltese</Typography>
             <Link to="#">Learn More</Link>
           </Container>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} md={4}>
           <Container>
-            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Doge image " />
+            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog " />
             <Typography>Maltese</Typography>
             <Link to="#">Learn More</Link>
           </Container>

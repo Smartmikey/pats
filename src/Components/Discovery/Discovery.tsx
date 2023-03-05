@@ -10,7 +10,6 @@ import {
 import { HomeMax, School, FormatListBulleted } from "@mui/icons-material";
 import { styled } from "@mui/styles";
 import FilterSidebar from "./FilterSidebar";
-import HeaderNav from "../../Common/HeaderNav";
 import { colors } from "../../Constants/index";
 import PetCardList from "./PetCardList";
 
@@ -21,9 +20,9 @@ const Discovery = () => {
     { path: "jobs", text: "Jobs", icon: <FormatListBulleted /> },
   ];
   return (
-    <Box sx={{ p: 5 }}>
+    <Box sx={{ p:{ xs: 2, md:5} }}>
       <Grid container sx={{ mt: 12 }}>
-        <Grid item xs={3}>
+        <Grid item xs={3} sx={{display: {xs: 'none', md: 'block'}}}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="body1" sx={{ mr: 1, fontWeight: "700" }}>
               Filter by
@@ -41,7 +40,7 @@ const Discovery = () => {
           </Box>
           <FilterSidebar />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item md={9} xs={12}>
           <Box
             sx={{
               background: colors.gray,

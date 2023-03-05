@@ -3,47 +3,27 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Discovery from "./Components/Discovery/Discovery";
 import Profile from "./Components/BreederProfile/Profile";
 import HeaderNav from "./Common/HeaderNav";
 import { createTheme, ThemeProvider } from "@mui/system";
 import Footer from "./Common/Footer";
+import LandingPage from "./Components/LandingPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-// const theme = createTheme({
-//   palette: {
-//     primary: '#13D3BD',
-//     secondary: '#ffd056',
-//     secondaryBorder: '#ffd056',
-//     dark: '#253444',
-//     white: '#ffffff',
-//     gray: '#f3f3f3',
-//     darkTransparent: '#25344480',
-//     success: {
-//         background: '#B9F6CA',
-//         text: '#00C853',
-//         border: '#00C853'
-//     },
-//     warn: {
-//         background: '#FFCC80',
-//         text: '#FB8C00',
-//         border: '#FB8C00'
-//     },
-//     danger: {
-//         background: '#FFCDD2',
-//         text: '#E53935',
-//         border: '#E53935'
-//     }
-//   },
-// });
+
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/discovery",
     element: <Discovery />,
   },
   { path: "/breeder", element: <Profile /> },
@@ -55,6 +35,7 @@ root.render(
     {/* <App /> */}
     <HeaderNav />
     <RouterProvider router={router} />
+    <Outlet />
     <Footer/>
     {/* </ThemeProvider> */}
   </React.StrictMode>

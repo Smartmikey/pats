@@ -1,6 +1,7 @@
 import { Box, Grid,  } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { pets } from '../../data'
 import PetCard from '../Discovery/PetCard'
 
 const AvailablePets = () => {
@@ -8,7 +9,7 @@ const AvailablePets = () => {
   return (
     <Box sx={{my:6, display: 'flex', gap: 5, flexDirection: 'column', justifyContent: 'center'}}>
         <Grid container spacing={3}>
-            {list.map(item =><PetCard size={3} /> )}
+            {pets.slice(0,4).map(item =><PetCard size={3} data={item} /> )}
             
         </Grid>
 

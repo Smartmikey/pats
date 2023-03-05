@@ -38,9 +38,9 @@ const AboutMe = () => {
       <Typography variant="h5" sx={{ my: 4,  color: colors.textHeading }}>
         Contact info
       </Typography>
-      <Box sx={{bgcolor: colors.primaryLight, p: 5, borderRadius: '8px'}}>
+      <Box sx={{bgcolor: colors.primaryLight, p: {xs:1, md:5}, borderRadius: '8px'}}>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <List sx={{ width: '100%', maxWidth: 450}}>
                 <ListItem >
               <ListItemText sx={{maxWidth: 100}} primary="Contact" /><ListItemText >John Doe</ListItemText>
@@ -52,7 +52,7 @@ const AboutMe = () => {
             </List>
             
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
           <List sx={{ width: '100%', maxWidth: 450}}>
                 <ListItem >
               <ListItemText sx={{maxWidth: 100}} primary="Phone" /><ListItemText >(342) 8785 453</ListItemText>
