@@ -12,21 +12,21 @@ const SimilarBreed = () => {
         </Grid>
         <Grid item xs={6} md={4}>
           <Container>
-            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog " />
+            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderImage.png" alt="Dog " />
             <Typography>Maltese</Typography>
             <Link to="#">Learn More</Link>
           </Container>
         </Grid>
         <Grid item xs={6} md={4}>
           <Container>
-            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog " />
+            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderImage.png" alt="Dog " />
             <Typography>Maltese</Typography>
             <Link to="#">Learn More</Link>
           </Container>
         </Grid>
         <Grid item xs={6} md={4}>
           <Container>
-            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderimage.png" alt="Dog " />
+            <img width='100%' style={{borderTopRightRadius: '8px', borderTopLeftRadius: '8px'}} src="_placeholderImage.png" alt="Dog " />
             <Typography>Maltese</Typography>
             <Link to="#">Learn More</Link>
           </Container>

@@ -28,7 +28,7 @@ const Profile = () => {
   return (
     <Box sx={{ mt: 12 }}>
       <Box maxHeight="300px">
-        <CardMedia component="img" height="200px" src="_placeholderimage.png" />
+        <CardMedia component="img" height="200px" src="/_placeholderImage.png" />
         <Container
           sx={{
             bgcolor: colors.primaryLight,
