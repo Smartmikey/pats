@@ -2,7 +2,13 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Popper,
   Select,
   TextField,
   Typography,
@@ -12,17 +18,20 @@ import { styled } from "@mui/styles";
 import FilterSidebar from "./FilterSidebar";
 import { colors } from "../../Constants/index";
 import PetCardList from "./PetCardList";
+import { useState } from "react";
+import { bgcolor } from "@mui/system";
 
 const Discovery = () => {
+  const [openPopOver, setOpenPopOver] = useState(false);
   const menuItems = [
     { path: "home", text: "Home", icon: <HomeMax /> },
     { path: "candidates", text: "Candidates", icon: <School /> },
     { path: "jobs", text: "Jobs", icon: <FormatListBulleted /> },
   ];
   return (
-    <Box sx={{ p:{ xs: 2, md:5} }}>
+    <Box sx={{ p: { xs: 2, md: 5 } }}>
       <Grid container sx={{ mt: 12 }}>
-        <Grid item xs={3} sx={{display: {xs: 'none', md: 'block'}}}>
+        <Grid item xs={3} sx={{ display: { xs: "none", md: "block" } }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="body1" sx={{ mr: 1, fontWeight: "700" }}>
               Filter by
@@ -62,13 +71,71 @@ const Discovery = () => {
               //   disableUnderline: true,
               // }}
             />
-            <div>
+            <div style={{ position: "relative" }}>
               <Button
-                startIcon={<img src="sortIcon.svg"  alt="sort icon"/>}
+                startIcon={<img src="sortIcon.svg" alt="sort icon" />}
                 sx={{ background: colors.white, px: 1.5 }}
+                onClick={() => setOpenPopOver(!openPopOver)}
               >
                 Sort
               </Button>
+              {openPopOver && (
+                <List
+                  sx={{
+                    position: "absolute",
+                    bgcolor: colors.white,
+                    m: 2,
+                    zIndex: 9999,
+                    width: "200px",
+                    right: 0,
+                    borderRadius: "8px",
+                    boxShadow: " 0 3px 8px rgb(0 0 0 / 0.15)",
+                  }}
+                >
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      sx={{
+                        "&:hover": {
+                          bgcolor: colors.primary,
+                          color: colors.white,
+                        },
+                      }}
+                    >
+                      <ListItemText primary="Price" />
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider />
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      sx={{
+                        "&:hover": {
+                          bgcolor: colors.primary,
+                          color: colors.white,
+                        },
+                      }}
+                      component="a"
+                      href="#simple-list"
+                    >
+                      <ListItemText primary="Newest to Oldest" />
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider />
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      sx={{
+                        "&:hover": {
+                          bgcolor: colors.primary,
+                          color: colors.white,
+                        },
+                      }}
+                      component="a"
+                      href="#simple-list"
+                    >
+                      <ListItemText primary="Oldest to Newest" />
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              )}
             </div>
           </Box>
           <PetCardList />
