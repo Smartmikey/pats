@@ -23,11 +23,7 @@ import { bgcolor } from "@mui/system";
 
 const Discovery = () => {
   const [openPopOver, setOpenPopOver] = useState(false);
-  const menuItems = [
-    { path: "home", text: "Home", icon: <HomeMax /> },
-    { path: "candidates", text: "Candidates", icon: <School /> },
-    { path: "jobs", text: "Jobs", icon: <FormatListBulleted /> },
-  ];
+
   return (
     <Box sx={{ p: { xs: 2, md: 5 } }}>
       <Grid container sx={{ mt: 12 }}>
