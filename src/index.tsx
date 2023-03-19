@@ -24,11 +24,11 @@ const router = createBrowserRouter([
     path: "/",
     element: <LandingPage />,
   },
-  // {
-  //   path: "/discovery",
-  //   element: <Discovery />,
-  // },
-  // { path: "/breeder", element: <Profile /> },
+  {
+    path: "/discovery",
+    element: <Discovery />,
+  },
+  { path: "/breeder", element: <Profile /> },
 ]);
 root.render(
   <React.StrictMode>
