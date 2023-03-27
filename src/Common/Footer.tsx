@@ -5,11 +5,11 @@ import { colors } from "../Constants";
 
 const Footer = () => {
   return (
-    <footer style={{backgroundColor: colors.gray, padding: '50px'}}>
+    <Box component='footer' sx={{bgcolor: colors.gray, p: '50px'}}>
       <Grid container alignItems='top' sx={{textAlign: {xs: 'center', md: 'unset'}, lineHeight: {xs: '35px'}}}>
         <Grid item xs={12} md={2}>
           <Stack sx={{ mx: "auto", px: 2 }} direction="column">
-            <img width="100px" src="Loo.svg" alt="logo" />
+            <img width="100px" style={{margin: '0 auto'}} src="Loo.svg" alt="logo" />
             <Box sx={{ my: 2 }}>
               <IconButton
                 sx={{
@@ -86,7 +86,7 @@ const Footer = () => {
           </Stack>
         </Grid>
       </Grid>
-    </footer>
+    </Box>
   );
 };
 

@@ -12,6 +12,11 @@ import Footer from "./Common/Footer";
 import LandingPage from "./Components/LandingPage";
 import { Provider } from "react-redux";
 import store from './Redux/store'
+import Signup from "./Components/Login/Signup";
+import SignupBreeder from "./Components/Login/SignupBreeder";
+import Login from "./Components/Login/Login";
+import ForgotPassword from "./Components/Login/ForgotPassword";
+import ChangedPassword from "./Components/Login/ChangedPassword";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -29,6 +34,11 @@ const router = createBrowserRouter([
     element: <Discovery />,
   },
   { path: "/breeder", element: <Profile /> },
+  { path: "/signup", element: <Signup /> },
+  { path: "/signup-breeder", element: <SignupBreeder /> },
+  { path: "/login", element: <Login /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
+  { path: "/change-password", element: <ChangedPassword /> },
 ]);
 root.render(
   <React.StrictMode>

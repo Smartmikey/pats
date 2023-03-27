@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   FormControl,
+  Grid,
   Stack,
   TextField,
   Typography,
@@ -13,6 +14,8 @@ import { relative } from "path";
 import React from "react";
 import Scrollable from "../../Common/Scrollable";
 import Title from "../../Common/Title";
+import { colors } from "../../Constants";
+import Article from "./Article";
 import PetCard from "./PetCard";
 
 const LandingPage = () => {
@@ -76,7 +79,60 @@ const LandingPage = () => {
       </Box>
       <Container>
         <Title text="Popular category" align="center" variation="medium" />
-        <Scrollable >
+
+        <Stack
+          direction="row"
+          spacing={{ xs: 1, md: 4 }}
+          alignItems="center"
+          justifyContent="center"
+          sx={{ m: 4 }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: colors.textHeadingTransparent,
+              color: colors.white,
+              borderRadius: 3,
+              "&:hover": { bgcolor: colors.textHeading },
+            }}
+          >
+            Dogs
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: colors.textHeadingTransparent,
+              color: colors.white,
+              borderRadius: 3,
+              "&:hover": { bgcolor: colors.textHeading },
+            }}
+          >
+            Cats
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: colors.textHeadingTransparent,
+              color: colors.white,
+              borderRadius: 3,
+              "&:hover": { bgcolor: colors.textHeading },
+            }}
+          >
+            Birds
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: colors.textHeadingTransparent,
+              color: colors.white,
+              borderRadius: 3,
+              "&:hover": { bgcolor: colors.textHeading },
+            }}
+          >
+            Others
+          </Button>
+        </Stack>
+        <Scrollable>
           <PetCard />
           <PetCard />
           <PetCard />
@@ -86,6 +142,77 @@ const LandingPage = () => {
           <PetCard />
           <PetCard />
         </Scrollable>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: colors.textHeading,
+            color: colors.white,
+            mx: "auto",
+            display: "block",
+            my: 6,
+            "&:hover": { bgcolor: colors.textHeading },
+          }}
+        >
+          View all
+        </Button>
+      </Container>
+      <Container>
+        <Title text="Available Now" align="center" variation="medium" />
+
+        <Scrollable>
+          <PetCard />
+          <PetCard />
+          <PetCard />
+          <PetCard />
+          <PetCard />
+          <PetCard />
+          <PetCard />
+          <PetCard />
+        </Scrollable>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: colors.textHeading,
+            color: colors.white,
+            mx: "auto",
+            display: "block",
+            my: 6,
+            "&:hover": { bgcolor: colors.textHeading },
+          }}
+        >
+          View all
+        </Button>
+      </Container>
+
+      <Container component='section' sx={{textAlign: 'center'}}>
+      <Title text="How it works?" align="center" variation="medium" />
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={4} >
+          <img src='searchIcon.svg' width="100px" />
+        <Title m={2} text="Search" align="center" variation="small" />
+          <Typography component='p'>Explore our marketplace to find your new friend. You can be as specific as you like with your search criteria. you can easily find exactly what you're looking for.</Typography>
+        </Grid>
+        <Grid item xs={12} md={4} >
+          <img src='connectIcon.svg' width="100px" />
+        <Title m={2} text="Connect" align="center" variation="small" />
+          <Typography component='p'>Explore our marketplace to find your new friend. You can be as specific as you like with your search criteria. you can easily find exactly what you're looking for.</Typography>
+        </Grid>
+        <Grid item xs={12} md={4} >
+          <img src='adoptIcon.svg' width="100px" />
+        <Title m={2} text="Adopt" align="center" variation="small" />
+          <Typography component='p'>Explore our marketplace to find your new friend. You can be as specific as you like with your search criteria. you can easily find exactly what you're looking for.</Typography>
+        </Grid>
+      </Grid>
+      </Container>
+
+      <Container sx={{my: {xs: 3, md: 8}}}>
+      <Title text="Top Articles" align="center" variation="medium" />
+      <Grid container spacing={2}>
+
+      <Article />
+      <Article />
+      <Article />
+      </Grid>
       </Container>
     </Box>
   );

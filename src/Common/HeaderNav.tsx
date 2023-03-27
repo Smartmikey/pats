@@ -12,7 +12,7 @@ interface Props {
 const HeaderNav = (props: Props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
-    const navItems = [{name: 'About us', link: 'about-us'}, {name: 'How it works', link: 'how-it-works'}, {name: 'Discover', link: 'discovery'}, {name: 'Log in', link: 'login'}, {name: 'Sign up', link: 'sign-up', type: 'button'},];
+    const navItems = [{name: 'About us', link: 'about-us'}, {name: 'How it works', link: 'how-it-works'}, {name: 'Discover', link: 'discovery'}, {name: 'Log in', link: 'login'}, {name: 'Sign up', link: 'signup', type: 'button'},];
   const navigate = useNavigate
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
