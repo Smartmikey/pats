@@ -12,6 +12,7 @@ import { StyleRules } from "@mui/styles";
 import { spacing } from "@mui/system";
 import { relative } from "path";
 import React from "react";
+import Carousel from "react-material-ui-carousel";
 import Scrollable from "../../Common/Scrollable";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
@@ -19,8 +20,20 @@ import Article from "./Article";
 import PetCard from "./PetCard";
 
 const LandingPage = () => {
+
+  var items = [
+    {
+        name: "Random Name #1",
+        description: "Probably the most random thing you have ever seen!"
+    },
+    {
+        name: "Random Name #2",
+        description: "Hello World!"
+    }
+]
   return (
     <Box>
+      
       <Box
         sx={{
           minHeight: { xs: "60vh", md: "90vh" },
@@ -79,7 +92,11 @@ const LandingPage = () => {
       </Box>
       <Container>
         <Title text="Popular category" align="center" variation="medium" />
-
+              <Carousel>
+            {
+                items.map( (item, i) => <p key={i} >{item.name} {item.description}</p> )
+            }
+        </Carousel>
         <Stack
           direction="row"
           spacing={{ xs: 1, md: 4 }}

@@ -21,11 +21,12 @@ import { colors } from "../../Constants";
 import { Pet } from "../../interface/Pet";
 interface Props {
   size: number;
-  data: Pet
+  data: Pet;
+  sx?: object;
 }
-const PetCard = ({size, data}: Props) => {
+const PetCard = ({size, data, sx}: Props) => {
   return (
-    <Grid item xs={12} md={size}>
+    <Grid sx={sx} item xs={12} md={size}>
       <Card sx={{ maxWidth: 312, borderRadius: "12px", pb:3 }}>
         <CardHeader
         sx={{'&.MuiCardHeader-title': {fontWeight: 700}}}

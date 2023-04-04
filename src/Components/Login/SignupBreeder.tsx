@@ -218,7 +218,7 @@ const SignupBreeder = () => {
                 >
                   Create account
                 </Button>
-                <Divider flexItem>or</Divider>
+                {/* <Divider flexItem>or</Divider>
                 <Button
                   startIcon={<img src="google.png" width="20px" />}
                   sx={{
@@ -230,7 +230,7 @@ const SignupBreeder = () => {
                   variant="outlined"
                 >
                   Sign up with google
-                </Button>
+                </Button> */}
               </Container>
             </Grid>
             <Grid xs={12} sx={{ mb: 4 }}>
