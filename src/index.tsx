@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     element: <Discovery />,
   },
   {
-    path: "/discover",
+    path: "/pet",
     element: <Discover />,
   },
   { path: "/breeder", element: <Profile /> },

@@ -75,6 +75,7 @@ const PetCard = ({size, data, sx}: Props) => {
                 borderRadius: '6px',
                 "&:hover": { borderColor: colors.primary },
               }}
+              href="/pet"
             >
               View more
             </Button>
