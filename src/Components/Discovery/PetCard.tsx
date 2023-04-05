@@ -27,7 +27,7 @@ interface Props {
 const PetCard = ({size, data, sx}: Props) => {
   return (
     <Grid sx={sx} item xs={12} md={size}>
-      <Card sx={{ maxWidth: 312, borderRadius: "12px", pb:3 }}>
+      <Card sx={{ maxWidth: 360, borderRadius: "12px", pb:3 }}>
         <CardHeader
         sx={{'&.MuiCardHeader-title': {fontWeight: 700}}}
           avatar={
