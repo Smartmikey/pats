@@ -18,6 +18,8 @@ import Login from "./Components/Login/Login";
 import ForgotPassword from "./Components/Login/ForgotPassword";
 import ChangedPassword from "./Components/Login/ChangedPassword";
 import Discover from "./Components/Discovery/Discover";
+import About from "./Components/LandingPage/About";
+import LearnMore from "./Components/Discovery/LearnMore";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -42,6 +44,8 @@ const router = createBrowserRouter([
   { path: "/signup", element: <Signup /> },
   { path: "/signup-breeder", element: <SignupBreeder /> },
   { path: "/login", element: <Login /> },
+  { path: "/about-us", element: <About /> },
+  { path: "/how-it-works", element: <LearnMore /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/change-password", element: <ChangedPassword /> },
 ]);

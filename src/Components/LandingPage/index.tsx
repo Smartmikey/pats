@@ -92,11 +92,11 @@ const LandingPage = () => {
       </Box>
       <Container>
         <Title text="Popular category" align="center" variation="medium" />
-              <Carousel>
+              {/* <Carousel>
             {
                 items.map( (item, i) => <p key={i} >{item.name} {item.description}</p> )
             }
-        </Carousel>
+        </Carousel> */}
         <Stack
           direction="row"
           spacing={{ xs: 1, md: 4 }}

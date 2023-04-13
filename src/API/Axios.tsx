@@ -10,3 +10,5 @@ export const setAuthToken = (token: string) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else delete axios.defaults.headers.common["Authorization"];
 };
+
+// export const getPets = 

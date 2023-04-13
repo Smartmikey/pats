@@ -12,16 +12,27 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/styles";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import Axios, { setAuthToken } from "../../API/Axios";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
-import { isLoggedIn, setAuthTokens, clearAuthTokens, getAccessToken, getRefreshToken, applyAuthTokenInterceptor } from 'axios-jwt'
+import useCookie from "react-use-cookie";
+import { useEffect } from "react";
 
 
 const Login = () => {
   const {register, watch, handleSubmit, formState: { errors }} = useForm();
+  const [userToken, setUserToken] = useCookie('token', '')
 
+  const isUserLoggedIn = async() => {
+    console.log(userToken);
+    
+    if(await userToken) {
+      
+      return window.location.href = '/'
+    }
+    return null;
+  }
   const onSubmit = async (data: any) => {
     const response = await Axios.post('/login', {
       ...data
@@ -29,16 +40,17 @@ const Login = () => {
 
     const {data: {data: {token}}} = await response;
     setAuthToken(token);
-    setAuthTokens({
-      accessToken: token,
-      refreshToken: token
-    })
+    setUserToken(token);
+    
 
     console.log(token)
     
   };
 
-
+useEffect(() => {
+  isUserLoggedIn()
+ 
+}, [])
 
   return (
     <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
