@@ -14,10 +14,31 @@ import { styled } from "@mui/styles";
 import { Link } from "react-router-dom";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
+import { useForm } from "react-hook-form";
+import Axios from "../../API/Axios";
+import Popup from "../../Common/Popup";
+import { faker } from "@faker-js/faker";
+// import { Axios } from "axios";
 
 const Signup = () => {
+  const {register, watch, handleSubmit, formState: { errors }} = useForm();
+
+  const registerUser = async(data: any) => {
+    const {accepted, confirmPassword, ...rest} = data;
+
+    rest.location = 'nigeria'
+    if(confirmPassword === rest.password) {
+
+      const response = await Axios.post('/user/register', {...rest})
+      console.log(data, response);
+      if(response.status === 200 ) window.location.href = "/login"
+    }
+    
+  }
+
   return (
     <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
+      <Popup open={true} />
       <Grid item md={4} sx={{position: 'relative'}}>
         <img style={{position: 'absolute', bottom: 0}} width='100%' src='dog-head.png' alt='dog head' />
       </Grid>
@@ -42,13 +63,14 @@ const Signup = () => {
           </Typography>
           <Divider sx={{ my: 3 }} />
 
-          <Grid container spacing={3}>
+          <Grid container component='form' onSubmit={handleSubmit(registerUser)} spacing={3}>
             <Grid item xs={12} md={6}>
               <Box sx={{ mt: .5 }}>
                 <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
                   First Name:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth />
+                <InputWithoutBorder {...register('firstname', { required: true })} size='small' fullWidth />
+                {errors.firstname && <Typography variant="caption" sx={{color: 'red'}}>firstname cannot be blank</Typography>}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -56,7 +78,8 @@ const Signup = () => {
                 <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
                   Last Name:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth />
+                <InputWithoutBorder sx={{borderColor: errors.lastname && "red"}} {...register('lastname', { required: true })} size='small' fullWidth />
+                {errors.lastname && <Typography variant="caption" sx={{color: 'red'}}>lastname cannot be blank</Typography>}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -64,7 +87,8 @@ const Signup = () => {
                 <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
                   Email:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth type="email" />
+                <InputWithoutBorder  {...register('email',  { required: true })} size='small' fullWidth type="email" />
+                {errors.email && <Typography variant="caption" sx={{color: 'red'}}>email cannot be blank</Typography>}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -72,7 +96,8 @@ const Signup = () => {
                 <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
                   Phone number:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth type="tel" />
+                <InputWithoutBorder  {...register('phonenumber' , { required: true })} size='small' fullWidth type="tel" />
+                {errors.phonenumber && <Typography variant="caption" sx={{color: 'red'}}>phone number cannot be blank</Typography>}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -80,7 +105,8 @@ const Signup = () => {
                 <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
                   Password:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth type="password" />
+                <InputWithoutBorder  {...register('password', { required: true, min: 8 })} size='small' fullWidth type="password" />
+                {errors.password && <Typography variant="caption" sx={{color: 'red'}}>password cannot be blank</Typography>}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -88,7 +114,7 @@ const Signup = () => {
                 <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
                   Confirm Password:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth type="password" />
+                <InputWithoutBorder {...register('confirmPassword', {required: true})} size='small' fullWidth type="password" />
               </Box>
             </Grid>
             <Grid item xs={12}>
@@ -101,12 +127,17 @@ const Signup = () => {
                         color: colors.primary,
                       },
                     }}
+                    
+                    {...register("accepted", { required: true })}
                   />
                 }
-                label={
+                label={<>
                   <Typography>
                     I agree with <Link to="#">terms and conditions</Link>
                   </Typography>
+                  {errors.accepted && <Typography variant="caption" sx={{color: 'red'}}>Read and agree to our terms and conditions</Typography>}
+                </>
+
                 }
               />
             </Grid>
@@ -118,23 +149,12 @@ const Signup = () => {
                     "&:hover": { bgcolor: colors.primary },
                     my: 4,
                   }}
+                  type="submit"
                   variant="contained"
                 >
                   Create account
                 </Button>
-                {/* <Divider flexItem>or</Divider>
-                <Button
-                  startIcon={<img src="google.png" width="20px" />}
-                  sx={{
-                    color: colors.primary,
-                    borderColor: colors.primary,
-                    my: 4,
-                    "&:hover": { borderColor: colors.primary },
-                  }}
-                  variant="outlined"
-                >
-                  Sign up with google
-                </Button> */}
+                
               </Container>
             </Grid>
             <Grid xs={12} sx={{mb: 4}}><Typography sx={{textAlign: 'center',}}>

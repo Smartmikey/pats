@@ -1,8 +1,12 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
+import { useSelector } from "react-redux";
 
 const About = () => {
+  const {pets} = useSelector((state:any) => state.pet)
+
+console.log(pets);
     const blobStyle = {
         position: "absolute",
         top: `${Math.floor(Math.random() * 70)}px`

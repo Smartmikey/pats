@@ -2,38 +2,39 @@ import {
   Box,
   Button,
   Container,
-  FormControl,
   Grid,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { StyleRules } from "@mui/styles";
-import { spacing } from "@mui/system";
-import { relative } from "path";
-import React from "react";
-import Carousel from "react-material-ui-carousel";
+import { useEffect } from "react";
 import Scrollable from "../../Common/Scrollable";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
 import Article from "./Article";
 import PetCard from "./PetCard";
+import Axios from "../../API/Axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addPets } from "../../Redux/petsSlice";
 
 const LandingPage = () => {
+  const dispatch = useDispatch()
+  const pets = useSelector((state:any) => state.pets)
 
-  var items = [
-    {
-        name: "Random Name #1",
-        description: "Probably the most random thing you have ever seen!"
-    },
-    {
-        name: "Random Name #2",
-        description: "Hello World!"
-    }
-]
+console.log(pets);
+
+  useEffect(() => {
+    const getAllPets = async () => {
+      const res = await Axios.get("/breeder/pets/timeline");
+      const {data: {data: {_items: items}}} = await res
+      dispatch(addPets(await items))
+      console.log(items);
+      
+    };
+    getAllPets();
+  }, []);
   return (
     <Box>
-      
       <Box
         sx={{
           minHeight: { xs: "60vh", md: "90vh" },
@@ -92,7 +93,7 @@ const LandingPage = () => {
       </Box>
       <Container>
         <Title text="Popular category" align="center" variation="medium" />
-              {/* <Carousel>
+        {/* <Carousel>
             {
                 items.map( (item, i) => <p key={i} >{item.name} {item.description}</p> )
             }
@@ -201,35 +202,46 @@ const LandingPage = () => {
         </Button>
       </Container>
 
-      <Container component='section' sx={{textAlign: 'center'}}>
-      <Title text="How it works?" align="center" variation="medium" />
-      <Grid container spacing={4}>
-        <Grid item xs={12} md={4} >
-          <img src='searchIcon.svg' width="100px" />
-        <Title m={2} text="Search" align="center" variation="small" />
-          <Typography component='p'>Explore our marketplace to find your new friend. You can be as specific as you like with your search criteria. you can easily find exactly what you're looking for.</Typography>
+      <Container component="section" sx={{ textAlign: "center" }}>
+        <Title text="How it works?" align="center" variation="medium" />
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={4}>
+            <img src="searchIcon.svg" width="100px" />
+            <Title m={2} text="Search" align="center" variation="small" />
+            <Typography component="p">
+              Explore our marketplace to find your new friend. You can be as
+              specific as you like with your search criteria. you can easily
+              find exactly what you're looking for.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <img src="connectIcon.svg" width="100px" />
+            <Title m={2} text="Connect" align="center" variation="small" />
+            <Typography component="p">
+              Explore our marketplace to find your new friend. You can be as
+              specific as you like with your search criteria. you can easily
+              find exactly what you're looking for.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <img src="adoptIcon.svg" width="100px" />
+            <Title m={2} text="Adopt" align="center" variation="small" />
+            <Typography component="p">
+              Explore our marketplace to find your new friend. You can be as
+              specific as you like with your search criteria. you can easily
+              find exactly what you're looking for.
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4} >
-          <img src='connectIcon.svg' width="100px" />
-        <Title m={2} text="Connect" align="center" variation="small" />
-          <Typography component='p'>Explore our marketplace to find your new friend. You can be as specific as you like with your search criteria. you can easily find exactly what you're looking for.</Typography>
-        </Grid>
-        <Grid item xs={12} md={4} >
-          <img src='adoptIcon.svg' width="100px" />
-        <Title m={2} text="Adopt" align="center" variation="small" />
-          <Typography component='p'>Explore our marketplace to find your new friend. You can be as specific as you like with your search criteria. you can easily find exactly what you're looking for.</Typography>
-        </Grid>
-      </Grid>
       </Container>
 
-      <Container sx={{my: {xs: 3, md: 8}}}>
-      <Title text="Top Articles" align="center" variation="medium" />
-      <Grid container spacing={2}>
-
-      <Article />
-      <Article />
-      <Article />
-      </Grid>
+      <Container sx={{ my: { xs: 3, md: 8 } }}>
+        <Title text="Top Articles" align="center" variation="medium" />
+        <Grid container spacing={2}>
+          <Article />
+          <Article />
+          <Article />
+        </Grid>
       </Container>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const petSlice = createSlice({
+export const petSlice:any = createSlice({
     name: "pet",
     initialState: {
         pets: [],
