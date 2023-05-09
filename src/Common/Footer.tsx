@@ -62,7 +62,7 @@ const Footer = () => {
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={1}>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Privacy policy</Link>
+            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="/code-of-ethics">Code Of Ethics</Link>
             <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Contact Us</Link>
             <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Pats Blog</Link>
           </Stack>

@@ -20,6 +20,7 @@ import ChangedPassword from "./Components/Login/ChangedPassword";
 import Discover from "./Components/Discovery/Discover";
 import About from "./Components/LandingPage/About";
 import LearnMore from "./Components/Discovery/LearnMore";
+import CodeOfEthics from "./Components/Discovery/CodeOfEthics";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
   { path: "/how-it-works", element: <LearnMore /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/change-password", element: <ChangedPassword /> },
+  { path: "/code-of-ethics", element: <CodeOfEthics /> },
 ]);
 root.render(
   <React.StrictMode>
