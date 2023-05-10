@@ -18,11 +18,8 @@ import ChangedPassword from "./Components/Login/ChangedPassword";
 import Discover from "./Components/Discovery/Discover";
 import About from "./Components/LandingPage/About";
 import LearnMore from "./Components/Discovery/LearnMore";
-<<<<<<< HEAD
 import Index from "./Components/Dashboard";
-=======
 import CodeOfEthics from "./Components/Discovery/CodeOfEthics";
->>>>>>> 4e79d1ee4510973d383b00a6a630adaccdbf20f0
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
