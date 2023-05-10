@@ -49,7 +49,7 @@ console.log(pets);
           style={{
             width: "50%",
             position: "absolute",
-            bottom: 0,
+            bottom: -10,
           }}
           src="dog-head.png"
           alt="dog head background"
