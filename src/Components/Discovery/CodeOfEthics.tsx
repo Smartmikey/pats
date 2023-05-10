@@ -56,7 +56,7 @@ Breeders should be transparent about their breeding practices, including any pot
             <Title text="Every animal deserves humane treatment" m={2.5} variation="small" />
             <Typography m={2.5}>
 Animal shelters should provide proper care, adequate food, clean water, and medical attention to every animal under their care. They should ensure that animals are not subjected to cruel, inhumane, or unnecessary practices.
-            </Typography>
+            </Typography>  
 
             <Title text="Transparency and accountability" m={2.5} variation="small" />
             <Typography m={2.5}>
