@@ -1,13 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Discovery from "./Components/Discovery/Discovery";
 import Profile from "./Components/BreederProfile/Profile";
 import HeaderNav from "./Common/HeaderNav";
-import { createTheme, ThemeProvider } from "@mui/system";
 import Footer from "./Common/Footer";
 import LandingPage from "./Components/LandingPage";
 import { Provider } from "react-redux";
@@ -20,6 +18,7 @@ import ChangedPassword from "./Components/Login/ChangedPassword";
 import Discover from "./Components/Discovery/Discover";
 import About from "./Components/LandingPage/About";
 import LearnMore from "./Components/Discovery/LearnMore";
+import Index from "./Components/Dashboard";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -40,7 +39,8 @@ const router = createBrowserRouter([
     path: "/pet",
     element: <Discover />,
   },
-  { path: "/breeder", element: <Profile /> },
+  { path: "/breeder-profile", element: <Profile /> },
+  { path: "/breeder", element: <Index /> },
   { path: "/signup", element: <Signup /> },
   { path: "/signup-breeder", element: <SignupBreeder /> },
   { path: "/login", element: <Login /> },
