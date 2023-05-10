@@ -72,7 +72,7 @@ const HeaderNav = (props: Props) => {
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
               <Button variant={item.type ? 'contained' : 'text'}   key={item.name} sx={{ color: !item.type ? colors.dark : colors.white, cursor: "pointer", mx: 1.2, background: item.type ? colors.primary : '' }}>
-                <Link sx={{textDecoration: 'none', color: 'inherit'}} href={item.link}>{item.name}</Link>
+                <Link sx={{textDecoration: 'none', color: 'inherit'}} href={`/${item.link}`}>{item.name}</Link>
               </Button>
             ))}
           </Box>
