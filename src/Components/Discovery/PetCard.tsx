@@ -23,11 +23,12 @@ interface Props {
   size: number;
   data: Pet;
   sx?: object;
+  Action?: React.ReactElement
 }
-const PetCard = ({size, data, sx}: Props) => {
+const PetCard = ({size, data, sx, Action}: Props) => {
   return (
     <Grid sx={sx} item xs={12} md={size}>
-      <Card sx={{ maxWidth: 360, borderRadius: "12px", pb:3 }}>
+      <Card sx={{ border: "1px solid rgba(218, 218, 218, 1)", maxWidth: 360, borderRadius: "12px", pb:3 }}>
         <CardHeader
         sx={{'&.MuiCardHeader-title': {fontWeight: 700}}}
           avatar={
@@ -49,7 +50,7 @@ const PetCard = ({size, data, sx}: Props) => {
         <CardMedia
           component="img"
           height="194"
-          image={data.image}
+          image={`/${data.image}`}
           alt={data.name}
         />
         <BannerOnImage variant="overline" >3+ more photos</BannerOnImage>
@@ -66,30 +67,8 @@ const PetCard = ({size, data, sx}: Props) => {
         </CardContent>
         <CardActions sx={{ justifyContent: "end" }}>
           <Box>
-            <Button
-              variant="outlined"
-              sx={{
-                color: colors.primary,
-                borderColor: colors.primary,
-                mx: 1,
-                borderRadius: '6px',
-                "&:hover": { borderColor: colors.primary },
-              }}
-              href="/pet"
-            >
-              View more
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: colors.primary,
-                mx: 1,
-                borderRadius: '6px',
-                "&:hover": { backgroundColor: colors.primary },
-              }}
-            >
-              Contact
-            </Button>
+            {Action}
+            
           </Box>
         </CardActions>
       </Card>

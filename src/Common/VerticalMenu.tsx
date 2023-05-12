@@ -9,6 +9,7 @@ import { SvgIconTypeMap } from "@mui/joy/SvgIcon/SvgIconProps";
 import { Box, Button, SvgIconProps } from "@mui/material";
 import { isTemplateExpression } from "typescript";
 import { colors } from "../Constants";
+import { Link, useLocation } from "react-router-dom";
 
 interface Props {
   Icon: any;
@@ -21,73 +22,82 @@ const VerticalMenu = () => {
     {
       Icon: <House />,
       name: "home",
-      link: "breeder",
+      link: ".",
     },
     {
       Icon: <Person />,
       name: "my profile",
-      link: "breeder/profile",
-      submenu: [{ name: "contact info", link: "breeder/contact" }],
+      link: "profile",
+      submenu: [{ name: "contact info", link: "contact" }],
     },
     {
       Icon: <Pets />,
       name: "pet",
-      link: "breeder/pets",
+      link: "pets",
       submenu: [
-        { name: "available pets", link: "breeder/available-pets" },
-        { name: "past pets", link: "breeder/past-pets" },
-        { name: "add pets", link: "breeder/add-pets" }
+        { name: "available pets", link: "available-pets" },
+        { name: "past pets", link: "past-pets" },
+        { name: "add pets", link: "add-pets" },
       ],
     },
     {
       Icon: <Settings />,
       name: "settings",
-      link: "breeder/settings",
+      link: "settings",
       submenu: [
-        { name: "account", link: "breeder/available-pets" },
-        { name: "password", link: "breeder/past-pets" },
-        { name: "subscription", link: "breeder/add-pets" }
+        { name: "account", link: "account" },
+        { name: "password", link: "password" },
+        { name: "subscription", link: "subscription" },
       ],
     },
   ];
+
+  const location = useLocation()
+  console.log(location);
+  
   return (
     <Box sx={{ p: 2 }}>
       {menuItems.map((item) => {
         const { Icon, name, link, submenu } = item;
         return (
           <>
-            <Button
-              href={link}
-              size="large"
-              fullWidth
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                textTransform: 'capitalize',
-                color: colors.textHeading,
-              }}
-              startIcon={Icon}
-            >
-              {" "}
-              {name}
-            </Button>
+            <Link to={link} style={{textDecoration: 'none'}}>
+              <Button
+                size="large"
+                fullWidth
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  textTransform: "capitalize",
+                  color: location.pathname == `/breeder/${link}` ? colors.white : colors.textHeading,
+                  bgcolor: location.pathname == `/breeder/${link}` ? colors.textHeadingTransparent : "",
+                }}
+                startIcon={Icon}
+              >
+                {" "}
+                {name}
+              </Button>
+            </Link>
             {submenu && (
               <Box sx={{ ml: 4 }}>
                 {submenu.map((submenu) => (
-                  <Button
-                    href={submenu.link}
-                    size="large"
-                    fullWidth
-                    sx={{
-                      display: "flex",
-                      textTransform: 'capitalize',
-                      justifyContent: "left",
-                      color: colors.textHeading,
-                    }}
-                  >
+                  <Link to={submenu.link} style={{textDecoration: 'none'}}>
                     {" "}
-                    {submenu.name}
-                  </Button>
+                    <Button
+                      size="large"
+                      fullWidth
+                      sx={{
+                        display: "flex",
+                        textTransform: "capitalize",
+                        justifyContent: "left",
+                        color: location.pathname == `/breeder/${submenu.link}` ? colors.white : colors.textHeading,
+                        bgcolor: location.pathname == `/breeder/${submenu.link}` ? colors.textHeadingTransparent : "",
+                      }}
+                    >
+                      {" "}
+                      {submenu.name}
+                    </Button>
+                  </Link>
                 ))}
               </Box>
             )}

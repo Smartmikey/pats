@@ -37,7 +37,7 @@ export const colors = {
     gray: '#f3f3f3',
     darkTransparent: '#25344480',
     textHeading:'#024357',
-    textHeadingTransparent:'#b3c7cd',
+    textHeadingTransparent:'#024357D1',
 
     success: {
         background: '#B9F6CA',

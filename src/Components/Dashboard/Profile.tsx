@@ -9,13 +9,10 @@ import {
   ListItem,
   ListItemText,
   OutlinedInput,
-  Tab,
-  Tabs,
   TextareaAutosize,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/styles";
-import React, { useState } from "react";
+import { useState } from "react";
 import { colors } from "../../Constants";
 import Title from "../../Common/Title";
 const Profile = () => {
@@ -158,15 +155,27 @@ const Profile = () => {
                 <List sx={{ width: "100%", maxWidth: 450 }}>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Contact" />
-                    {value ? <OutlinedInput size="small" value="John Doe" /> :<ListItemText>John Doe</ListItemText>}
+                    {value ? (
+                      <OutlinedInput size="small" value="John Doe" />
+                    ) : (
+                      <ListItemText>John Doe</ListItemText>
+                    )}
                   </ListItem>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Email" />
-                    {value ? <OutlinedInput size="small" value="John@doe.com" /> : <ListItemText>John@doe.com</ListItemText>}
+                    {value ? (
+                      <OutlinedInput size="small" value="John@doe.com" />
+                    ) : (
+                      <ListItemText>John@doe.com</ListItemText>
+                    )}
                   </ListItem>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Website" />{" "}
-                    {value ? <OutlinedInput size="small" value="John@doe.com" /> :<ListItemText>www.jhondow.com</ListItemText>}
+                    {value ? (
+                      <OutlinedInput size="small" value="John@doe.com" />
+                    ) : (
+                      <ListItemText>www.jhondow.com</ListItemText>
+                    )}
                   </ListItem>
                 </List>
               </Grid>
@@ -174,11 +183,19 @@ const Profile = () => {
                 <List sx={{ width: "100%", maxWidth: 450 }}>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Phone" />
-                    {value ? <OutlinedInput size="small" value="(342) 8785 453" /> : <ListItemText>(342) 8785 453</ListItemText>}
+                    {value ? (
+                      <OutlinedInput size="small" value="(342) 8785 453" />
+                    ) : (
+                      <ListItemText>(342) 8785 453</ListItemText>
+                    )}
                   </ListItem>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Address" />
-                    {value ? <OutlinedInput size="small" value="(342) 8785 453" /> :<ListItemText>Somewhere in the world</ListItemText>}
+                    {value ? (
+                      <OutlinedInput size="small" value="(342) 8785 453" />
+                    ) : (
+                      <ListItemText>Somewhere in the world</ListItemText>
+                    )}
                   </ListItem>
                 </List>
               </Grid>
@@ -186,7 +203,11 @@ const Profile = () => {
           </Box>
         </Container>
       </Box>
-      <Title text="Process for getting a puppy" sx={{ ml: 0, mb: 1 }} variation="small" />
+      <Title
+        text="Process for getting a puppy"
+        sx={{ ml: 0, mb: 1 }}
+        variation="small"
+      />
       <Box
         sx={{
           p: 6,
@@ -196,9 +217,10 @@ const Profile = () => {
           boxShadow: "6px 9px 29px -8px rgba(0,0,0,0.1)",
         }}
       >
-        {value ? <TextareaAutosize
-                minRows={12}
-                defaultValue="I am a dedicated and passionate breeder with a love for all things
+        {value ? (
+          <TextareaAutosize
+            minRows={12}
+            defaultValue="I am a dedicated and passionate breeder with a love for all things
             canine. My interest in breeding started at a young age and has only
             grown over the years as I have gained knowledge and experience in
             the field. I am committed to breeding healthy, happy, and
@@ -212,27 +234,80 @@ const Profile = () => {
             temperaments. I am proud of the work that I do and the dogs that I
             produce, and I enjoy sharing my knowledge and passion for breeding
             with others."
-                style={{ display: "block", width: "100%" }}
-              />
-             : <Typography>If you're interested in a puppy from Little Paws, please contact the breeder. You'll be asked to provide information about yourself and what you are looking for so the breeder can help you find the right match. Once you apply, Mac will get back to you about availability, pricing and next steps.</Typography>}
+            style={{ display: "block", width: "100%" }}
+          />
+        ) : (
+          <Typography>
+            If you're interested in a puppy from Little Paws, please contact the
+            breeder. You'll be asked to provide information about yourself and
+            what you are looking for so the breeder can help you find the right
+            match. Once you apply, Mac will get back to you about availability,
+            pricing and next steps.
+          </Typography>
+        )}
         <Grid container>
-              <Grid item xs={12}>
-                <List sx={{ width: "100%", maxWidth: 650 }}>
-                  <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Price" />
-                    {value ? <OutlinedInput size="small" value="$1000 - $2000" /> :<ListItemText>$1000 - $2000</ListItemText>}
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Date" />
-                    {value ? <OutlinedInput size="small" value="Puppies will be available after 8 weeks of being born " /> : <ListItemText>Puppies will be available after 8 weeks of being born </ListItemText>}
-                  </ListItem>
-                  {/* <ListItem>
+          <Grid item xs={12}>
+            <List sx={{ width: "100%", maxWidth: 650 }}>
+              <ListItem>
+                <ListItemText sx={{ maxWidth: 100 }} primary="Price" />
+                {value ? (
+                  <OutlinedInput size="small" value="$1000 - $2000" />
+                ) : (
+                  <ListItemText>$1000 - $2000</ListItemText>
+                )}
+              </ListItem>
+              <ListItem>
+                <ListItemText sx={{ maxWidth: 100 }} primary="Date" />
+                {value ? (
+                  <OutlinedInput
+                    size="small"
+                    value="Puppies will be available after 8 weeks of being born "
+                  />
+                ) : (
+                  <ListItemText>
+                    Puppies will be available after 8 weeks of being born{" "}
+                  </ListItemText>
+                )}
+              </ListItem>
+              {/* <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Website" />{" "}
                     {value ? <OutlinedInput size="small" value="John@doe.com" /> :<ListItemText>www.jhondow.com</ListItemText>}
                   </ListItem> */}
-                </List>
-              </Grid>
-              </Grid>
+            </List>
+          </Grid>
+          {value && (
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: colors.primary,
+                  color: colors.primary,
+                  mx: 0.6,
+                  "&:hover": {
+                    borderColor: colors.primary,
+                    color: colors.dark,
+                  },
+                }}
+              >
+                cancel
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: colors.primary,
+                  color: colors.white,
+                  mx: 0.6,
+                  "&:hover": {
+                    bgcolor: colors.primary,
+                    color: colors.dark,
+                  },
+                }}
+              >
+                Save changes
+              </Button>
+            </Grid>
+          )}
+        </Grid>
       </Box>
     </Box>
   );

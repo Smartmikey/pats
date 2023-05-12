@@ -20,6 +20,7 @@ import About from "./Components/LandingPage/About";
 import LearnMore from "./Components/Discovery/LearnMore";
 import Index from "./Components/Dashboard";
 import CodeOfEthics from "./Components/Discovery/CodeOfEthics";
+import AvailablePets from "./Components/BreederProfile/AvailablePets";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
     element: <Discover />,
   },
   { path: "/breeder-profile", element: <Profile /> },
-  { path: "/breeder", element: <Index /> },
+  { path: "/breeder/*", element: <Index /> },
   { path: "/signup", element: <Signup /> },
   { path: "/signup-breeder", element: <SignupBreeder /> },
   { path: "/login", element: <Login /> },
