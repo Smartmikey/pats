@@ -6,6 +6,8 @@ import { Route, Routes } from "react-router-dom";
 import AvailablePets from "./AvailablePets";
 import Account from "./Account";
 import Password from "./Password";
+import Subscription from "./Subscription";
+import AddPet from "./AddPet";
 
 const Index = () => {
   // const routes = createBrowserRouter([
@@ -24,6 +26,8 @@ const Index = () => {
             <Route path="/available-pets" element={<AvailablePets />} />
             <Route path="/account" element={<Account />} />
             <Route path="/password" element={<Password />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/add-pets" element={<AddPet />} />
           </Routes>
         </Grid>
       </Grid>

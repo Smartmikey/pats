@@ -35,6 +35,7 @@ export const colors = {
     dark: '#253444',
     white: '#ffffff',
     gray: '#f3f3f3',
+    grayLight: '#F1F1F5',
     darkTransparent: '#25344480',
     textHeading:'#024357',
     textHeadingTransparent:'#024357D1',

@@ -63,7 +63,7 @@ const Account = () => {
                 "&:hover": { color: colors.white, bgcolor: colors.danger.text},
               }}
             >
-              Save Changes
+              Delete account
             </Button>
       </Box>
     </Box>

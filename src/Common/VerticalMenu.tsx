@@ -14,7 +14,7 @@ import { Link, useLocation } from "react-router-dom";
 interface Props {
   Icon: any;
   name: string;
-  link: string;
+  link?: string;
   submenu?: any[];
 }
 const VerticalMenu = () => {
@@ -28,22 +28,20 @@ const VerticalMenu = () => {
       Icon: <Person />,
       name: "my profile",
       link: "profile",
-      submenu: [{ name: "contact info", link: "contact" }],
+      submenu: [{ name: "contact info" }],
     },
     {
       Icon: <Pets />,
       name: "pet",
-      link: "pets",
       submenu: [
         { name: "available pets", link: "available-pets" },
-        { name: "past pets", link: "past-pets" },
+        { name: "past pets" },
         { name: "add pets", link: "add-pets" },
       ],
     },
     {
       Icon: <Settings />,
       name: "settings",
-      link: "settings",
       submenu: [
         { name: "account", link: "account" },
         { name: "password", link: "password" },
@@ -52,25 +50,33 @@ const VerticalMenu = () => {
     },
   ];
 
-  const location = useLocation()
+  const location = useLocation();
   console.log(location);
-  
+
   return (
     <Box sx={{ p: 2 }}>
       {menuItems.map((item) => {
         const { Icon, name, link, submenu } = item;
         return (
           <>
-            <Link to={link} style={{textDecoration: 'none'}}>
+            <Link to={link || "#"} style={{ textDecoration: "none" }}>
               <Button
                 size="large"
                 fullWidth
+                // disabled={!link}
                 sx={{
                   display: "flex",
                   justifyContent: "left",
                   textTransform: "capitalize",
-                  color: location.pathname == `/breeder/${link}` ? colors.white : colors.textHeading,
-                  bgcolor: location.pathname == `/breeder/${link}` ? colors.textHeadingTransparent : "",
+                  color:
+                    location.pathname == `/breeder/${link}`
+                      ? colors.white
+                      : colors.textHeading,
+                  bgcolor:
+                    location.pathname == `/breeder/${link}`
+                      ? colors.textHeadingTransparent
+                      : "",
+                  "&:hover": { color: colors.textHeading },
                 }}
                 startIcon={Icon}
               >
@@ -81,17 +87,25 @@ const VerticalMenu = () => {
             {submenu && (
               <Box sx={{ ml: 4 }}>
                 {submenu.map((submenu) => (
-                  <Link to={submenu.link} style={{textDecoration: 'none'}}>
+                  <Link to={submenu.link || "#"} style={{ textDecoration: "none" }}>
                     {" "}
                     <Button
+                      // disabled={!submenu.link}
                       size="large"
                       fullWidth
                       sx={{
                         display: "flex",
                         textTransform: "capitalize",
                         justifyContent: "left",
-                        color: location.pathname == `/breeder/${submenu.link}` ? colors.white : colors.textHeading,
-                        bgcolor: location.pathname == `/breeder/${submenu.link}` ? colors.textHeadingTransparent : "",
+                        color:
+                          location.pathname == `/breeder/${submenu.link}`
+                            ? colors.white
+                            : colors.textHeading,
+                        bgcolor:
+                          location.pathname == `/breeder/${submenu.link}`
+                            ? colors.textHeadingTransparent
+                            : "",
+                        "&:hover": { color: colors.textHeading },
                       }}
                     >
                       {" "}
