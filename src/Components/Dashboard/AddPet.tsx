@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  
   Divider,
   Grid,
   IconButton,
@@ -9,13 +8,20 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Title from "../../Common/Title";
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from "@mui/icons-material/Check";
 import { colors } from "../../Constants";
-import { Chip, FormControl, FormLabel, Checkbox, Input, Textarea } from "@mui/joy";
+import {
+  Chip,
+  FormControl,
+  FormLabel,
+  Checkbox,
+  Input,
+  Textarea,
+} from "@mui/joy";
 import { styled } from "@mui/styles";
 
 const AddPet = () => {
-    const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
 
   return (
     <Box>
@@ -143,57 +149,83 @@ const AddPet = () => {
             </FormLabel>
           </Grid>
           <Grid item xs={12} md={9}>
-          <Box
-          role="group"
-          aria-labelledby="fav-movie"
-          sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}
-        >
-          {[
-            'Territorial',
-            'Anxious',
-            'Playful',
-            'Affectionate',
-            'Trained',
-            'Protective',
-            'Friendly',
-            'Joyful',
-            'Lots of energy',
-          ].map((name) => {
-            const checked = selected.includes(name);
-            return (
-              <StyledChip
-                key={name}
-                variant={checked ? 'soft' : 'plain'}
-                color='success'
-                startDecorator={
-                  checked && <CheckIcon sx={{ zIndex: 1, pointerEvents: 'none' }} />
-                }
-              >
-                <Checkbox
-                  variant="outlined"
-                  color={checked ? 'primary' : 'neutral'}
-                  disableIcon
-                  overlay
-                  label={name}
-                  checked={checked}
-                  onChange={(event) => {
-                    setSelected((names) =>
-                      !event.target.checked
-                        ? names.filter((n) => n !== name)
-                        : [...names, name],
-                    );
-                  }}
-                />
-              </StyledChip>
-            );
-          })}
-        </Box>
+            <Box
+              role="group"
+              aria-labelledby="fav-movie"
+              sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}
+            >
+              {[
+                "Territorial",
+                "Anxious",
+                "Playful",
+                "Affectionate",
+                "Trained",
+                "Protective",
+                "Friendly",
+                "Joyful",
+                "Lots of energy",
+              ].map((name) => {
+                const checked = selected.includes(name);
+                return (
+                  <StyledChip
+                    key={name}
+                    variant={checked ? "soft" : "plain"}
+                    color="success"
+                    startDecorator={
+                      checked && (
+                        <CheckIcon sx={{ zIndex: 1, pointerEvents: "none" }} />
+                      )
+                    }
+                  >
+                    <Checkbox
+                      variant="outlined"
+                      color={checked ? "primary" : "neutral"}
+                      disableIcon
+                      overlay
+                      label={name}
+                      checked={checked}
+                      onChange={(event) => {
+                        setSelected((names) =>
+                          !event.target.checked
+                            ? names.filter((n) => n !== name)
+                            : [...names, name]
+                        );
+                      }}
+                    />
+                  </StyledChip>
+                );
+              })}
+            </Box>
           </Grid>
           <Grid item xs={12}>
             <FormControl>
-                <FormLabel>Describe your pet </FormLabel>
-                <Textarea minRows={12} />
+              <FormLabel>Describe your pet </FormLabel>
+              <Textarea variant="soft" minRows={10} />
             </FormControl>
+          </Grid>
+          <Grid sx={{ display: "flex", justifyContent: "center", my: 6 }} item xs={12}>
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: colors.primary,
+                color: colors.primary,
+                "&:hover": {
+                  borderColor: colors.primary,
+                  color: colors.primary,
+                },
+                mx: 4
+              }}
+            >
+              Cancel
+            </Button>
+            <Button variant="contained" sx={{
+                bgcolor: colors.primary,
+                color: colors.white,
+                "&:hover": {
+                  bgcolor: colors.primary,
+                  color: colors.white,
+                },
+              }}>Add pets</Button>
           </Grid>
         </Grid>
       </Box>
@@ -202,11 +234,10 @@ const AddPet = () => {
 };
 
 const StyledChip = styled(Chip)({
-    '&.MuiChip-root': {
-        // backgroundColor: `${colors.primary}!important`,
-        "--Chip-radius": "4px",
-        margin: '3px 6px',
-    },
-
-})
+  "&.MuiChip-root": {
+    // backgroundColor: `${colors.primary}!important`,
+    "--Chip-radius": "4px",
+    margin: "3px 6px",
+  },
+});
 export default AddPet;

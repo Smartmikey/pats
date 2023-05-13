@@ -1,16 +1,16 @@
-import { Box, Button, Grid } from "@mui/material";
-import React from "react";
-import Profile from "./Profile";
-import VerticalMenu from "../../Common/VerticalMenu";
-import { Route, Routes } from "react-router-dom";
-import AvailablePets from "./AvailablePets";
-import Account from "./Account";
-import Password from "./Password";
-import Subscription from "./Subscription";
-import AddPet from "./AddPet";
 import { House, Person, Pets, Settings } from "@mui/icons-material";
+import { Box, Grid } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+import VerticalMenu from "../../Common/VerticalMenu";
+import Profile from "./Profile";
+import Account from "./Account";
+import AddPet from "../Dashboard/AddPet";
+import Subscription from "../Dashboard/Subscription";
+import Password from "./Password";
+import InterestedPets from "./InterestedPets";
+import Home from "./Home";
 
-const Index = () => {
+const UserIndex = () => {
   const menuItemsdata = [
     {
       Icon: <House />,
@@ -21,15 +21,14 @@ const Index = () => {
       Icon: <Person />,
       name: "my profile",
       link: "profile",
-      submenu: [{ name: "contact info" }],
+      submenu: [{ name: "contact info" }, { name: "message", link: "message" }],
     },
     {
       Icon: <Pets />,
       name: "pet",
       submenu: [
-        { name: "available pets", link: "available-pets" },
-        { name: "past pets" },
-        { name: "add pets", link: "add-pets" },
+        { name: "interested pets", link: "interested-pets" },
+        { name: "browse pets", link: "browse-pets" },
       ],
     },
     {
@@ -38,7 +37,6 @@ const Index = () => {
       submenu: [
         { name: "account", link: "account" },
         { name: "password", link: "password" },
-        { name: "subscription", link: "subscription" },
       ],
     },
   ];
@@ -46,16 +44,16 @@ const Index = () => {
     <Box sx={{ mt: 9 }}>
       <Grid container>
         <Grid item xs={0} md={2} sx={{ display: { xs: "none", md: "grid" } }}>
-          <VerticalMenu  data={menuItemsdata}/>
+          <VerticalMenu data={menuItemsdata} />
         </Grid>
         <Grid sx={{ px: 2 }} item xs={12} md={10}>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/available-pets" element={<AvailablePets />} />
+            <Route path="/interested-pets" element={<InterestedPets />} />
             <Route path="/account" element={<Account />} />
             <Route path="/password" element={<Password />} />
-            <Route path="/subscription" element={<Subscription />} />
-            <Route path="/add-pets" element={<AddPet />} />
+            {/* <Route path="/add-pets" element={<AddPet />} /> */}
           </Routes>
         </Grid>
       </Grid>
@@ -63,4 +61,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default UserIndex;
