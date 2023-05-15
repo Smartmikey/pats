@@ -145,6 +145,41 @@ export const pets = [
     },
 ]
 
-export const breeder = {
+export const breeder = [
+    {
+        id: 1,
+        name: 'Pawis',
+        location: 'Nigeria',
+        image: 'breeder.jpg',
+        breed: 'Mixed breed',
+        age: '2 years',
+        gender: 'Male',
+        description: 'This impressive paella is a perfect party dish and a fun meal to cook together.',
+        breeder: 'Charlotte',
 
-}
+    },
+    {
+        id: 2,
+        name: 'All dogs',
+        location: 'South Carolina',
+        image: 'ricky.jpg',
+        breed: 'Large breed',
+        age: '2 years',
+        gender: 'Male',
+        description: 'This impressive paella is a perfect party dish and a fun meal to cook together.',
+        breeder: 'Ricky',
+
+    },
+    {
+        id: 3,
+        name: 'Awesome pets',
+        location: 'South Carolina',
+        image: 'breeder.jpg',
+        breed: 'Mixed breed',
+        age: '2 years',
+        gender: 'Male',
+        description: 'This impressive paella is a perfect party dish and a fun meal to cook together.',
+        breeder: 'Pamela',
+
+    },
+]

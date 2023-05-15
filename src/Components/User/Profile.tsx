@@ -15,6 +15,8 @@ import {
 import { useState } from "react";
 import { colors } from "../../Constants";
 import Title from "../../Common/Title";
+import Chip from "@mui/joy/Chip";
+import styled from "@emotion/styled";
 const Profile = () => {
   const [value, setValue] = useState(false);
 
@@ -169,14 +171,6 @@ const Profile = () => {
                       <ListItemText>John@doe.com</ListItemText>
                     )}
                   </ListItem>
-                  <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Website" />{" "}
-                    {value ? (
-                      <OutlinedInput size="small" value="John@doe.com" />
-                    ) : (
-                      <ListItemText>www.jhondow.com</ListItemText>
-                    )}
-                  </ListItem>
                 </List>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -190,11 +184,11 @@ const Profile = () => {
                     )}
                   </ListItem>
                   <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Address" />
+                    <ListItemText sx={{ maxWidth: 100 }} primary="Location" />
                     {value ? (
-                      <OutlinedInput size="small" value="(342) 8785 453" />
+                      <OutlinedInput size="small" value="Fort Lauderdale, FL" />
                     ) : (
-                      <ListItemText>Somewhere in the world</ListItemText>
+                      <ListItemText>Fort Lauderdale, FL</ListItemText>
                     )}
                   </ListItem>
                 </List>
@@ -203,11 +197,7 @@ const Profile = () => {
           </Box>
         </Container>
       </Box>
-      <Title
-        text="Process for getting a puppy"
-        sx={{ ml: 0, mb: 1 }}
-        variation="small"
-      />
+      <Title text="My interest" sx={{ ml: 0, mb: 1 }} variation="small" />
       <Box
         sx={{
           p: 6,
@@ -217,34 +207,149 @@ const Profile = () => {
           boxShadow: "6px 9px 29px -8px rgba(0,0,0,0.1)",
         }}
       >
-        {value ? (
-          <TextareaAutosize
-            minRows={12}
-            defaultValue="I am a dedicated and passionate breeder with a love for all things
-            canine. My interest in breeding started at a young age and has only
-            grown over the years as I have gained knowledge and experience in
-            the field. I am committed to breeding healthy, happy, and
-            well-tempered dogs. I spend a lot of time researching and studying
-            different breeds, paying close attention to their physical
-            characteristics and temperaments. I also make sure to keep
-            up-to-date with best practices in breeding and genetics to ensure
-            that my dogs are healthy and free of any genetic disorders. My
-            breeding program is focused on producing high-quality dogs that are
-            not only beautiful, but also have great dispositions and
-            temperaments. I am proud of the work that I do and the dogs that I
-            produce, and I enjoy sharing my knowledge and passion for breeding
-            with others."
-            style={{ display: "block", width: "100%" }}
-          />
+        <Grid container>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{fontWeight: 600, mb:2}}> Desired Pet</Typography>
+            {[
+              "Territorial",
+              "Anxious",
+              "Joyful",
+              "Lots of energy",
+            ].map((name) => {
+              // const checked = selected.includes(name);
+              return (
+                <StyledChip
+                  key={name}
+                  // variant={"plain"}
+                  // color="success"
+                >{name}</StyledChip>
+              );
+            })}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{fontWeight: 600, mb:2}}> Breed</Typography>
+            {[
+              "Territorial",
+              "Anxious",
+              "Joyful",
+              "Lots of energy",
+            ].map((name) => {
+              // const checked = selected.includes(name);
+              return (
+                <StyledChip
+                  key={name}
+                  // variant={"plain"}
+                  // color="success"
+                >{name}</StyledChip>
+              );
+            })}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{fontWeight: 600, mb:2}}>Pet</Typography>
+            {[
+              "Territorial",
+              "Anxious",
+              "Joyful",
+              "Lots of energy",
+            ].map((name) => {
+              // const checked = selected.includes(name);
+              return (
+                <StyledChip
+                  key={name}
+                  // variant={"plain"}
+                  // color="success"
+                >{name}</StyledChip>
+              );
+            })}
+          </Grid>
+          <Grid item xs={12} sx={{mt:5}}></Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{fontWeight: 600, mb:2}}>Size</Typography>
+            {[
+              "Small",
+              "Medium",
+             
+            ].map((name) => {
+              // const checked = selected.includes(name);
+              return (
+                <StyledChip
+                  key={name}
+                  // variant={"plain"}
+                  // color="success"
+                >{name}</StyledChip>
+              );
+            })}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{fontWeight: 600, mb:2}}>Color</Typography>
+            {[
+              "Brown",
+              "Green",
+            ].map((name) => {
+              // const checked = selected.includes(name);
+              return (
+                <StyledChip
+                  key={name}
+                  // variant={"plain"}
+                  // color="success"
+                >{name}</StyledChip>
+              );
+            })}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            
+          </Grid>
+          <Grid item xs={12} sx={{mt:5}}></Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{fontWeight: 600, mb:2}}>Cared for by</Typography>
+            {[
+              "Breeder",
+              "Shelter",
+             
+            ].map((name) => {
+              // const checked = selected.includes(name);
+              return (
+                <Typography sx={{color: colors.primary}}>{name}</Typography>
+              );
+            })}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{fontWeight: 600, mb:2}}>Gender</Typography>
+            <Typography sx={{color: colors.primary}}>Any</Typography>
+             
+          </Grid>
+          <Grid item xs={12} md={4}>
+            
+          </Grid>
+        </Grid>
+        {/* comment out */}
+        {/* {value ? (
+          
+        <></>
         ) : (
-          <Typography>
-            If you're interested in a puppy from Little Paws, please contact the
-            breeder. You'll be asked to provide information about yourself and
-            what you are looking for so the breeder can help you find the right
-            match. Once you apply, Mac will get back to you about availability,
-            pricing and next steps.
-          </Typography>
-        )}
+          <>
+            {[
+              "Territorial",
+              "Anxious",
+              "Playful",
+              "Affectionate",
+              "Trained",
+              "Protective",
+              "Friendly",
+              "Joyful",
+              "Lots of energy",
+            ].map((name) => {
+              // const checked = selected.includes(name);
+              return (
+                <StyledChip
+                  key={name}
+                  // variant={"plain"}
+                  // color="success"
+                >{name}</StyledChip>
+              );
+            })}
+          </>
+        )} */}
         <Grid container>
           <Grid item xs={12}>
             <List sx={{ width: "100%", maxWidth: 650 }}>
@@ -312,5 +417,13 @@ const Profile = () => {
     </Box>
   );
 };
+
+const StyledChip = styled(Chip)({
+  "&.MuiChip-root": {
+    backgroundColor: `${colors.primary}!important`,
+    "--Chip-radius": "10px",
+    margin: "3px 6px",
+  },
+});
 
 export default Profile;
