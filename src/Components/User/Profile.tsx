@@ -3,7 +3,9 @@ import {
   Box,
   Button,
   CardMedia,
+  Checkbox,
   Container,
+  FormControlLabel,
   Grid,
   List,
   ListItem,
@@ -17,6 +19,8 @@ import { colors } from "../../Constants";
 import Title from "../../Common/Title";
 import Chip from "@mui/joy/Chip";
 import styled from "@emotion/styled";
+import { FormControl, Select, Option, Input, Autocomplete } from "@mui/joy";
+import { Close } from "@mui/icons-material";
 const Profile = () => {
   const [value, setValue] = useState(false);
 
@@ -207,211 +211,388 @@ const Profile = () => {
           boxShadow: "6px 9px 29px -8px rgba(0,0,0,0.1)",
         }}
       >
-        <Grid container>
+        <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <Typography sx={{fontWeight: 600, mb:2}}> Desired Pet</Typography>
-            {[
-              "Territorial",
-              "Anxious",
-              "Joyful",
-              "Lots of energy",
-            ].map((name) => {
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>
+              {" "}
+              Desired Pet
+            </Typography>
+            {value ? (
+              <Autocomplete
+                variant="soft"
+                multiple
+                getOptionLabel={(option) => option}
+                // placeholder="Combo box"
+                options={["Territorial", "Anxious", "Joyful", "Lots of energy"]}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
+            ) : 
+            ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
+              (name) => {
+                // const checked = selected.includes(name);
+                return (
+                  <StyledChip
+                    key={name}
+                    // variant={"plain"}
+                    // color="success"
+                  >
+                    {name}
+                  </StyledChip>
+                );
+              }
+            )}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}> Breed</Typography>
+            {value ? (
+              <Autocomplete
+                variant="soft"
+                multiple
+                getOptionLabel={(option) => option}
+                // placeholder="Combo box"
+                options={["Territorial", "Anxious", "Joyful", "Lots of energy"]}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
+            ) : 
+            ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
+              (name) => {
+                // const checked = selected.includes(name);
+                return (
+                  <StyledChip
+                    key={name}
+                    // variant={"plain"}
+                    // color="success"
+                  >
+                    {name}
+                  </StyledChip>
+                );
+              }
+            )}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>Pet</Typography>
+            {value ? (
+              <Autocomplete
+                variant="soft"
+                multiple
+                getOptionLabel={(option) => option}
+                // placeholder="Combo box"
+                options={["Territorial", "Anxious", "Joyful", "Lots of energy"]}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
+            ) : ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
+              (name) => {
+                // const checked = selected.includes(name);
+                return (
+                  <StyledChip
+                    key={name}
+                    // variant={"plain"}
+                    // color="success"
+                  >
+                    {name}
+                  </StyledChip>
+                );
+              }
+            )}
+          </Grid>
+          <Grid item xs={12} sx={{ mt: 5 }}></Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>Size</Typography>
+            {value ? (
+              <Autocomplete
+                variant="soft"
+                multiple
+                getOptionLabel={(option) => option}
+                // placeholder="Combo box"
+                options={["small", "medium", "large"]}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
+            ) : ["Small", "Medium"].map((name) => {
               // const checked = selected.includes(name);
               return (
                 <StyledChip
                   key={name}
                   // variant={"plain"}
                   // color="success"
-                >{name}</StyledChip>
+                >
+                  {name}
+                </StyledChip>
               );
             })}
           </Grid>
           <Grid item xs={12} md={4}>
-            <Typography sx={{fontWeight: 600, mb:2}}> Breed</Typography>
-            {[
-              "Territorial",
-              "Anxious",
-              "Joyful",
-              "Lots of energy",
-            ].map((name) => {
-              // const checked = selected.includes(name);
-              return (
-                <StyledChip
-                  key={name}
-                  // variant={"plain"}
-                  // color="success"
-                >{name}</StyledChip>
-              );
-            })}
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>Color</Typography>
+            {value ? (
+              <Autocomplete
+                variant="soft"
+                multiple
+                getOptionLabel={(option) => option}
+                // placeholder="Combo box"
+                options={["Green ", "Red", "Yellow"]}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
+            ) : (
+              <>
+                {" "}
+                {["Brown", "Green"].map((name) => {
+                  // const checked = selected.includes(name);
+                  return (
+                    <StyledChip
+                      key={name}
+                      // variant={"plain"}
+                      // color="success"
+                    >
+                      {name}
+                    </StyledChip>
+                  );
+                })}
+              </>
+            )}
+          </Grid>
+          <Grid item xs={12} md={4}></Grid>
+          <Grid item xs={12} sx={{ mt: 5 }}></Grid>
+          <Grid item xs={12} md={4}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>
+              Cared for by
+            </Typography>
+            {value ? (
+              <Autocomplete
+                variant="soft"
+                multiple
+                getOptionLabel={(option) => option}
+                // placeholder="Combo box"
+                options={["Breeder", "Shelter"]}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
+            ) : (
+              <>
+                {["Breeder", "Shelter"].map((name) => {
+                  // const checked = selected.includes(name);
+                  return (
+                    <Typography sx={{ color: colors.primary }}>
+                      {name}
+                    </Typography>
+                  );
+                })}
+              </>
+            )}
           </Grid>
           <Grid item xs={12} md={4}>
-            <Typography sx={{fontWeight: 600, mb:2}}>Pet</Typography>
-            {[
-              "Territorial",
-              "Anxious",
-              "Joyful",
-              "Lots of energy",
-            ].map((name) => {
-              // const checked = selected.includes(name);
-              return (
-                <StyledChip
-                  key={name}
-                  // variant={"plain"}
-                  // color="success"
-                >{name}</StyledChip>
-              );
-            })}
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>Gender</Typography>
+            {value ? (
+              <Input variant="soft" type="text" />
+            ) : (
+              <Typography sx={{ color: colors.primary }}>Any</Typography>
+            )}
           </Grid>
-          <Grid item xs={12} sx={{mt:5}}></Grid>
-          <Grid item xs={12} md={4}>
-            <Typography sx={{fontWeight: 600, mb:2}}>Size</Typography>
-            {[
-              "Small",
-              "Medium",
-             
-            ].map((name) => {
-              // const checked = selected.includes(name);
-              return (
-                <StyledChip
-                  key={name}
-                  // variant={"plain"}
-                  // color="success"
-                >{name}</StyledChip>
-              );
-            })}
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Typography sx={{fontWeight: 600, mb:2}}>Color</Typography>
-            {[
-              "Brown",
-              "Green",
-            ].map((name) => {
-              // const checked = selected.includes(name);
-              return (
-                <StyledChip
-                  key={name}
-                  // variant={"plain"}
-                  // color="success"
-                >{name}</StyledChip>
-              );
-            })}
-          </Grid>
-          <Grid item xs={12} md={4}>
-            
-          </Grid>
-          <Grid item xs={12} sx={{mt:5}}></Grid>
-          <Grid item xs={12} md={4}>
-            <Typography sx={{fontWeight: 600, mb:2}}>Cared for by</Typography>
-            {[
-              "Breeder",
-              "Shelter",
-             
-            ].map((name) => {
-              // const checked = selected.includes(name);
-              return (
-                <Typography sx={{color: colors.primary}}>{name}</Typography>
-              );
-            })}
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Typography sx={{fontWeight: 600, mb:2}}>Gender</Typography>
-            <Typography sx={{color: colors.primary}}>Any</Typography>
-             
-          </Grid>
-          <Grid item xs={12} md={4}>
-            
-          </Grid>
+          <Grid item xs={12} md={4}></Grid>
         </Grid>
-        {/* comment out */}
-        {/* {value ? (
-          
-        <></>
-        ) : (
-          <>
-            {[
-              "Territorial",
-              "Anxious",
-              "Playful",
-              "Affectionate",
-              "Trained",
-              "Protective",
-              "Friendly",
-              "Joyful",
-              "Lots of energy",
-            ].map((name) => {
-              // const checked = selected.includes(name);
-              return (
-                <StyledChip
-                  key={name}
-                  // variant={"plain"}
-                  // color="success"
-                >{name}</StyledChip>
-              );
-            })}
-          </>
-        )} */}
-        <Grid container>
-          <Grid item xs={12}>
-            <List sx={{ width: "100%", maxWidth: 650 }}>
-              <ListItem>
-                <ListItemText sx={{ maxWidth: 100 }} primary="Price" />
-                {value ? (
-                  <OutlinedInput size="small" value="$1000 - $2000" />
-                ) : (
-                  <ListItemText>$1000 - $2000</ListItemText>
-                )}
-              </ListItem>
-              <ListItem>
-                <ListItemText sx={{ maxWidth: 100 }} primary="Date" />
-                {value ? (
-                  <OutlinedInput
-                    size="small"
-                    value="Puppies will be available after 8 weeks of being born "
-                  />
-                ) : (
-                  <ListItemText>
-                    Puppies will be available after 8 weeks of being born{" "}
-                  </ListItemText>
-                )}
-              </ListItem>
-              {/* <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Website" />{" "}
-                    {value ? <OutlinedInput size="small" value="John@doe.com" /> :<ListItemText>www.jhondow.com</ListItemText>}
-                  </ListItem> */}
-            </List>
+      </Box>
+      <Title text="Basic information" sx={{ ml: 0, mb: 1 }} variation="small" />
+      <Box
+        sx={{
+          p: 6,
+          my: 3,
+          borderRadius: 4,
+          maxWidth: "85%",
+          boxShadow: "6px 9px 29px -8px rgba(0,0,0,0.1)",
+        }}
+      >
+        <Grid container columnSpacing={4}>
+          <Grid item xs={12} md={6}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>
+              What type of home do you live in?
+            </Typography>
+
+            {value ? (
+              <Select defaultValue="Appartment" variant="soft">
+                <Option value="appartment">Appartment</Option>
+                <Option value="condominium">Condominium</Option>
+                <Option value="duplex">Duplex</Option>
+                <Option value="bungalows">Bungalows</Option>
+              </Select>
+            ) : (
+              <>
+                {["Appartment"].map((name) => {
+                  // const checked = selected.includes(name);
+                  return (
+                    <StyledChip
+                      key={name}
+                      // variant={"plain"}
+                      // color="success"
+                    >
+                      {name}
+                    </StyledChip>
+                  );
+                })}
+              </>
+            )}
           </Grid>
-          {value && (
-            <Grid item xs={12} sx={{ textAlign: "center" }}>
-              <Button
-                variant="outlined"
-                sx={{
-                  borderColor: colors.primary,
-                  color: colors.primary,
-                  mx: 0.6,
-                  "&:hover": {
-                    borderColor: colors.primary,
-                    color: colors.dark,
-                  },
-                }}
+          <Grid item xs={12} md={6}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>
+              Who will be the primary caretaker of your new puppy?
+            </Typography>
+            {value ? (
+              <Select defaultValue="Myself" variant="soft">
+                <Option value="Myself">Myself</Option>
+                <Option value="Someone else">Someone else</Option>
+              </Select>
+            ) : (
+              <StyledChip>Myself</StyledChip>
+            )}
+          </Grid>
+
+          <Grid item xs={12} sx={{ mt: 5 }}></Grid>
+          <Grid item xs={12} md={6}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>
+              Any other pets?
+            </Typography>
+            {value ? (
+              <FormControl
+                sx={{ display: "flex", flexDirection: "row", gap: 3 }}
               >
-                cancel
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: colors.primary,
-                  color: colors.white,
-                  mx: 0.6,
-                  "&:hover": {
-                    bgcolor: colors.primary,
-                    color: colors.dark,
-                  },
-                }}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: colors.primary,
+                        "&.Mui-checked": {
+                          color: colors.primary,
+                        },
+                      }}
+                    />
+                  }
+                  label="Yes"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: colors.primary,
+                        "&.Mui-checked": {
+                          color: colors.primary,
+                        },
+                      }}
+                    />
+                  }
+                  label="No"
+                />
+              </FormControl>
+            ) : (
+              <Typography sx={{ color: colors.primary }}>Yes</Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>
+              Are you at least 18 y/o?
+            </Typography>
+            {value ? (
+              <FormControl
+                sx={{ display: "flex", flexDirection: "row", gap: 3 }}
               >
-                Save changes
-              </Button>
-            </Grid>
-          )}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: colors.primary,
+                        "&.Mui-checked": {
+                          color: colors.primary,
+                        },
+                      }}
+                    />
+                  }
+                  label="Yes"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: colors.primary,
+                        "&.Mui-checked": {
+                          color: colors.primary,
+                        },
+                      }}
+                    />
+                  }
+                  label="No"
+                />
+              </FormControl>
+            ) : (
+              <Typography sx={{ color: colors.primary }}>Yes</Typography>
+            )}
+          </Grid>
         </Grid>
       </Box>
     </Box>

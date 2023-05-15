@@ -9,6 +9,7 @@ import Subscription from "../Dashboard/Subscription";
 import Password from "./Password";
 import InterestedPets from "./InterestedPets";
 import Home from "./Home";
+import BrowsePets from "./BrowsePets";
 
 const UserIndex = () => {
   const menuItemsdata = [
@@ -51,6 +52,7 @@ const UserIndex = () => {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/interested-pets" element={<InterestedPets />} />
+            <Route path="/browse-pets" element={<BrowsePets />} />
             <Route path="/account" element={<Account />} />
             <Route path="/password" element={<Password />} />
             {/* <Route path="/add-pets" element={<AddPet />} /> */}

@@ -30,11 +30,11 @@ const VerticalMenu = ({data}: menuData) => {
                   justifyContent: "left",
                   textTransform: "capitalize",
                   color:
-                    location.pathname == `/breeder/${link}`
+                    location.pathname.endsWith(link!)
                       ? colors.white
                       : colors.textHeading,
                   bgcolor:
-                    location.pathname == `/breeder/${link}`
+                    location.pathname.endsWith(link!)
                       ? colors.textHeadingTransparent
                       : "",
                   "&:hover": { color: colors.textHeading },
@@ -59,11 +59,11 @@ const VerticalMenu = ({data}: menuData) => {
                         textTransform: "capitalize",
                         justifyContent: "left",
                         color:
-                          location.pathname == `/breeder/${submenu.link}`
+                          location.pathname.endsWith(submenu.link!)
                             ? colors.white
                             : colors.textHeading,
                         bgcolor:
-                          location.pathname == `/breeder/${submenu.link}`
+                          location.pathname.endsWith(submenu.link!)
                             ? colors.textHeadingTransparent
                             : "",
                         "&:hover": { color: colors.textHeading },
