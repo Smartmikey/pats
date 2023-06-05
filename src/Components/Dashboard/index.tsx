@@ -9,6 +9,7 @@ import Password from "./Password";
 import Subscription from "./Subscription";
 import AddPet from "./AddPet";
 import { House, Person, Pets, Settings } from "@mui/icons-material";
+import Home from "./Home";
 
 const Index = () => {
   const menuItemsdata = [
@@ -21,14 +22,12 @@ const Index = () => {
       Icon: <Person />,
       name: "my profile",
       link: "profile",
-      submenu: [{ name: "contact info" }],
     },
     {
       Icon: <Pets />,
       name: "pet",
       submenu: [
         { name: "available pets", link: "available-pets" },
-        { name: "past pets" },
         { name: "add pets", link: "add-pets" },
       ],
     },
@@ -56,6 +55,7 @@ const Index = () => {
             <Route path="/password" element={<Password />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/add-pets" element={<AddPet />} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </Grid>
       </Grid>

@@ -21,7 +21,13 @@ const LandingPage = () => {
   const dispatch = useDispatch()
   const pets = useSelector((state:any) => state.pets)
 
-console.log(pets);
+const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 3
+    };
 
   useEffect(() => {
     const getAllPets = async () => {

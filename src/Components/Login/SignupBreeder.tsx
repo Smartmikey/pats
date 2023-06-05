@@ -22,10 +22,13 @@ import { Link } from "react-router-dom";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
 import Sheet from "@mui/joy/Sheet";
+import { useForm } from "react-hook-form";
 
 const SignupBreeder = () => {
+  const {register, watch, handleSubmit, formState: { errors }} = useForm();
+
   return (
-    <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
+    <Grid container  sx={{ mt: 12, minHeight: { md: "60vh" } }}>
       <Grid item md={4} sx={{ position: "relative" }}>
         <img
           style={{ position: "absolute", bottom: 0 }}
@@ -61,7 +64,7 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   First Name:
                 </InputLabel>
-                <InputWithoutBorder size="small" fullWidth />
+                <InputWithoutBorder {...register("first_name")} size="small" fullWidth />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -69,7 +72,7 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Last Name:
                 </InputLabel>
-                <InputWithoutBorder size="small" fullWidth />
+                <InputWithoutBorder  {...register("last_name")} size="small" fullWidth />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -77,7 +80,7 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Email:
                 </InputLabel>
-                <InputWithoutBorder size="small" fullWidth type="email" />
+                <InputWithoutBorder  {...register("email")} size="small" fullWidth type="email" />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -85,7 +88,7 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Phone number:
                 </InputLabel>
-                <InputWithoutBorder size="small" fullWidth type="tel" />
+                <InputWithoutBorder  {...register("first_name")}  size="small" fullWidth type="tel" />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>

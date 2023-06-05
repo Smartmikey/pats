@@ -39,7 +39,7 @@ export const colors = {
     darkTransparent: '#25344480',
     textHeading:'#024357',
     textHeadingTransparent:'#024357D1',
-
+    chip: '#FFC5C5',
     success: {
         background: '#B9F6CA',
         text: '#00C853',

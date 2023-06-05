@@ -1,6 +1,5 @@
 import { WidthFull } from '@mui/icons-material'
 import { Box, Card, List, ListItem } from '@mui/material'
-import React from 'react'
 import { colors } from '../../Constants'
 
 const PetCard = () => {

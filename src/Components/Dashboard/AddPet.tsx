@@ -19,8 +19,11 @@ import {
   Textarea,
 } from "@mui/joy";
 import { styled } from "@mui/styles";
+import { useForm } from "react-hook-form";
 
 const AddPet = () => {
+  const {register, watch, handleSubmit, formState: { errors }} = useForm();
+
   const [selected, setSelected] = useState<string[]>([]);
 
   return (
@@ -55,7 +58,6 @@ const AddPet = () => {
         </Box>
         <Divider />
 
-        <form>
           <Grid container spacing={8} sx={{ mt: 2 }}>
             <Grid item xs={12} md={6}>
               <Grid container spacing={3}>
@@ -65,7 +67,7 @@ const AddPet = () => {
                   </FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input variant="soft" placeholder="e.g Dog, cat" />
+                  <Input {...register("type")} variant="soft" placeholder="e.g Dog, cat" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormLabel sx={{ color: colors.textHeading }}>
@@ -73,13 +75,13 @@ const AddPet = () => {
                   </FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input variant="soft" placeholder="e.g Akita,  poodle" />
+                  <Input {...register("breed_id")} variant="soft" placeholder="e.g Akita,  poodle" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormLabel sx={{ color: colors.textHeading }}>Size</FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input variant="soft" placeholder="e.g Small (0-25lbs)" />
+                  <Input {...register("size_id")}variant="soft" placeholder="e.g Small (0-25lbs)" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormLabel sx={{ color: colors.textHeading }}>
@@ -87,7 +89,7 @@ const AddPet = () => {
                   </FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input
+                  <Input {...register("health")}
                     variant="soft"
                     placeholder="e.g Vaccines, medication"
                   />
@@ -98,7 +100,7 @@ const AddPet = () => {
                   </FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input variant="soft" placeholder="e.g $1000" />
+                  <Input {...register("price")} variant="soft" placeholder="e.g $1000" />
                 </Grid>
               </Grid>
             </Grid>
@@ -110,7 +112,7 @@ const AddPet = () => {
                   </FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input variant="soft" placeholder="e.g Male" />
+                  <Input {...register("gender")} variant="soft" placeholder="e.g Male" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormLabel sx={{ color: colors.textHeading }}>
@@ -118,13 +120,13 @@ const AddPet = () => {
                   </FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input variant="soft" placeholder="e.g Tan/Red" />
+                  <Input {...register("color")} variant="soft" placeholder="e.g Tan/Red" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormLabel sx={{ color: colors.textHeading }}>Age</FormLabel>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <Input variant="soft" placeholder="e.g 8 months" />
+                  <Input {...register("age")} variant="soft" placeholder="e.g 8 months" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormLabel sx={{ color: colors.textHeading }}>
@@ -133,6 +135,7 @@ const AddPet = () => {
                 </Grid>
                 <Grid item xs={12} md={8}>
                   <Input
+                  {...register("good_in_home")} 
                     variant="soft"
                     placeholder="e.g no other pets, family"
                   />
@@ -140,7 +143,6 @@ const AddPet = () => {
               </Grid>
             </Grid>
           </Grid>
-        </form>
         <Divider sx={{ my: 6 }} />
         <Grid container>
           <Grid item xs={12} md={3}>
@@ -168,6 +170,7 @@ const AddPet = () => {
                 const checked = selected.includes(name);
                 return (
                   <StyledChip
+                  {...register("pet_characteristic")}
                     key={name}
                     variant={checked ? "soft" : "plain"}
                     color="success"
@@ -200,7 +203,7 @@ const AddPet = () => {
           <Grid item xs={12}>
             <FormControl>
               <FormLabel>Describe your pet </FormLabel>
-              <Textarea variant="soft" minRows={10} />
+              <Textarea {...register("description")} variant="soft" minRows={10} />
             </FormControl>
           </Grid>
           <Grid sx={{ display: "flex", justifyContent: "center", my: 6 }} item xs={12}>

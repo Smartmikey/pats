@@ -1,5 +1,4 @@
 import { Box, Grid,  } from '@mui/material'
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { pets } from '../../data'
 import PetCard from '../Discovery/PetCard'

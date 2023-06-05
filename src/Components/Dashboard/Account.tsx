@@ -3,8 +3,11 @@ import React from "react";
 import Title from "../../Common/Title";
 import { Container, FormControl, FormLabel, Input } from "@mui/joy";
 import { colors } from "../../Constants";
+import { useForm } from "react-hook-form";
 
 const Account = () => {
+  const {register, watch, handleSubmit, formState: { errors }} = useForm();
+
   return (
     <Box>
       <Title sx={{ ml: 0 }} text="Account" />
@@ -17,8 +20,7 @@ const Account = () => {
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.08)",
         }}
       >
-        <form>
-          <Container maxWidth="sm" sx={{ textAlign: "center" }}>
+          <Container component="form" onSubmit={()=>{}} maxWidth="sm" sx={{ textAlign: "center" }}>
             <FormControl sx={{ my: 2 }}>
               <FormLabel>Username</FormLabel>
               <Input variant="soft" />
@@ -37,7 +39,6 @@ const Account = () => {
               Save Changes
             </Button>
           </Container>
-        </form>
       </Box>
 
       <Box

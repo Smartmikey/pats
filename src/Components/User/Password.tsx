@@ -1,5 +1,4 @@
 import { Box, Button, Container, IconButton } from '@mui/material'
-import React from 'react'
 import Title from '../../Common/Title'
 import { FormControl, FormLabel, Input } from '@mui/joy'
 import { colors } from '../../Constants'

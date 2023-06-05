@@ -10,6 +10,7 @@ import Password from "./Password";
 import InterestedPets from "./InterestedPets";
 import Home from "./Home";
 import BrowsePets from "./BrowsePets";
+import Message from "./Message";
 
 const UserIndex = () => {
   const menuItemsdata = [
@@ -22,7 +23,7 @@ const UserIndex = () => {
       Icon: <Person />,
       name: "my profile",
       link: "profile",
-      submenu: [{ name: "contact info" }, { name: "message", link: "message" }],
+      submenu: [{ name: "message", link: "message" }],
     },
     {
       Icon: <Pets />,
@@ -55,6 +56,7 @@ const UserIndex = () => {
             <Route path="/browse-pets" element={<BrowsePets />} />
             <Route path="/account" element={<Account />} />
             <Route path="/password" element={<Password />} />
+            <Route path="/message" element={<Message />} />
             {/* <Route path="/add-pets" element={<AddPet />} /> */}
           </Routes>
         </Grid>

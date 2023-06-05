@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://api.yourpats.com/api/",
+  // baseURL: "http://api.yourpats.com/api/",
+  baseURL: "http://localhost/api",
 });
 
 export const setAuthToken = (token: string) => {
@@ -11,7 +12,7 @@ export const setAuthToken = (token: string) => {
 };
 
 export const getAllPets = async () => {
-  const res = await axios.get("/breeder/pets/timeline");
+  const res = await axios.get("/breeder/pets/");
   
   console.log(res);
   

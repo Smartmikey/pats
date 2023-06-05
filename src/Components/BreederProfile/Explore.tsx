@@ -1,5 +1,4 @@
 import { Container, Grid, List, ListItem, Typography } from '@mui/material'
-import React from 'react'
 import { colors } from '../../Constants'
 
 const Explore = () => {
