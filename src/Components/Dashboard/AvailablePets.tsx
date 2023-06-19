@@ -1,18 +1,32 @@
-import { Box, Button, Container, Grid } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Title from "../../Common/Title";
 import PetCardList from "../Discovery/PetCardList";
 import { pets } from "../../data";
 import PetCard from "../Discovery/PetCard";
 import { colors } from "../../Constants";
 import Axios, { getAllPets } from "../../API/Axios";
+import useAuth from "../../Hooks/Auth";
 
 const AvailablePets = () => {
+  const user: any = useAuth();
+  const [petss, setPetss] = useState<any>();
+  
   useEffect(() => {
-    const pets = Axios.get("/breeder/pets").then((res) => console.log(res));
 
-    return () => {};
-  }, []);
+    const getPets = async()=> {
+
+      const res = await Axios.get(`/breeder/pets/${user?.id}/member`)
+      // .then((res) =>{
+      // console.log(res, res.data.data)
+      
+        setPetss(await res.data.data);
+      // }
+      // );
+    }
+    getPets();
+
+  }, [user]);
   return (
     <Box sx={{ pb: { xs: 4, md: 12, maxWidth: "96%" } }}>
       <Title sx={{ ml: 0 }} text="Available Pets" />
@@ -25,7 +39,7 @@ const AvailablePets = () => {
         }}
       >
         <Grid container spacing={3} sx={{ py: 6 }}>
-          {pets.slice(0, 6).map((item) => (
+          {petss && petss?.map((item: any) => (
             <PetCard
               key={item.id}
               size={4}
@@ -73,8 +87,8 @@ const AvailablePets = () => {
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.08)",
         }}
       >
-        <Grid container spacing={3} sx={{ py: 6 }}>
-          {pets.slice(0, 6).map((item) => (
+        {/* <Grid container spacing={3} sx={{ py: 6 }}>
+          {petss && petss?.map((item: any) => (
             <PetCard
               key={item.id}
               size={4}
@@ -95,7 +109,8 @@ const AvailablePets = () => {
               }
             />
           ))}
-        </Grid>
+        </Grid> */}
+          <Typography align="center">Coming soon...</Typography>
       </Box>
     </Box>
   );

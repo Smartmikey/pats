@@ -21,13 +21,14 @@ import { colors } from "../../Constants";
 import { Pet } from "../../interface/Pet";
 interface Props {
   size: number;
-  data: Pet;
+  data: any;
   sx?: object;
   Action?: React.ReactElement
 }
 const PetCard = ({size, data, sx, Action}: Props) => {
+  
   return (
-    <Grid sx={sx} item xs={12} md={size}>
+    <Grid key={data.id} sx={sx} item xs={12} md={size}>
       <Card sx={{ border: "1px solid rgba(218, 218, 218, 1)", maxWidth: 360, borderRadius: "12px", pb:3 }}>
         <CardHeader
         sx={{'&.MuiCardHeader-title': {fontWeight: 700}}}
@@ -42,7 +43,7 @@ const PetCard = ({size, data, sx, Action}: Props) => {
             </IconButton>
           }
           title={data.name}
-          subheader={data.location}
+          subheader={data.location.name}
         />
         <Box 
           sx={{position: 'relative'}}>
@@ -50,16 +51,16 @@ const PetCard = ({size, data, sx, Action}: Props) => {
         <CardMedia
           component="img"
           height="194"
-          image={`/${data.image}`}
+          image={data.photos[0].fullpath}
           alt={data.name}
         />
         <BannerOnImage variant="overline" >3+ more photos</BannerOnImage>
         </Box>
         
         <CardContent>
-            <Typography sx={{fontWeight: 600}}>{data.breeder}</Typography>
-            <Typography variant="subtitle2">{data.breed}</Typography>
-            <Typography variant="subtitle2">{data.age} | {data.gender}</Typography>
+            <Typography sx={{fontWeight: 600}}>{data.member.display_name}</Typography>
+            <Typography variant="subtitle2">{data.breed.name}</Typography>
+            <Typography variant="subtitle2">{data.age} | {data.gender.name}</Typography>
             <Divider sx={{my: 1.5}} />
           <Typography variant="body2" color="text.secondary">
             {data.description}

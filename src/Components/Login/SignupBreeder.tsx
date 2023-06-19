@@ -22,13 +22,67 @@ import { Link } from "react-router-dom";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
 import Sheet from "@mui/joy/Sheet";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import Axios from "../../API/Axios";
+import AutocompleteWithDialog from "../../Common/AutocompleteWithDialog";
+
+interface BreederFormInterface {
+  breeder_type: string;
+  company_type: string;
+  confirm_password: string;
+  email: string;
+  last_name: string;
+  location: string;
+  name: string;
+  password: string;
+  phone_number: string;
+  terms: boolean;
+}
 
 const SignupBreeder = () => {
-  const {register, watch, handleSubmit, formState: { errors }} = useForm();
+  const [incorrectPassword, setIncorrectPassword] = useState<Boolean>(false);
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const registerBreeder = async (data: FieldValues) => {
+    let { terms, confirm_password, ...rest } = data;
+    if (data.confirm_password !== data.password) {
+      setIncorrectPassword(true);
+      return;
+    }
+    rest = {
+      ...rest,
+      member_type: "",
+      about: "",
+      price: "",
+      web_site: "",
+      address: "",
+      date_information: "",
+      company_type: 1,
+      breeder_type: 1,
+      location_id: 1
+    };
+    setIncorrectPassword(false);
+    const response = await Axios.post("/member/register", {...rest});
+    console.log(response);
+  };
+
+  useEffect(() => {
+    
+  }, [])
 
   return (
-    <Grid container  sx={{ mt: 12, minHeight: { md: "60vh" } }}>
+    <Grid
+      container
+      component="form"
+      onSubmit={handleSubmit(registerBreeder)}
+      sx={{ mt: 12, minHeight: { md: "60vh" } }}
+    >
       <Grid item md={4} sx={{ position: "relative" }}>
         <img
           style={{ position: "absolute", bottom: 0 }}
@@ -64,7 +118,18 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   First Name:
                 </InputLabel>
-                <InputWithoutBorder {...register("first_name")} size="small" fullWidth />
+                <InputWithoutBorder
+                  sx={{ borderColor: errors.name && "red !important" }}
+                  {...register("name", { required: true })}
+                  size="small"
+                  type="text"
+                  fullWidth
+                />
+                {errors.name && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    first name cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -72,7 +137,18 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Last Name:
                 </InputLabel>
-                <InputWithoutBorder  {...register("last_name")} size="small" fullWidth />
+                <InputWithoutBorder
+                  sx={{ borderColor: errors.last_name && "red" }}
+                  {...register("last_name", { required: true })}
+                  size="small"
+                  type="text"
+                  fullWidth
+                />
+                {errors.last_name && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    last name cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -80,7 +156,18 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Email:
                 </InputLabel>
-                <InputWithoutBorder  {...register("email")} size="small" fullWidth type="email" />
+                <InputWithoutBorder
+                  sx={{ borderColor: errors.email && "red" }}
+                  {...register("email", { required: true })}
+                  size="small"
+                  fullWidth
+                  type="email"
+                />
+                {errors.email && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    email cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -88,7 +175,18 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Phone number:
                 </InputLabel>
-                <InputWithoutBorder  {...register("first_name")}  size="small" fullWidth type="tel" />
+                <InputWithoutBorder
+                  sx={{ borderColor: errors.phone_number && "red" }}
+                  {...register("phone_number", { required: true })}
+                  size="small"
+                  fullWidth
+                  type="tel"
+                />
+                {errors.phone_number && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    phone number cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -96,7 +194,25 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Location:
                 </InputLabel>
-                <InputWithoutBorder size="small" fullWidth />
+                <InputWithoutBorder
+                  sx={{ borderColor: errors.location_id && "red" }}
+                  {...register("location_id", { required: true })}
+                  size="small"
+                  fullWidth
+                  type="address"
+                />
+                {/* <AutocompleteWithDialog
+                  getValue={{ state, setState }}
+                  data={state?.petLocation}
+                  field={BreederFields}
+                  endpoint="/location/create"
+                  title="location"
+                  /> */}
+                {errors.location_id && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    location cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={12}>
@@ -105,15 +221,16 @@ const SignupBreeder = () => {
                   Company Type:
                 </InputLabel>
                 <RadioGroup
-                  aria-label="platform"
+                  aria-label="company_type"
+                  // onChange={(e) => console.log(e)}
                   defaultValue="Shelter"
                   overlay
                   // orientation={{xs: "horizontal", }}
-                  name="platform"
+                  name="company_type"
                   sx={{
-                    flexDirection: {xs: 'column', md: 'row'},
+                    flexDirection: { xs: "column", md: "row" },
                     flex: 2,
-                    flexWrap: 'wrap',
+                    flexWrap: "wrap",
                     gap: 2,
                     [`& .${radioClasses.checked}`]: {
                       [`& .${radioClasses.action}`]: {
@@ -138,6 +255,7 @@ const SignupBreeder = () => {
                   {["Shelter", "Breeder", "Livestock", "Rescue"].map(
                     (value) => (
                       <Sheet
+                        {...register("company_type", { required: true })}
                         key={value}
                         variant="outlined"
                         sx={{
@@ -163,6 +281,11 @@ const SignupBreeder = () => {
                     )
                   )}
                 </RadioGroup>
+                {errors.company_type && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    company type cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -170,30 +293,67 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Type of breeder:
                 </InputLabel>
-                <InputWithoutBorder size="small" fullWidth />
+                <InputWithoutBorder
+                  sx={{ borderColor: errors.breeder_type && "red" }}
+                  {...register("breeder_type", { required: true })}
+                  size="small"
+                  fullWidth
+                />
+                {errors.breeder_type && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    breeder type cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}></Grid>
             <Grid item xs={12} md={6}>
-              <Box sx={{ mt: .5 }}>
-                <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
+              <Box sx={{ mt: 0.5 }}>
+                <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Password:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth type="password" />
+                <InputWithoutBorder
+                  sx={{ borderColor: errors.password && "red" }}
+                  {...register("password", { required: true })}
+                  size="small"
+                  fullWidth
+                  type="password"
+                />
+                {errors.password && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    password cannot be blank
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box sx={{ mt: .5 }}>
-                <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
+              <Box sx={{ mt: 0.5 }}>
+                <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Confirm Password:
                 </InputLabel>
-                <InputWithoutBorder size='small' fullWidth type="password" />
+                <InputWithoutBorder
+                  {...register("confirm_password", { required: true })}
+                  size="small"
+                  fullWidth
+                  type="password"
+                />
+                {errors.confirm_password && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    Confirm password cannot be blank
+                  </Typography>
+                )}
+                {incorrectPassword && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    Confirm password must be equal to password
+                  </Typography>
+                )}
               </Box>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={
                   <Checkbox
+                    {...register("terms", { required: true })}
                     sx={{
                       color: colors.primary,
                       "&.Mui-checked": {
@@ -208,16 +368,23 @@ const SignupBreeder = () => {
                   </Typography>
                 }
               />
+              {errors.password && (
+                <Typography variant="caption" sx={{ color: "red" }}>
+                  Read and agree to our terms and conditions
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <Container maxWidth="sm" sx={{ textAlign: "center" }}>
                 <Button
+                  // disabled={errors}
                   sx={{
                     bgcolor: colors.primary,
                     "&:hover": { bgcolor: colors.primary },
                     my: 4,
                   }}
                   variant="contained"
+                  type="submit"
                 >
                   Create account
                 </Button>

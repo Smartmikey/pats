@@ -2,7 +2,7 @@ import { Box, Button, Grid } from "@mui/material";
 import React from "react";
 import Profile from "./Profile";
 import VerticalMenu from "../../Common/VerticalMenu";
-import { Route, Routes } from "react-router-dom";
+import { Route, Switch, BrowserRouter as Router, } from "react-router-dom";
 import AvailablePets from "./AvailablePets";
 import Account from "./Account";
 import Password from "./Password";
@@ -16,28 +16,28 @@ const Index = () => {
     {
       Icon: <House />,
       name: "home",
-      link: ".",
+      link: "/breeder",
     },
     {
       Icon: <Person />,
       name: "my profile",
-      link: "profile",
+      link: "/breeder/profile",
     },
     {
       Icon: <Pets />,
       name: "pet",
       submenu: [
-        { name: "available pets", link: "available-pets" },
-        { name: "add pets", link: "add-pets" },
+        { name: "available pets", link: "/breeder/available-pets" },
+        { name: "add pets", link: "/breeder/add-pets" },
       ],
     },
     {
       Icon: <Settings />,
       name: "settings",
       submenu: [
-        { name: "account", link: "account" },
-        { name: "password", link: "password" },
-        { name: "subscription", link: "subscription" },
+        { name: "account", link: "/breeder/account" },
+        { name: "password", link: "/breeder/password" },
+        { name: "subscription", link: "/breeder/subscription" },
       ],
     },
   ];
@@ -48,15 +48,18 @@ const Index = () => {
           <VerticalMenu  data={menuItemsdata}/>
         </Grid>
         <Grid sx={{ px: 2 }} item xs={12} md={10}>
-          <Routes>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/available-pets" element={<AvailablePets />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/password" element={<Password />} />
-            <Route path="/subscription" element={<Subscription />} />
-            <Route path="/add-pets" element={<AddPet />} />
-            <Route path="/" element={<Home />} />
-          </Routes>
+         
+          {/* <Router> */}
+          <Switch>
+            <Route path="/breeder/profile" component={Profile} />
+            <Route path="/breeder/available-pets" component={AvailablePets} />
+            <Route path="/breeder/account" component={Account} />
+            <Route path="/breeder/password" component={Password} />
+            <Route path="/breeder/subscription" component={Subscription} />
+            <Route path="/breeder/add-pets" component={AddPet} />
+            <Route path="/"  component={Home} />
+          </Switch>
+          {/* </Router> */}
         </Grid>
       </Grid>
     </Box>

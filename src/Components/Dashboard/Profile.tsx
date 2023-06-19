@@ -12,18 +12,42 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { colors } from "../../Constants";
 import Title from "../../Common/Title";
+import { FieldValues, useForm } from "react-hook-form";
+import Axios from "../../API/Axios";
+import useAuth from "../../Hooks/Auth";
+import { capitalizeFirstLowercaseRest } from "../../utility";
 const Profile = () => {
   const [value, setValue] = useState(false);
+  const [userProfile, setUserProfile] = useState<any>()
+  const user:any = useAuth();
+  const {register, handleSubmit} = useForm();
 
   const handleEditing = () => {
     setValue(!value);
   };
 
+  const updateBreederProfile =(data: FieldValues)=> {
+    // console.log(data);
+    
+  }
+
+  console.log( userProfile);
+  useEffect(() => {
+    const getBreederProfile =async() => {
+
+      console.log(user);
+      const res = await Axios.get(`member/breeder/${user?.id}`);
+      setUserProfile(await res.data.data[0])
+      
+    }
+    getBreederProfile();
+  }, [user])
+  
   return (
-    <Box>
+    <Box component='form' onSubmit={handleSubmit(updateBreederProfile)}>
       <Box maxHeight="300px">
         <CardMedia
           component="img"
@@ -52,9 +76,9 @@ const Profile = () => {
             />
             <Box sx={{ flex: 1 }}>
               <Typography variant="h4" sx={{ fontSize: { xs: "24px" } }}>
-                Little Paws Breeder
+                {capitalizeFirstLowercaseRest(userProfile.breeder_type.name)} Breeder
               </Typography>
-              <Typography variant="subtitle2">Random things</Typography>
+              <Typography variant="subtitle2">{userProfile.breeder_type.description}</Typography>
             </Box>
             <Button
               variant="outlined"
@@ -86,57 +110,41 @@ const Profile = () => {
         <Container sx={{ my: 7 }}>
           {value ? (
             <>
-              <OutlinedInput
+              <OutlinedInput {...register("display_name")} 
                 sx={{ my: 4, color: colors.textHeading }}
                 value=" Hi! I’m Mac from Little Paws"
                 size="small"
               />
               <TextareaAutosize
+              {...register("about")}
                 minRows={12}
-                defaultValue="I am a dedicated and passionate breeder with a love for all things
-            canine. My interest in breeding started at a young age and has only
-            grown over the years as I have gained knowledge and experience in
-            the field. I am committed to breeding healthy, happy, and
-            well-tempered dogs. I spend a lot of time researching and studying
-            different breeds, paying close attention to their physical
-            characteristics and temperaments. I also make sure to keep
-            up-to-date with best practices in breeding and genetics to ensure
-            that my dogs are healthy and free of any genetic disorders. My
-            breeding program is focused on producing high-quality dogs that are
-            not only beautiful, but also have great dispositions and
-            temperaments. I am proud of the work that I do and the dogs that I
-            produce, and I enjoy sharing my knowledge and passion for breeding
-            with others."
+            //     defaultValue="I am a dedicated and passionate breeder with a love for all things
+            // canine. My interest in breeding started at a young age and has only
+            // grown over the years as I have gained knowledge and experience in
+            // the field. I am committed to breeding healthy, happy, and
+            // well-tempered dogs. I spend a lot of time researching and studying
+            // different breeds, paying close attention to their physical
+            // characteristics and temperaments. I also make sure to keep
+            // up-to-date with best practices in breeding and genetics to ensure
+            // that my dogs are healthy and free of any genetic disorders. My
+            // breeding program is focused on producing high-quality dogs that are
+            // not only beautiful, but also have great dispositions and
+            // temperaments. I am proud of the work that I do and the dogs that I
+            // produce, and I enjoy sharing my knowledge and passion for breeding
+            // with others."
                 style={{ display: "block", width: "100%" }}
               />
             </>
           ) : (
             <>
-              <Typography
+              {/* <Typography
                 variant="h5"
                 sx={{ my: 4, color: colors.textHeading }}
               >
                 Hi! I’m Mac from Little Paws{" "}
-              </Typography>
+              </Typography> */}
               <Typography>
-                I am a dedicated and passionate breeder with a love for all
-                things canine. My interest in breeding started at a young age
-                and has only grown over the years as I have gained knowledge and
-                experience in the field. I am committed to breeding healthy,
-                happy, and well-tempered dogs. I spend a lot of time researching
-                and studying different breeds, paying close attention to their
-                physical characteristics and temperaments. I also make sure to
-                keep up-to-date with best practices in breeding and genetics to
-                ensure that my dogs are healthy and free of any genetic
-                disorders. My breeding program is focused on producing
-                high-quality dogs that are not only beautiful, but also have
-                great dispositions and temperaments. I am proud of the work that
-                I do and the dogs that I produce, and I enjoy sharing my
-                knowledge and passion for breeding with others. When I'm not
-                busy breeding, I enjoy spending time with my dogs and taking
-                them on adventures. I also love to compete in dog shows and
-                events, as it allows me to showcase the qualities of my dogs and
-                meet other breeders and enthusiasts.
+                {userProfile.about}
               </Typography>
             </>
           )}
@@ -156,25 +164,25 @@ const Profile = () => {
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Contact" />
                     {value ? (
-                      <OutlinedInput size="small" value="John Doe" />
+                      <OutlinedInput {...register("display_name")} size="small" defaultValue={userProfile?.display_name} />
                     ) : (
-                      <ListItemText>John Doe</ListItemText>
+                      <ListItemText>{userProfile?.display_name}</ListItemText>
                     )}
                   </ListItem>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Email" />
                     {value ? (
-                      <OutlinedInput size="small" value="John@doe.com" />
+                      <OutlinedInput {...register("email")} size="small" value="John@doe.com" />
                     ) : (
-                      <ListItemText>John@doe.com</ListItemText>
+                      <ListItemText>{userProfile.email}</ListItemText>
                     )}
                   </ListItem>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Website" />{" "}
                     {value ? (
-                      <OutlinedInput size="small" value="John@doe.com" />
+                      <OutlinedInput {...register("website")} size="small" value="John@doe.com" />
                     ) : (
-                      <ListItemText>www.jhondow.com</ListItemText>
+                      <ListItemText>{userProfile.website}</ListItemText>
                     )}
                   </ListItem>
                 </List>
@@ -184,17 +192,17 @@ const Profile = () => {
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Phone" />
                     {value ? (
-                      <OutlinedInput size="small" value="(342) 8785 453" />
+                      <OutlinedInput {...register("phone_number")} size="small" value="(342) 8785 453" />
                     ) : (
-                      <ListItemText>(342) 8785 453</ListItemText>
+                      <ListItemText>{userProfile.phone_number}</ListItemText>
                     )}
                   </ListItem>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Address" />
                     {value ? (
-                      <OutlinedInput size="small" value="(342) 8785 453" />
+                      <OutlinedInput {...register("address")} size="small" value="(342) 8785 453" />
                     ) : (
-                      <ListItemText>Somewhere in the world</ListItemText>
+                      <ListItemText>{userProfile.address}</ListItemText>
                     )}
                   </ListItem>
                 </List>
@@ -251,7 +259,7 @@ const Profile = () => {
               <ListItem>
                 <ListItemText sx={{ maxWidth: 100 }} primary="Price" />
                 {value ? (
-                  <OutlinedInput size="small" value="$1000 - $2000" />
+                  <OutlinedInput {...register("price")} size="small" value="$1000 - $2000" />
                 ) : (
                   <ListItemText>$1000 - $2000</ListItemText>
                 )}
@@ -261,6 +269,7 @@ const Profile = () => {
                 {value ? (
                   <OutlinedInput
                     size="small"
+                    {...register("date_information")}
                     value="Puppies will be available after 8 weeks of being born "
                   />
                 ) : (
@@ -293,6 +302,7 @@ const Profile = () => {
               </Button>
               <Button
                 variant="contained"
+                type='submit'
                 sx={{
                   bgcolor: colors.primary,
                   color: colors.white,

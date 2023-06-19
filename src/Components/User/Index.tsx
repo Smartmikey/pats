@@ -1,6 +1,6 @@
 import { House, Person, Pets, Settings } from "@mui/icons-material";
 import { Box, Grid } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import VerticalMenu from "../../Common/VerticalMenu";
 import Profile from "./Profile";
 import Account from "./Account";
@@ -49,16 +49,16 @@ const UserIndex = () => {
           <VerticalMenu data={menuItemsdata} />
         </Grid>
         <Grid sx={{ px: 2 }} item xs={12} md={10}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/interested-pets" element={<InterestedPets />} />
-            <Route path="/browse-pets" element={<BrowsePets />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/password" element={<Password />} />
-            <Route path="/message" element={<Message />} />
-            {/* <Route path="/add-pets" element={<AddPet />} /> */}
-          </Routes>
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/interested-pets" component={InterestedPets} />
+            <Route path="/browse-pets" component={BrowsePets} />
+            <Route path="/account" component={Account} />
+            <Route path="/password" component={Password} />
+            <Route path="/message" component={Message} />
+            {/* <Route path="/add-pets" element={AddPet} /> */}
+          </Switch>
         </Grid>
       </Grid>
     </Box>

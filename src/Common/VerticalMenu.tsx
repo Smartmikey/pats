@@ -16,10 +16,10 @@ const VerticalMenu = ({data}: menuData) => {
   const location = useLocation();
   return (
     <Box sx={{ p: 2 }}>
-      {data.map((item) => {
+      {data.map((item, index) => {
         const { Icon, name, link, submenu } = item;
         return (
-          <>
+          <Box key={index}>
             <Link to={link || "#"} style={{ textDecoration: "none" }}>
               <Button
                 size="large"
@@ -47,8 +47,8 @@ const VerticalMenu = ({data}: menuData) => {
             </Link>
             {submenu && (
               <Box sx={{ ml: 4 }}>
-                {submenu.map((submenu: any) => (
-                  <Link to={submenu.link || "#"} style={{ textDecoration: "none" }}>
+                {submenu.map((submenu: any, index) => (
+                  <Link key={index} to={submenu.link || "#"} style={{ textDecoration: "none" }}>
                     {" "}
                     <Button
                       // disabled={!submenu.link}
@@ -76,7 +76,7 @@ const VerticalMenu = ({data}: menuData) => {
                 ))}
               </Box>
             )}
-          </>
+          </Box>
         );
       })}
     </Box>

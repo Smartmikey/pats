@@ -25,20 +25,21 @@ const Signup = () => {
 
   const registerUser = async(data: any) => {
     const {accepted, confirmPassword, ...rest} = data;
+    console.log(data);
+    
+    // rest.location = 'nigeria'
+    // if(confirmPassword === rest.password) {
 
-    rest.location = 'nigeria'
-    if(confirmPassword === rest.password) {
-
-      const response = await Axios.post('/user/register', {...rest})
-      console.log(data, response);
-      if(response.status === 200 ) window.location.href = "/login"
-    }
+    //   const response = await Axios.post('/user/register', {...rest})
+    //   console.log(data, response);
+    //   if(response.status === 200 ) window.location.href = "/user"
+    // }
     
   }
 
   return (
     <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
-      <Popup open={true} />
+      <Popup open={false} />
       <Grid item md={4} sx={{position: 'relative'}}>
         <img style={{position: 'absolute', bottom: 0}} width='100%' src='dog-head.png' alt='dog head' />
       </Grid>

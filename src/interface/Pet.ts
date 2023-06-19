@@ -9,3 +9,8 @@ export type Pet = {
     breeder: string
     image: string
 }
+
+export interface Field {
+    name: string;
+    type: any;
+}

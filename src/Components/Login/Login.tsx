@@ -12,106 +12,164 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/styles";
 import { useForm } from "react-hook-form";
-import { Link, redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import Axios, { setAuthToken } from "../../API/Axios";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
-import useCookie from "react-use-cookie";
-import { useEffect } from "react";
-
+import {useCookies} from "react-cookie";
+import { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const Login = () => {
-  const {register, watch, handleSubmit, formState: { errors }} = useForm();
-  const [userToken, setUserToken] = useCookie('token', '')
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [userToken, setUserToken, removeToken] = useCookies(['token']);
+  const [errorMsg, setErrorMsg] = useState("")
+  const [fetching, setFetching] = useState(false);
+  const navigate = useHistory();
 
-  const isUserLoggedIn = async() => {
+  const isUserLoggedIn = async () => {
     console.log(userToken);
-    
-    if(await userToken) {
-      
-      return window.location.href = '/'
+
+    if (await userToken.token) {
+      return (window.location.href = "/");
     }
     return null;
-  }
-  const onSubmit = async (data: any) => {
-    const response = await Axios.post('/login', {
-      ...data
-    });
-
-    const {data: {data: {token}}} = await response;
-    setAuthToken(token);
-    setUserToken(token);
-    
-
-    console.log(token)
-    
   };
 
-useEffect(() => {
-  isUserLoggedIn()
- 
-}, [])
+  const onSubmit = async (data: any) => {
+    setFetching(true);
+    try {
+      const response: any = await Axios.post("/login", {
+        ...data,
+      });
+
+      const {
+        data: { token },
+      } = await response?.data;
+      console.log(response);
+      console.log(token);
+
+      if (await response.name) {
+        console.log("got here");
+        
+      }
+      // const { token, role } = response.data;
+      const decodedToken: any = jwtDecode(token);
+      setAuthToken(token);
+      removeToken('token');
+      setUserToken("token",token);
+      if (decodedToken.role === "ROLE_MEMBER") {
+        console.log("this is correct");
+        return  navigate.push("/breeder");
+      } else if (decodedToken.role === "ROLE_USER") {
+  console.log("user is correct");
+  
+        return navigate.push("/user");
+      } else {
+        // setError('Invalid role');
+      }
+    } catch (error) {
+      setFetching(false);
+      console.log(error);
+    }
+
+    // console.log(token)
+  };
+
+  useEffect(() => {
+    // isUserLoggedIn()
+  }, []);
 
   return (
     <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
-      <Grid item md={4} sx={{position: 'relative'}}>
-        <img style={{position: 'absolute', bottom: 0}} width='100%' src='dog-head.png' alt='dog head' />
+      <Grid item xs={12} md={4} sx={{ position: "relative" }}>
+        <img
+          style={{ position: "absolute", bottom: 0 }}
+          width="100%"
+          src="dog-head.png"
+          alt="dog head"
+        />
       </Grid>
-      <Grid item md={8} sx={{ alignItems: "center" }}>
-       
+      <Grid item xs={12} md={8} sx={{ alignItems: "center" }}>
         <Container>
-          <Title
-            sx={{ ml: 0 }}
-            variation="large"
-            m={5}
-            text="Log in"
-          />
+          <Title sx={{ ml: 0 }} variation="large" m={5} text="Log in" />
           <Typography>
             {" "}
             Welcome back! Please input your information in the fields below.{" "}
           </Typography>
           <Divider sx={{ my: 3 }} />
 
-          <Grid container spacing={3} component="form" onSubmit={handleSubmit(onSubmit)}>
+          <Grid
+            container
+            spacing={3}
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Grid item xs={12} md={6}>
-              <Box sx={{ mt: .5 }}>
-                <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
+              <Box sx={{ mt: 0.5 }}>
+                <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Email:
                 </InputLabel>
-                <InputWithoutBorder {...register("email")} size='small' type='email' fullWidth />
+                <InputWithoutBorder
+                  {...register("email", { required: true })}
+                  size="small"
+                  type="email"
+                  fullWidth
+                />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box sx={{ mt: .5 }}>
-                <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
+              <Box sx={{ mt: 0.5 }}>
+                <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Password:
                 </InputLabel>
-                <InputWithoutBorder {...register("password")} size='small' fullWidth type="password" />
+                <InputWithoutBorder
+                  {...register("password", { required: true })}
+                  size="small"
+                  fullWidth
+                  type="password"
+                />
               </Box>
-
             </Grid>
             <Grid item xs={12}>
-            <Link
-          style={{ textAlign: "right", display: "block", margin: "0 20px" }}
-          to="/forgot-password"
-        >
-          Forgot password
-        </Link>
+              <Link
+                style={{
+                  textAlign: "right",
+                  display: "block",
+                  margin: "0 20px",
+                }}
+                to="/forgot-password"
+              >
+                Forgot password
+              </Link>
             </Grid>
-            
+
             <Grid item xs={12}>
               <Container maxWidth="sm" sx={{ textAlign: "center" }}>
-                <Button
-                  sx={{
-                    bgcolor: colors.primary,
-                    "&:hover": { bgcolor: colors.primary },
-                    my: 4,
-                  }}
-                  type='submit'
-                  variant="contained"
-                >
-                  Login
-                </Button>
+                {fetching ? (
+                  <LoadingButton loading variant="outlined">
+                    Submit
+                  </LoadingButton>
+                ) : (
+                  <Button
+                    sx={{
+                      bgcolor: colors.primary,
+                      "&:hover": { bgcolor: colors.primary },
+                      my: 4,
+                    }}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Login
+                  </Button>
+                )}
+
                 {/* <Divider flexItem>or</Divider>
                 <Button
                   startIcon={<img src="google.png" width="20px" />}
@@ -127,9 +185,14 @@ useEffect(() => {
                 </Button> */}
               </Container>
             </Grid>
-            <Grid xs={12} sx={{mb: 4}}><Typography sx={{textAlign: 'center',}}>
-                    Don't have an account? <Link to="/signup" style={{color: colors.primary}}>Sign up</Link>
-                  </Typography></Grid>
+            <Grid item xs={12} sx={{ mb: 4 }}>
+              <Typography sx={{ textAlign: "center" }}>
+                Don't have an account?{" "}
+                <Link to="/signup" style={{ color: colors.primary }}>
+                  Sign up
+                </Link>
+              </Typography>
+            </Grid>
           </Grid>
         </Container>
       </Grid>

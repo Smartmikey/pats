@@ -4,6 +4,9 @@ import { FormControl, FormLabel, Input } from '@mui/joy'
 import { colors } from '../../Constants'
 import { RemoveRedEyeOutlined } from '@mui/icons-material'
 import { useForm } from 'react-hook-form'
+import Axios from '../../API/Axios'
+import useAuth from '../../Hooks/Auth'
+import { useCookies } from 'react-cookie'
 
 interface PasswordInterface {
   oldPassword: string
@@ -11,12 +14,22 @@ interface PasswordInterface {
 }
 
 const Password = () => {
+
+  const [getCookie, setCookie] = useCookies(['token'])
+  const user:any = useAuth()
   const {register, watch, handleSubmit, formState: { errors }} = useForm();
-console.log("got here");
 
   const handleFormSubmit = async(data: any) => {
-    // data.preventDefault();
-    console.log("line 17 ", data);
+    const checkPassword = {
+      id: user?.id.toString(),
+      password: data.oldPassword,
+    } 
+    const isOldPasswordCorrect = await Axios.post('/member/breeder/password/member', checkPassword)
+    if(await isOldPasswordCorrect.data.status === true){
+      const changePassword = await Axios.post('/member/reset-password', { password: data.newPassword, token: getCookie.token})
+      console.log(changePassword);
+    }
+    
     
   }
   return (

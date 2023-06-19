@@ -14,8 +14,6 @@ export const setAuthToken = (token: string) => {
 export const getAllPets = async () => {
   const res = await axios.get("/breeder/pets/");
   
-  console.log(res);
-  
 };
 
 // export const getPets =

@@ -11,8 +11,15 @@ import Title from "../../Common/Title";
 import { breeder, pets } from "../../data";
 import PetCard from "../Discovery/PetCard";
 import BreederCard from "../../Common/BreederCard";
+import Axios from "../../API/Axios";
+import { useEffect, useState } from "react";
 
 const Home = () => {
+
+  const [pets, setPets] = useState<any>()
+  useEffect(() => {
+    Axios.get('/breeder/pets').then((res) => {console.log(res);setPets(res.data.data)})
+  }, [])
   return (
     <>
       <Box
@@ -136,7 +143,7 @@ const Home = () => {
         </Box>
         <Title text="Browse Pets" sx={{ ml: 0 }} />
         <Grid container spacing={5}>
-          {pets.slice(0,6).map((item) => (
+          {pets?.map((item:any) => (
             <PetCard
               key={item.id}
               size={4}
