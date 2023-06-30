@@ -1,66 +1,118 @@
-import { ArrowLeftOutlined } from "@mui/icons-material";
+import {
+  ArrowBackIosNew,
+  ArrowForwardIos,
+  ArrowLeftOutlined,
+} from "@mui/icons-material";
 import {
   Box,
   Button,
   Container,
   Grid,
-  Link,
+  IconButton,
   List,
   ListItem,
   ListItemText,
   Paper,
   Typography,
 } from "@mui/material";
-import Carousel from "react-material-ui-carousel";
+import { Carousel } from "@trendyol-js/react-carousel";
 import Scrollable from "../../Common/Scrollable";
 import Title from "../../Common/Title";
-import { colors } from "../../Constants";
-import { pets } from "../../data";
+import { HOSTURL, colors } from "../../Constants";
+// import { pets } from "../../data";
 import Explore from "../BreederProfile/Explore";
 import PetCard from "./PetCard";
-// import PetCard from "../LandingPage/PetCard";
-import PetCardList from "./PetCardList";
+import { useEffect, useState } from "react";
+import Axios from "../../API/Axios";
+import { useHistory, useParams, Link } from "react-router-dom";
 
 const Discover = () => {
+  const [pets, setPets] = useState<any>();
+  const [pet, setPet] = useState<any>();
+  const [petsByMember, setPetsByMember] = useState<any>();
+  const { id } = useParams<any>();
+  const history = useHistory();
+
+  useEffect(() => {
+    const makeAllCalls = () => {
+
+      Axios.get(`/breeder/pets/${id}`).then((response) => {
+        setPet(response.data.data[0]);
+        Axios.get(`/breeder/pets/${response.data.data[0].member_id}/member`)
+          .then((res) => {
+            setPetsByMember(res.data.data);
+          })
+          .catch((error) => console.log(error));
+        Axios.get(
+          `/breeder/pets/${response.data.data[0].category_id}/category?category_pet_id=${response.data.data[0].category_id}`
+        )
+          .then((resp) => {
+            setPets(resp.data.data);
+          })
+          .catch((error) => console.log(error));
+      });
+    }
+    makeAllCalls();
+  }, [id]);
   return (
     <Box sx={{ mt: 12, p: 4 }}>
       <Button
         startIcon={<ArrowLeftOutlined />}
         variant="text"
         sx={{ color: colors.primary, my: 2 }}
+        onClick={() => history.goBack()}
       >
         Back to results
       </Button>
       <Container>
         <Grid container spacing={2}>
           <Grid item xs={12} md={5}>
-            <Carousel>
-              <img
-                src="_placeholderimage.png"
+            {pet && (
+              <Carousel
+                useArrowKeys
+                dynamic
+                leftArrow={
+                  <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                    <ArrowBackIosNew />
+                  </IconButton>
+                }
+                rightArrow={
+                  <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                    <ArrowForwardIos />
+                  </IconButton>
+                }
+                show={1}
+                slide={1}
+              >
+                {pet.photos.map((photo: any) => (
+                  <img
+                    src={`${HOSTURL}/${photo.filepath + photo.filename}`}
+                    width="100%"
+                    alt={pet.name}
+                  />
+                ))}
+                {/* <img
+                src="/_placeholderimage.png"
                 width="100%"
                 alt="placeholder "
               />
               <img
-                src="_placeholderimage.png"
+                src="/_placeholderimage.png"
                 width="100%"
                 alt="placeholder "
-              />
-              <img
-                src="_placeholderimage.png"
-                width="100%"
-                alt="placeholder "
-              />
-            </Carousel>
+              /> */}
+              </Carousel>
+            )}
           </Grid>
           <Grid item xs={12} md={7}>
-            <Paper sx={{ p: {xs: 1, md: 3}, width: "100%" }}>
+            <Paper sx={{ p: { xs: 1, md: 3 }, width: "100%" }}>
               <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h3" fontWeight={600}>
-                  Chum
+                  {pet?.name || ""}
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
-                  <Link href="#">Poodle</Link> |{" "}
-                  <Typography>South Carolina</Typography>
+                  <Link to="#">{pet?.breed.name}</Link> |{" "}
+                  <Typography>{pet?.location.name}</Typography>
                 </Box>
               </Box>
               <Typography fontWeight={600}>Facts about me</Typography>
@@ -74,25 +126,25 @@ const Discover = () => {
                       <Typography fontWeight={600} sx={{ width: "80px" }}>
                         Age
                       </Typography>
-                      <ListItemText>8 months</ListItemText>
+                      <ListItemText>{pet?.age}</ListItemText>
                     </ListItem>
                     <ListItem>
                       <Typography fontWeight={600} sx={{ width: "80px" }}>
                         Color
                       </Typography>
-                      <ListItemText>Tan/Red</ListItemText>
+                      <ListItemText>{pet?.color}</ListItemText>
                     </ListItem>
                     <ListItem>
                       <Typography fontWeight={600} sx={{ width: "80px" }}>
                         Size
                       </Typography>
-                      <ListItemText>Small (0-25lbs)</ListItemText>
+                      <ListItemText>{pet?.size.name}</ListItemText>
                     </ListItem>
                     <ListItem>
                       <Typography fontWeight={600} sx={{ width: "80px" }}>
                         Gender
                       </Typography>
-                      <ListItemText>Male</ListItemText>
+                      <ListItemText>{pet?.gender.name}</ListItemText>
                     </ListItem>
                   </List>
                 </Grid>
@@ -101,28 +153,40 @@ const Discover = () => {
                     sx={{ bgcolor: colors.primaryLight, borderRadius: "7px" }}
                   >
                     <ListItem>
-                      <Typography fontWeight={600} sx={{ width: "80px" }}>
-                        Age
+                      <Typography fontWeight={600} sx={{ width: "140px" }}>
+                        Characteristics
                       </Typography>
-                      <ListItemText>8 months</ListItemText>
+                      <ListItemText>
+                        {pet?.pet_characteristic_pets.map(
+                          (char: any, index: number) => (
+                            <span>
+                              {char.pet_characteristic.name}
+                              {index === pet.pet_characteristic_pets.length - 1
+                                ? ""
+                                : ","}
+                              &nbsp;
+                            </span>
+                          )
+                        )}
+                      </ListItemText>
                     </ListItem>
                     <ListItem>
-                      <Typography fontWeight={600} sx={{ width: "80px" }}>
-                        Color
+                      <Typography fontWeight={600} sx={{ width: "140px" }}>
+                        Cared for by
                       </Typography>
-                      <ListItemText>Tan/Red</ListItemText>
+                      <ListItemText><Link to={`/breeder-profile/${pet?.member_id}`}>{`${pet?.member.name } ${pet?.member.last_name }`}</Link></ListItemText>
                     </ListItem>
                     <ListItem>
-                      <Typography fontWeight={600} sx={{ width: "80px" }}>
-                        Size
+                      <Typography fontWeight={600} sx={{ width: "140px" }}>
+                        Health
                       </Typography>
-                      <ListItemText>Small (0-25lbs)</ListItemText>
+                      <ListItemText>{pet?.health}</ListItemText>
                     </ListItem>
                     <ListItem>
-                      <Typography fontWeight={600} sx={{ width: "80px" }}>
-                        Gender
+                      <Typography fontWeight={600} sx={{ width: "140px" }}>
+                        Good in a home with
                       </Typography>
-                      <ListItemText>Male</ListItemText>
+                      <ListItemText>{pet?.good_in_home}</ListItemText>
                     </ListItem>
                   </List>
                 </Grid>
@@ -130,39 +194,87 @@ const Discover = () => {
               <Typography sx={{ my: 3 }} fontWeight={600}>
                 Meet Chum
               </Typography>
-              <Typography>
-                Consectetur adipiscing elit duis tristique sollicitudin nibh sit
-                amet commodo nulla facilisi nullam vehicula ipsum a arcu cursus
-                vitae congue. Consectetur adipiscing elit duis tristique
-                sollicitudin nibh sit amet commodo nulla facilisi nullam
-                vehicula ipsum a arcu cursus vitae congue. Consectetur
-                adipiscing elit duis tristique sollicitudin nibh sit amet
-                commodo nulla facilisi nullam vehicula ipsum a arcu cursus vitae
-                congue. Read more
-              </Typography>
+              <Typography>{pet?.description}</Typography>
 
-              <List >
-              <ListItem sx={{pl: 0}}>
-                      <Typography fontWeight={600} sx={{ width: "80px" }}>
-                        Pet Price
-                      </Typography>
-                      <ListItemText>Tan/Red</ListItemText>
-                    </ListItem>
+              <List>
+                <ListItem sx={{ pl: 0 }}>
+                  <Typography fontWeight={600} sx={{ width: "80px" }}>
+                    Pet Price
+                  </Typography>
+                  <ListItemText>${pet?.price}</ListItemText>
+                </ListItem>
               </List>
-              <Button variant='contained' sx={{bgcolor: colors.primary, color: colors.white, display: 'block', '&:hover': {bgcolor: colors.primary}, mx: 'auto'}}>Contact</Button>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: colors.primary,
+                  color: colors.white,
+                  display: "block",
+                  "&:hover": { bgcolor: colors.primary },
+                  mx: "auto",
+                }}
+              >
+                Contact
+              </Button>
             </Paper>
           </Grid>
         </Grid>
       </Container>
 
       <Container>
-        <Title text="More dogs from little pawn" align="left" variation="small" />
+        <Title
+          text={`More dogs from ${pet?.member.display_name}`}
+          align="left"
+          variation="small"
+        />
 
-        <Scrollable>
-        {pets.slice(0, 4).map(item => <PetCard sx={{mx: 2, my: 2}} key={item.id} size={4} data={item} />)}
-          
-        </Scrollable>
-        <Button
+        {petsByMember && (
+          <Carousel
+            useArrowKeys
+            dynamic
+            leftArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowBackIosNew />
+              </IconButton>
+            }
+            rightArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowForwardIos />
+              </IconButton>
+            }
+            show={3}
+            slide={1}
+          >
+            {petsByMember &&
+              petsByMember?.map((item: any) => (
+                <PetCard
+                  sx={{ mx: 2, my: 2 }}
+                  key={item.id}
+                  size={4}
+                  data={item}
+                  Action={
+                    <>
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          color: colors.primary,
+                          borderColor: colors.primary,
+                          mx: 1,
+                          textTransform: "initial",
+                          borderRadius: "6px",
+                          "&:hover": { borderColor: colors.primary },
+                        }}
+                        onClick={() => history.push(`/pet/${item?.id}`)}
+                      >
+                        View more
+                      </Button>
+                    </>
+                  }
+                />
+              ))}
+          </Carousel>
+        )}
+        {/* <Button
           variant="text"
           sx={{
             // bgcolor: colors.textHeading,
@@ -175,15 +287,58 @@ const Discover = () => {
           }}
         >
           See more
-        </Button>
+        </Button> */}
       </Container>
       <Container>
         <Title text="Similar bread" align="left" variation="small" />
 
-        <Scrollable>
-        {pets.slice(0, 4).map(item => <PetCard sx={{mx: 2, my: 2}} key={item.id} size={4} data={item} />)}
-        </Scrollable>
-        <Button
+        {pets && (
+          <Carousel
+            useArrowKeys
+            dynamic
+            leftArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowBackIosNew />
+              </IconButton>
+            }
+            rightArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowForwardIos />
+              </IconButton>
+            }
+            show={3}
+            slide={1}
+          >
+            {pets &&
+              pets?.map((item: any) => (
+                <PetCard
+                  sx={{ mx: 2, my: 2 }}
+                  key={item.id}
+                  size={4}
+                  data={item}
+                  Action={
+                    <>
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          color: colors.primary,
+                          borderColor: colors.primary,
+                          mx: 1,
+                          textTransform: "initial",
+                          borderRadius: "6px",
+                          "&:hover": { borderColor: colors.primary },
+                        }}
+                        onClick={() => history.push(`/pet/${item?.id}`)}
+                      >
+                        View more
+                      </Button>
+                    </>
+                  }
+                />
+              ))}
+          </Carousel>
+        )}
+        {/* <Button
           variant="text"
           sx={{
             // bgcolor: colors.textHeading,
@@ -195,10 +350,10 @@ const Discover = () => {
           }}
         >
           See more
-        </Button>
+        </Button> */}
       </Container>
 
-        <Explore />
+      <Explore />
     </Box>
   );
 };

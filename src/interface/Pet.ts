@@ -13,4 +13,5 @@ export type Pet = {
 export interface Field {
     name: string;
     type: any;
+    data?: any;
 }

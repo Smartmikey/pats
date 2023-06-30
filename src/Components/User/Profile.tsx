@@ -14,20 +14,86 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { colors } from "../../Constants";
 import Title from "../../Common/Title";
 import Chip from "@mui/joy/Chip";
 import styled from "@emotion/styled";
 import { FormControl, Select, Option, Input, Autocomplete } from "@mui/joy";
 import { Close } from "@mui/icons-material";
+import { Editor } from "@tinymce/tinymce-react";
+import { useForm, FieldValues } from "react-hook-form";
+import useAuth from "../../Hooks/Auth";
+import Axios from "../../API/Axios";
+import AutocompleteWithDialog from "../../Common/AutocompleteWithDialog";
+import { Field } from "../../interface/Pet";
+import { getIdsAsString } from "../../utility";
 const Profile = () => {
+  const [state, setState] = useReducer(
+    (state: any, newState: any) => ({ ...state, ...newState }),
+    {}
+  );
+  const user: any = useAuth();
   const [value, setValue] = useState(false);
+  const [userProfile, setUserProfile] = useState<any>(undefined);
+  const { register, handleSubmit } = useForm();
+
+  const editorRef: any = useRef(null);
 
   const handleEditing = () => {
     setValue(!value);
   };
 
+  const locationField: Field[] = [
+    { name: "name", type: "string" },
+    { name: "description", type: "string" },
+    { name: "city", type: "string", data: state.cityRes },
+    { name: "state", type: "string", data: state.stateRes },
+  ];
+
+  const updateUserProfile = async (data: FieldValues) => {
+    const { id, ...rest } = userProfile;
+
+    data = {
+      company_type: userProfile.company_type_id,
+      breeder_type: userProfile.breeder_type_id,
+      location_id: userProfile.location_id,
+      ...data,
+      about: editorRef.current.getContent(),
+    };
+    const response = await Axios.put(`/member/breeder/${id}`, data);
+    if (response.status === 200) {
+      const res = await Axios.get(`member/breeder/${user?.id}`);
+      setUserProfile(await res.data.data[0]);
+      setValue(false);
+    }
+    console.log(response);
+  };
+
+
+  useEffect(() => {
+    const getBreederProfile = async () => {
+      const locationRes = await Axios.get("location");
+      const cityRes = await Axios.get("city");
+      const stateRes = await Axios.get("state");
+      const desiredRes = await Axios.get("/category/pets/");
+      const breedRes = await Axios.get("/pet/breed");
+      const sizeRes = await Axios.get("/pet/size");
+      // const colorRes = await Axios.get("/pet/color");
+      const genderRes = await Axios.get("/pet/gender");
+      setState({
+        locationRes: await locationRes.data.data,
+        cityRes: await cityRes.data.data,
+        stateRes: await stateRes.data.data,
+        desiredRes: await desiredRes.data.data,
+        breedRes: await breedRes.data.data,
+        sizeRes: await sizeRes.data.data,
+        // colorRes: await colorRes.data.data,
+        genderRes: await genderRes.data.data,
+      });
+    };
+    getBreederProfile();
+  }, [user, state.refresh]);
   return (
     <Box>
       <Box maxHeight="300px">
@@ -74,7 +140,7 @@ const Profile = () => {
               }}
               onClick={handleEditing}
             >
-              Edit my profile
+              {!value ? "Edit my profile" : "Stop editing"}
             </Button>
           </Box>
         </Container>
@@ -92,38 +158,47 @@ const Profile = () => {
         <Container sx={{ my: 7 }}>
           {value ? (
             <>
-              <OutlinedInput
-                sx={{ my: 4, color: colors.textHeading }}
-                value=" Hi! I’m Mac from Little Paws"
-                size="small"
-              />
-              <TextareaAutosize
-                minRows={12}
-                defaultValue="I am a dedicated and passionate breeder with a love for all things
-            canine. My interest in breeding started at a young age and has only
-            grown over the years as I have gained knowledge and experience in
-            the field. I am committed to breeding healthy, happy, and
-            well-tempered dogs. I spend a lot of time researching and studying
-            different breeds, paying close attention to their physical
-            characteristics and temperaments. I also make sure to keep
-            up-to-date with best practices in breeding and genetics to ensure
-            that my dogs are healthy and free of any genetic disorders. My
-            breeding program is focused on producing high-quality dogs that are
-            not only beautiful, but also have great dispositions and
-            temperaments. I am proud of the work that I do and the dogs that I
-            produce, and I enjoy sharing my knowledge and passion for breeding
-            with others."
-                style={{ display: "block", width: "100%" }}
-              />
+              <>
+                <Editor
+                  apiKey="yjlgp2hgqr7zs8y933q2y9hnei13zglvp76unch3m8zgr5cy"
+                  onInit={(evt, editor) => (editorRef.current = editor)}
+                  initialValue={userProfile?.about || ""}
+                  init={{
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "image",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "code",
+                      "help",
+                      "wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "bold italic forecolor | alignleft aligncenter " +
+                      "alignright alignjustify | bullist numlist outdent indent | " +
+                      "removeformat | help",
+                    content_style:
+                      "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                  }}
+                />
+              </>
             </>
           ) : (
             <>
-              <Typography
-                variant="h5"
-                sx={{ my: 4, color: colors.textHeading }}
-              >
-                Hi! I’m Mac from Little Paws{" "}
-              </Typography>
               <Typography>
                 I am a dedicated and passionate breeder with a love for all
                 things canine. My interest in breeding started at a young age
@@ -160,9 +235,25 @@ const Profile = () => {
               <Grid item xs={12} sm={6}>
                 <List sx={{ width: "100%", maxWidth: 450 }}>
                   <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Contact" />
+                    <ListItemText sx={{ maxWidth: 100 }} primary="Name" />
                     {value ? (
-                      <OutlinedInput size="small" value="John Doe" />
+                      <OutlinedInput
+                        {...register("name")}
+                        size="small"
+                        value="John "
+                      />
+                    ) : (
+                      <ListItemText>John </ListItemText>
+                    )}
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText sx={{ maxWidth: 100 }} primary="Last name" />
+                    {value ? (
+                      <OutlinedInput
+                        {...register("last_name")}
+                        size="small"
+                        value="John Doe"
+                      />
                     ) : (
                       <ListItemText>John Doe</ListItemText>
                     )}
@@ -170,7 +261,11 @@ const Profile = () => {
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Email" />
                     {value ? (
-                      <OutlinedInput size="small" value="John@doe.com" />
+                      <OutlinedInput
+                        {...register("email")}
+                        size="small"
+                        value="John@doe.com"
+                      />
                     ) : (
                       <ListItemText>John@doe.com</ListItemText>
                     )}
@@ -182,7 +277,11 @@ const Profile = () => {
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Phone" />
                     {value ? (
-                      <OutlinedInput size="small" value="(342) 8785 453" />
+                      <OutlinedInput
+                        {...register("phone_number")}
+                        size="small"
+                        value="(342) 8785 453"
+                      />
                     ) : (
                       <ListItemText>(342) 8785 453</ListItemText>
                     )}
@@ -190,7 +289,13 @@ const Profile = () => {
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Location" />
                     {value ? (
-                      <OutlinedInput size="small" value="Fort Lauderdale, FL" />
+                      <AutocompleteWithDialog
+                        getValue={{ state, setState }}
+                        data={state?.locationRes}
+                        field={locationField}
+                        endpoint="/location"
+                        title="location"
+                      />
                     ) : (
                       <ListItemText>Fort Lauderdale, FL</ListItemText>
                     )}
@@ -221,37 +326,42 @@ const Profile = () => {
               <Autocomplete
                 variant="soft"
                 multiple
-                getOptionLabel={(option) => option}
+                // {...register("desired_pet", { required: true })}
+                onChange={(e, newValue) => {
+                  setState({ desired_pet: getIdsAsString(newValue)});
+                }}
+                getOptionLabel={(option:any) => option.name}
                 // placeholder="Combo box"
-                options={["Territorial", "Anxious", "Joyful", "Lots of energy"]}
+                options={state?.desiredRes}
                 renderTags={(tags, getTagProps) =>
                   tags.map((item, index) => (
                     <Chip
                       variant="solid"
-                      color="primary"
+                      // color=""
                       endDecorator={<Close />}
                       {...getTagProps({ index })}
                     >
-                      {item}
+                      {item.name}
                     </Chip>
                   ))
                 }
                 // sx={{ width: 300 }}
               />
-            ) : 
-            ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
-              (name) => {
-                // const checked = selected.includes(name);
-                return (
-                  <StyledChip
-                    key={name}
-                    // variant={"plain"}
-                    // color="success"
-                  >
-                    {name}
-                  </StyledChip>
-                );
-              }
+            ) : (
+              ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
+                (name) => {
+                  // const checked = selected.includes(name);
+                  return (
+                    <StyledChip
+                      key={name}
+                      // variant={"plain"}
+                      // color="success"
+                    >
+                      {name}
+                    </StyledChip>
+                  );
+                }
+              )
             )}
           </Grid>
           <Grid item xs={12} md={4}>
@@ -260,9 +370,12 @@ const Profile = () => {
               <Autocomplete
                 variant="soft"
                 multiple
-                getOptionLabel={(option) => option}
+                onChange={(e, newValue) => {
+                  setState({ breed_id: getIdsAsString(newValue)});
+                }}
+                getOptionLabel={(option:any) => option.name}
                 // placeholder="Combo box"
-                options={["Territorial", "Anxious", "Joyful", "Lots of energy"]}
+                options={state?.breedRes}
                 renderTags={(tags, getTagProps) =>
                   tags.map((item, index) => (
                     <Chip
@@ -271,29 +384,30 @@ const Profile = () => {
                       endDecorator={<Close />}
                       {...getTagProps({ index })}
                     >
-                      {item}
+                      {item.name}
                     </Chip>
                   ))
                 }
                 // sx={{ width: 300 }}
               />
-            ) : 
-            ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
-              (name) => {
-                // const checked = selected.includes(name);
-                return (
-                  <StyledChip
-                    key={name}
-                    // variant={"plain"}
-                    // color="success"
-                  >
-                    {name}
-                  </StyledChip>
-                );
-              }
+            ) : (
+              ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
+                (name) => {
+                  // const checked = selected.includes(name);
+                  return (
+                    <StyledChip
+                      key={name}
+                      // variant={"plain"}
+                      // color="success"
+                    >
+                      {name}
+                    </StyledChip>
+                  );
+                }
+              )
             )}
           </Grid>
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <Typography sx={{ fontWeight: 600, mb: 2 }}>Pet</Typography>
             {value ? (
               <Autocomplete
@@ -316,8 +430,52 @@ const Profile = () => {
                 }
                 // sx={{ width: 300 }}
               />
-            ) : ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
-              (name) => {
+            ) : (
+              ["Territorial", "Anxious", "Joyful", "Lots of energy"].map(
+                (name) => {
+                  // const checked = selected.includes(name);
+                  return (
+                    <StyledChip
+                      key={name}
+                      // variant={"plain"}
+                      // color="success"
+                    >
+                      {name}
+                    </StyledChip>
+                  );
+                }
+              )
+            )}
+          </Grid> */}
+          {/* <Grid item xs={12} sx={{ mt: 5 }}></Grid> */}
+          <Grid item xs={12} md={4}>
+            <Typography sx={{ fontWeight: 600, mb: 2 }}>Size</Typography>
+            {value ? (
+              <Autocomplete
+                variant="soft"
+                multiple
+                onChange={(e, newValue) => {
+                  setState({ size_id: getIdsAsString(newValue)});
+                }}
+                getOptionLabel={(option:any) => option.name}
+                // placeholder="Combo box"
+                options={state?.sizeRes}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item.name}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
+            ) : (
+              ["Small", "Medium"].map((name) => {
                 // const checked = selected.includes(name);
                 return (
                   <StyledChip
@@ -328,45 +486,8 @@ const Profile = () => {
                     {name}
                   </StyledChip>
                 );
-              }
+              })
             )}
-          </Grid>
-          <Grid item xs={12} sx={{ mt: 5 }}></Grid>
-          <Grid item xs={12} md={4}>
-            <Typography sx={{ fontWeight: 600, mb: 2 }}>Size</Typography>
-            {value ? (
-              <Autocomplete
-                variant="soft"
-                multiple
-                getOptionLabel={(option) => option}
-                // placeholder="Combo box"
-                options={["small", "medium", "large"]}
-                renderTags={(tags, getTagProps) =>
-                  tags.map((item, index) => (
-                    <Chip
-                      variant="solid"
-                      color="primary"
-                      endDecorator={<Close />}
-                      {...getTagProps({ index })}
-                    >
-                      {item}
-                    </Chip>
-                  ))
-                }
-                // sx={{ width: 300 }}
-              />
-            ) : ["Small", "Medium"].map((name) => {
-              // const checked = selected.includes(name);
-              return (
-                <StyledChip
-                  key={name}
-                  // variant={"plain"}
-                  // color="success"
-                >
-                  {name}
-                </StyledChip>
-              );
-            })}
           </Grid>
           <Grid item xs={12} md={4}>
             <Typography sx={{ fontWeight: 600, mb: 2 }}>Color</Typography>
@@ -409,8 +530,8 @@ const Profile = () => {
               </>
             )}
           </Grid>
-          <Grid item xs={12} md={4}></Grid>
-          <Grid item xs={12} sx={{ mt: 5 }}></Grid>
+          {/* <Grid item xs={12} md={4}></Grid> */}
+          {/* <Grid item xs={12} sx={{ mt: 5 }}></Grid> */}
           <Grid item xs={12} md={4}>
             <Typography sx={{ fontWeight: 600, mb: 2 }}>
               Cared for by
@@ -452,7 +573,26 @@ const Profile = () => {
           <Grid item xs={12} md={4}>
             <Typography sx={{ fontWeight: 600, mb: 2 }}>Gender</Typography>
             {value ? (
-              <Input variant="soft" type="text" />
+              <Autocomplete
+              variant="soft"
+              multiple
+              getOptionLabel={(option:any) => option.name}
+              // placeholder="Combo box"
+              options={state?.genderRes}
+              renderTags={(tags, getTagProps) =>
+                tags.map((item, index) => (
+                  <Chip
+                    variant="solid"
+                    color="primary"
+                    endDecorator={<Close />}
+                    {...getTagProps({ index })}
+                  >
+                    {item.name}
+                  </Chip>
+                ))
+              }
+              // sx={{ width: 300 }}
+            />
             ) : (
               <Typography sx={{ color: colors.primary }}>Any</Typography>
             )}

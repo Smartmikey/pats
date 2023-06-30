@@ -13,12 +13,25 @@ import PetCard from "../Discovery/PetCard";
 import BreederCard from "../../Common/BreederCard";
 import Axios from "../../API/Axios";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
 
-  const [pets, setPets] = useState<any>()
+  const [pets, setPets] = useState<any>();
+  const history = useHistory();
+
+  const handleCategoryChange = async(category: string)=> {
+    if(category === 'others'){
+      return Axios.get('/breeder/pets').then((res) => {setPets(res.data.data)})
+    }
+    const getAllPets = await Axios.get('/breeder/pets').then((res) => res.data.data)
+    const tempPet = getAllPets.filter((p:any) => p.category_pet.name.toLocaleLowerCase() === category.toLocaleLowerCase());
+    setPets(tempPet);
+  }
+  console.log(pets);
+  
   useEffect(() => {
-    Axios.get('/breeder/pets').then((res) => {console.log(res);setPets(res.data.data)})
+    Axios.get('/breeder/pets').then((res) => {setPets(res.data.data)})
   }, [])
   return (
     <>
@@ -89,6 +102,7 @@ const Home = () => {
                     '&:hover': {bgcolor: colors.textHeadingTransparent},
                     fontWeight: 600,
                   }}
+                  onClick={()=> handleCategoryChange('dog')}
                 >
                   <img
                     style={{ marginBottom: "10px" }}
@@ -108,6 +122,7 @@ const Home = () => {
                     fontWeight: 600,
                     '&:hover': {bgcolor: colors.textHeadingTransparent},
                   }}
+                  onClick={()=> handleCategoryChange('cat')}
                 >
                   <img
                     style={{ marginBottom: "10px" }}
@@ -127,6 +142,7 @@ const Home = () => {
                     fontWeight: 600,
                     '&:hover': {bgcolor: colors.textHeadingTransparent},
                   }}
+                  onClick={()=> handleCategoryChange('others')}
                 >
                   <img
                     style={{ marginBottom: "10px" }}
@@ -142,8 +158,8 @@ const Home = () => {
           </Container>
         </Box>
         <Title text="Browse Pets" sx={{ ml: 0 }} />
-        <Grid container spacing={5}>
-          {pets?.map((item:any) => (
+        <Grid justifyContent='left' container spacing={5}>
+          {pets?.length > 0 ? pets?.map((item:any) => (
             <PetCard
               key={item.id}
               size={4}
@@ -160,7 +176,7 @@ const Home = () => {
                       borderRadius: "6px",
                       "&:hover": { borderColor: colors.primary },
                     }}
-                    href="/pet"
+                    onClick={()=> history.push(`/pet/${item?.id}`)}
                   >
                     View more
                   </Button>
@@ -179,7 +195,9 @@ const Home = () => {
                 </>
               }
             />
-          ))}
+          )) : (
+            <Typography sx={{pl: 5}}>no pet found</Typography>
+          )}
 
           <Grid item xs={12} sx={{mt:8}} >
               
@@ -202,7 +220,8 @@ const Home = () => {
                       borderRadius: "6px",
                       "&:hover": { borderColor: colors.primary },
                     }}
-                    href="/pet"
+                    onClick={() => history.push(`/breeder-profile/${item.id}`)}
+                    // href="/breeder-profile/"
                   >
                     View more
                   </Button>

@@ -17,8 +17,10 @@ import {
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { styled } from "@mui/styles";
-import { colors } from "../../Constants";
+import { HOSTURL, colors } from "../../Constants";
 import { Pet } from "../../interface/Pet";
+import { useHistory } from "react-router-dom";
+import { capitalizeFirstLowercaseRest } from "../../utility";
 interface Props {
   size: number;
   data: any;
@@ -26,7 +28,7 @@ interface Props {
   Action?: React.ReactElement
 }
 const PetCard = ({size, data, sx, Action}: Props) => {
-  
+  const history = useHistory()
   return (
     <Grid key={data.id} sx={sx} item xs={12} md={size}>
       <Card sx={{ border: "1px solid rgba(218, 218, 218, 1)", maxWidth: 360, borderRadius: "12px", pb:3 }}>
@@ -42,19 +44,20 @@ const PetCard = ({size, data, sx, Action}: Props) => {
               {/* <MoreVertIcon /> */}
             </IconButton>
           }
-          title={data.name}
+          title={capitalizeFirstLowercaseRest(data.name)}
           subheader={data.location.name}
         />
         <Box 
           sx={{position: 'relative'}}>
 
         <CardMedia
+          // onClick={()=> history.push(`/pet/${data.id}`)}
           component="img"
           height="194"
-          image={data.photos[0].fullpath}
+          image={`${HOSTURL}/${data.photos[0].filepath}${data.photos[0].filename}`}
           alt={data.name}
         />
-        <BannerOnImage variant="overline" >3+ more photos</BannerOnImage>
+        {data.photos.length > 1 && (<BannerOnImage variant="overline" >{data.photos.length - 1} more photos</BannerOnImage>)}
         </Box>
         
         <CardContent>

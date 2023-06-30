@@ -56,3 +56,6 @@ export const colors = {
         border: '#E53935'
     }
 };
+
+
+export const HOSTURL = 'http://localhost';

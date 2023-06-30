@@ -9,19 +9,28 @@ import {
   TextField,
   Grid,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { colors } from "../../Constants";
 import styled from "@emotion/styled";
 import { Filter, FilterAlt } from "@mui/icons-material";
 import Title from "../../Common/Title";
-import { pets } from "../../data";
+// import { pets } from "../../data";
 import PetCard from "../Discovery/PetCard";
+import Axios from "../../API/Axios";
+import { useHistory } from "react-router-dom";
 
 const BrowsePets = () => {
   const [openPopOver, setOpenPopOver] = useState(false);
+  const [pets, setPets] = useState<any>();
+  const history = useHistory();
+  useEffect(() => {
+    Axios.get("/breeder/pets").then((res) => {
+      setPets(res.data.data);
+    });
+  }, []);
   return (
     <>
-    <Title text="Browse pets" sx={{ml: 0, mb:1}} />
+      <Title text="Browse pets" sx={{ ml: 0, mb: 1 }} />
       <Box
         sx={{
           p: 3,
@@ -61,7 +70,7 @@ const BrowsePets = () => {
               Sort
             </Button>
             <Button
-              startIcon={<FilterAlt sx={{color: colors.dark}} />}
+              startIcon={<FilterAlt sx={{ color: colors.dark }} />}
               sx={{ background: colors.white, px: 1.5 }}
               onClick={() => setOpenPopOver(!openPopOver)}
             >
@@ -127,46 +136,44 @@ const BrowsePets = () => {
           </div>
         </Box>
 
-        <Grid container spacing={4} sx={{mt:5}}>
-      {pets.map((item) => (
-        <PetCard
-          key={item.id}
-          size={4}
-          data={item}
-          Action={
-            <>
-              <Button
-                variant="outlined"
-                sx={{
-                  color: colors.primary,
-                  borderColor: colors.primary,
-                  mx: 1,
-                  borderRadius: "6px",
-                  "&:hover": { borderColor: colors.primary },
-                }}
-                href="/pet"
-              >
-                View more
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: colors.primary,
-                  mx: 1,
-                  borderRadius: "6px",
-                  "&:hover": { backgroundColor: colors.primary },
-                }}
-              >
-                Contact
-              </Button>
-            </>
-          }
-        />
-      ))}
-      </Grid>
+        <Grid container spacing={4} sx={{ mt: 5 }}>
+          {pets && pets.map((item:any) => (
+            <PetCard
+              key={item.id}
+              size={4}
+              data={item}
+              Action={
+                <>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      color: colors.primary,
+                      borderColor: colors.primary,
+                      mx: 1,
+                      borderRadius: "6px",
+                      "&:hover": { borderColor: colors.primary },
+                    }}
+                    onClick={()=> history.push(`/pet/${item.id}`)}
+                  >
+                    View more
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: colors.primary,
+                      mx: 1,
+                      borderRadius: "6px",
+                      "&:hover": { backgroundColor: colors.primary },
+                    }}
+                  >
+                    Contact
+                  </Button>
+                </>
+              }
+            />
+          ))}
+        </Grid>
       </Box>
-
-     
     </>
   );
 };

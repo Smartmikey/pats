@@ -13,7 +13,7 @@ const AvailablePets = () => {
   const [petss, setPetss] = useState<any>();
   
   useEffect(() => {
-
+    
     const getPets = async()=> {
 
       const res = await Axios.get(`/breeder/pets/${user?.id}/member`)
@@ -56,7 +56,7 @@ const AvailablePets = () => {
                       textTransform: "initial",
                       "&:hover": { borderColor: colors.primary },
                     }}
-                    href="/pet"
+                    href="/breeder/pet"
                   >
                     Mark as sold
                   </Button>

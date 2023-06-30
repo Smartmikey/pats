@@ -34,7 +34,7 @@ const Login = () => {
   const navigate = useHistory();
 
   const isUserLoggedIn = async () => {
-    console.log(userToken);
+    
 
     if (await userToken.token) {
       return (window.location.href = "/");
@@ -52,34 +52,24 @@ const Login = () => {
       const {
         data: { token },
       } = await response?.data;
-      console.log(response);
-      console.log(token);
 
-      if (await response.name) {
-        console.log("got here");
-        
-      }
-      // const { token, role } = response.data;
       const decodedToken: any = jwtDecode(token);
       setAuthToken(token);
       removeToken('token');
       setUserToken("token",token);
       if (decodedToken.role === "ROLE_MEMBER") {
-        console.log("this is correct");
         return  navigate.push("/breeder");
       } else if (decodedToken.role === "ROLE_USER") {
-  console.log("user is correct");
   
         return navigate.push("/user");
       } else {
         // setError('Invalid role');
       }
-    } catch (error) {
+    } catch (error:any) {
       setFetching(false);
+      setErrorMsg(error.response.data.detail);
       console.log(error);
     }
-
-    // console.log(token)
   };
 
   useEffect(() => {
@@ -137,6 +127,11 @@ const Login = () => {
                 />
               </Box>
             </Grid>
+            {errorMsg && (
+              <Grid item xs={12}>
+                <Typography variant="caption" color="red">{errorMsg}</Typography>
+                </Grid>
+            )}
             <Grid item xs={12}>
               <Link
                 style={{

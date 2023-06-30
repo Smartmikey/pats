@@ -1,12 +1,32 @@
 import { Box, Button, Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PetCard from "./PetCard";
 import { pets } from "../../data";
 import { colors } from "../../Constants";
+import Axios from "../../API/Axios";
+import { useHistory } from "react-router-dom";
 const PetCardList = () => {
+const [pets, setPets] = useState<any>();
+const history = useHistory();
+  useEffect(() => {
+    Axios.get("/breeder/pets")
+      .then((response) => {
+        setPets(response.data.data);
+      })
+      .catch((error) => console.log(error));
+    // const getAllPets = async () => {
+    //   const res = await Axios.get("/breeder/pets");
+    //   const {
+    //     data: { data },
+    //   } = await res;
+    //   // dispatch(addPets(await items));
+    //   setPets(data);
+    // };
+    // getAllPets();
+  }, []);
   return (
     <Grid container spacing={3} sx={{ py: 6 }}>
-      {pets.map((item) => (
+      {pets && pets.map((item:any) => (
         <PetCard
           key={item.id}
           size={4}
@@ -22,9 +42,9 @@ const PetCardList = () => {
                   borderRadius: "6px",
                   "&:hover": { borderColor: colors.primary },
                 }}
-                href="/pet"
+                onClick={()=> history.push(`/pet/${item.id}`)}
               >
-                View more
+                View details
               </Button>
               <Button
                 variant="contained"

@@ -22,7 +22,6 @@ const Wrapper: React.FC<WrapperProps> = ({ allowedPaths, children }) => {
     
     if (!token) {
       // Redirect to login page if no token is found
-      console.log(token);
       navigate.push('/login');
     } else {
       const decodedToken: any = jwtDecode(token);
@@ -31,7 +30,7 @@ const Wrapper: React.FC<WrapperProps> = ({ allowedPaths, children }) => {
       const role = decodedToken.role;
 
       if (role === 'ROLE_MEMBER') {
-        if (!allowedPaths.breeder.includes(location.pathname)) {
+        if (!allowedPaths.breeder.includes(location.pathname) ) {
           // Redirect to unauthorized page for breeders
           navigate.push('/unauthorized');
         }
@@ -40,14 +39,15 @@ const Wrapper: React.FC<WrapperProps> = ({ allowedPaths, children }) => {
           // Redirect to unauthorized page for users
           navigate.push('/unauthorized');
         }
-      } else {
+      }
+       else {
         if (!allowedPaths.unregistered.includes(location.pathname)) {
           // Redirect to unauthorized page for unregistered users
           navigate.push('/unauthorized');
         }
       }
     }
-  }, [navigate, location.pathname, allowedPaths]);
+  }, [navigate, location.pathname, allowedPaths, userToken]);
 
   return <>{children}</>;
 };

@@ -3,11 +3,12 @@ import {
   Button,
   Container,
   Grid,
+  IconButton,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Scrollable from "../../Common/Scrollable";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
@@ -16,28 +17,58 @@ import PetCard from "./PetCard";
 import Axios from "../../API/Axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addPets } from "../../Redux/petsSlice";
+import { Carousel } from "@trendyol-js/react-carousel";
+import {
+  ArrowBackIosNew,
+  ArrowForwardIos,
+  SwipeLeftSharp,
+} from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
 
 const LandingPage = () => {
-  const dispatch = useDispatch()
-  const pets = useSelector((state:any) => state.pets)
+  const dispatch = useDispatch();
+  const [state, setState] = useReducer(
+    (state: any, newState: any) => ({ ...state, ...newState }),
+    {}
+  );
+  const [petByCategory, setPetByCategory] = useState<any>();
+  const [pets, setPets] = useState<any>();
+  // const pets = useSelector((state: any) => state.pets);
+  const history = useHistory();
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+  };
 
-const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 3,
-      slidesToScroll: 3
-    };
+  const getPetsByCategory = async (category_id: string) => {
+    const response = await Axios.get(
+      `/breeder/pets/${category_id}/category?category_pet_id=${category_id}`
+    );
+    setPetByCategory(response.data.data);
+  };
 
   useEffect(() => {
-    const getAllPets = async () => {
-      const res = await Axios.get("/breeder/pets/timeline");
-      const {data: {data: {_items: items}}} = await res
-      dispatch(addPets(await items))
-      console.log(items);
-      
-    };
-    getAllPets();
+    Axios.get("/category/pets").then((response) => {
+      setState({ petCategory: response.data.data });
+    });
+    Axios.get("/breeder/pets")
+      .then((response) => {
+        setPets(response.data.data);
+        setPetByCategory(response.data.data);
+      })
+      .catch((error) => console.log(error));
+    // const getAllPets = async () => {
+    //   const res = await Axios.get("/breeder/pets");
+    //   const {
+    //     data: { data },
+    //   } = await res;
+    //   // dispatch(addPets(await items));
+    //   setPets(data);
+    // };
+    // getAllPets();
   }, []);
   return (
     <Box>
@@ -68,7 +99,7 @@ const settings = {
             alignItems: "center",
           }}
         >
-          <img src="pats.svg" style={{ width: "300px" }} alt="pats logo" />
+          <img src="pats.svg" style={{ width: "200px" }} alt="pats logo" />
           <Box sx={{ mt: 3, mb: 18, textAlign: "center" }}>
             <TextField
               id="looking-for"
@@ -89,6 +120,8 @@ const settings = {
                 my: { xs: 1, md: "unset" },
                 display: { xs: "block", md: "inline" },
                 mx: "auto",
+                bgcolor: colors.primary,
+                "&:hover": { bgcolor: colors.textHeading },
               }}
               variant="contained"
             >
@@ -98,7 +131,7 @@ const settings = {
         </Container>
       </Box>
       <Container>
-        <Title text="Popular category" align="center" variation="medium" />
+        <Title text="Popular pets" align="center" variation="medium" />
         {/* <Carousel>
             {
                 items.map( (item, i) => <p key={i} >{item.name} {item.description}</p> )
@@ -111,18 +144,23 @@ const settings = {
           justifyContent="center"
           sx={{ m: 4 }}
         >
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: colors.textHeadingTransparent,
-              color: colors.white,
-              borderRadius: 3,
-              "&:hover": { bgcolor: colors.textHeading },
-            }}
-          >
-            Dogs
-          </Button>
-          <Button
+          {state.petCategory &&
+            state.petCategory.map((item: any, i: number) => (
+              <Button
+                key={i}
+                variant="contained"
+                sx={{
+                  bgcolor: colors.textHeadingTransparent,
+                  color: colors.white,
+                  borderRadius: 3,
+                  "&:hover": { bgcolor: colors.textHeading },
+                }}
+                onClick={() => getPetsByCategory(item.id)}
+              >
+                {item.name}
+              </Button>
+            ))}
+          {/* <Button
             variant="contained"
             sx={{
               bgcolor: colors.textHeadingTransparent,
@@ -143,7 +181,7 @@ const settings = {
             }}
           >
             Birds
-          </Button>
+          </Button> */}
           <Button
             variant="contained"
             sx={{
@@ -156,16 +194,41 @@ const settings = {
             Others
           </Button>
         </Stack>
-        <Scrollable>
+        {/* {pets && pets?.map((data: any, index: number) => (
+            
+            <PetCard key={index} />
+        ))} */}
+        {petByCategory && (
+          <Carousel
+            dynamic
+            useArrowKeys
+            leftArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowBackIosNew />
+              </IconButton>
+            }
+            rightArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowForwardIos />
+              </IconButton>
+            }
+            show={3}
+            slide={1}
+          >
+            {petByCategory?.map((data: any, index: number) => {
+
+              return <PetCard key={index + "category"} data={data} />;
+            })}
+            {/* <PetCard />
           <PetCard />
           <PetCard />
           <PetCard />
           <PetCard />
           <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-        </Scrollable>
+          <PetCard /> */}
+          </Carousel>
+        )}
+
         <Button
           variant="contained"
           sx={{
@@ -176,6 +239,7 @@ const settings = {
             my: 6,
             "&:hover": { bgcolor: colors.textHeading },
           }}
+          onClick={() => history.push("/discovery")}
         >
           View all
         </Button>
@@ -183,16 +247,28 @@ const settings = {
       <Container>
         <Title text="Available Now" align="center" variation="medium" />
 
-        <Scrollable>
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-        </Scrollable>
+        {pets && (
+          <Carousel
+            useArrowKeys
+            leftArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowBackIosNew />
+              </IconButton>
+            }
+            rightArrow={
+              <IconButton sx={{ boxShadow: "0 2px 6px rgba(0,0,0,0.15)" }}>
+                <ArrowForwardIos />
+              </IconButton>
+            }
+            show={3}
+            slide={1}
+          >
+            {pets &&
+              pets?.map((data: any, index: number) => (
+                <PetCard key={index} data={data} />
+              ))}
+          </Carousel>
+        )}
         <Button
           variant="contained"
           sx={{
@@ -203,6 +279,7 @@ const settings = {
             my: 6,
             "&:hover": { bgcolor: colors.textHeading },
           }}
+          onClick={() => history.push("/discovery")}
         >
           View all
         </Button>
@@ -216,26 +293,23 @@ const settings = {
             <Title m={2} text="Search" align="center" variation="small" />
             <Typography component="p">
               Explore our marketplace to find your new friend. You can be as
-              specific as you like with your search criteria. you can easily
-              find exactly what you're looking for.
+              specific as you like with your search criteria.
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
             <img src="connectIcon.svg" width="100px" />
             <Title m={2} text="Connect" align="center" variation="small" />
             <Typography component="p">
-              Explore our marketplace to find your new friend. You can be as
-              specific as you like with your search criteria. you can easily
-              find exactly what you're looking for.
+              If you are interested in an animal, get in touch with the relevant
+              business or organization and make contact to explore your options.
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
             <img src="adoptIcon.svg" width="100px" />
             <Title m={2} text="Adopt" align="center" variation="small" />
             <Typography component="p">
-              Explore our marketplace to find your new friend. You can be as
-              specific as you like with your search criteria. you can easily
-              find exactly what you're looking for.
+              Once you've gathered all the necessary information and made a
+              decision, bring your new furry friend home!
             </Typography>
           </Grid>
         </Grid>

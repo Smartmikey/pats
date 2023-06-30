@@ -4,6 +4,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  TextField,
   Typography,
 } from "@mui/material";
 import React, { FormEvent, useEffect, useReducer, useState } from "react";
@@ -26,26 +27,34 @@ import axios from "axios";
 import AutocompleteWithDialog from "../../Common/AutocompleteWithDialog";
 import { top100Films } from "../../data";
 import { Field } from "../../interface/Pet";
-import FormData from 'form-data'
+import FormData from "form-data";
+import useAuth from "../../Hooks/Auth";
+
+
 const AddPet = () => {
   const {
     register,
     watch,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const [selected, setSelected] = useState<string[]>([]);
+  
   const [state, setState] = useReducer(
     (state: any, newState: any) => ({ ...state, ...newState }),
-    {}
+    {
+      refresh: false,
+    }
   ); // useState<any>({});
+  const user: any = useAuth();
 
   const BreederFields: Field[] = [
     { name: "name", type: "string" },
     { name: "description", type: "string" },
   ];
- 
+
   // const TypeOfAnimal = [
   //   {
   //     id: 1,
@@ -63,19 +72,17 @@ const AddPet = () => {
 
   let formData = new FormData();
 
- 
   const createPet = async (data: FieldValues) => {
-    // const headers = formData.getHeaders(); 
-    const dataToPost:any = {
+    // const headers = formData.getHeaders();
+    const dataToPost: any = {
       ...data,
-      category_id: state.type_of_animal?.id.toString(),
-      breed_id: state.breed?.id.toString(),
-      size_id: state.size?.id.toString(),
-      location_id: state.location?.id.toString(),
-      pet_characteristic: selected.toString(),
-      // born_at: Date.now(),
-      member_id: "1",
-      // photos: state.photos
+      category_id: state.type_of_animal?.id,
+      breed_id: state.breed?.id,
+      size_id: state.size?.id,
+      location_id: state.location?.id,
+      pet_characteristic: selected,
+      member_id: user?.id,
+      gender_id: state.gender_id,
     };
 
     for (const key in dataToPost) {
@@ -84,65 +91,25 @@ const AddPet = () => {
       }
     }
     for (let i = 0; i < state.photos.length; i++) {
-      
-      formData.append('photos', state.photos[i], state.photos[i].name);
-      
+      formData.append("photos", state.photos[i], state.photos[i].name);
     }
 
-    let config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      // url: 'http://localhost/api/breeder/pets/',
-      headers: { 
-        'Content-Type': 'multipart/form-data'
-      },
-      data : formData
-    };
+    const response = await Axios.post("breeder/pets/", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
-    const response = await Axios.post("breeder/pets/", formData, { headers: { 'Content-Type': 'multipart/form-data'}});
-    console.log(response);
+    if(response) reset();
+    setState({isPetAdded: true});
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      // console.log(event.target.files, );
-      
-      setState({photos: event.target.files})
-      // const files = Array.from(event.target.files);
-      // const promises = files.map((file) => readFileAsDataUrl(file));
 
-      // Promise.all(promises)
-      //   .then((dataUrls) => {
-      //     // Use the dataUrls here
-      //     setState({
-      //       photos: dataUrls,
-      //     });
-      //     // console.log(dataUrls);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error converting images:", error);
-      //   });
+      setState({ photos: event.target.files });
+     
     }
   };
 
-  const readFileAsDataUrl = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === "string") {
-          resolve(reader.result);
-        } else {
-          reject(new Error("Invalid result type"));
-        }
-      };
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const modifyState = (data: any) => {
-    setState(data);
-  };
 
   useEffect(() => {
     const makeAllCalls = async () => {
@@ -164,12 +131,10 @@ const AddPet = () => {
         petCategory: (await petCategory).data.data,
         petLocation: (await petLocation).data.data,
       });
-      // console.log();
     };
-    // const requests = urls.map((url) => Axios.get(url));
     makeAllCalls();
-    // axios.all(requests).then((res) => console.log(res));
-  }, []);
+    
+  }, [state.refresh, state.gender_id]);
   return (
     <Box>
       <Title text="Add a pet" sx={{ ml: 0 }} />
@@ -246,7 +211,7 @@ const AddPet = () => {
                
                 /> */}
                 <Input
-                  {...register("name")}
+                  {...register("name", {required: true})}
                   variant="soft"
                   placeholder="e.g pet name"
                 />
@@ -318,8 +283,12 @@ const AddPet = () => {
               <Grid item xs={12} md={8}>
                 <Autocomplete
                   options={state?.petGender}
-                  {...register("gender_id", { required: true })}
+                  // {...register("gender_id", { required: true })}
+                  onChange={(e, newValue) => {
+                    setState({ gender_id: newValue?.id });
+                  }}
                   getOptionLabel={(option: any) => option.name}
+                  // renderInput={(params) => <TextField {...params} label="Movie" />}
                   // renderOption={(props, option: any) => (<Typography {...props}>{option.name}</Typography>)}
                   variant="soft"
                   placeholder="e.g Male"
@@ -498,6 +467,7 @@ const AddPet = () => {
             </Button>
           </Grid>
         </Grid>
+        {state.isPetAdded && <Typography color="green" textAlign='center'>Pet successfully added</Typography>}
       </Box>
     </Box>
   );

@@ -25,7 +25,6 @@ const Signup = () => {
 
   const registerUser = async(data: any) => {
     const {accepted, confirmPassword, ...rest} = data;
-    console.log(data);
     
     // rest.location = 'nigeria'
     // if(confirmPassword === rest.password) {

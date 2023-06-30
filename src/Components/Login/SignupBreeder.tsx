@@ -69,7 +69,6 @@ const SignupBreeder = () => {
     };
     setIncorrectPassword(false);
     const response = await Axios.post("/member/register", {...rest});
-    console.log(response);
   };
 
   useEffect(() => {

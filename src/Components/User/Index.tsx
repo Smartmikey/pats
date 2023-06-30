@@ -17,28 +17,28 @@ const UserIndex = () => {
     {
       Icon: <House />,
       name: "home",
-      link: ".",
+      link: "/user",
     },
     {
       Icon: <Person />,
       name: "my profile",
-      link: "profile",
-      submenu: [{ name: "message", link: "message" }],
+      link: "/user/profile",
+      submenu: [{ name: "message", link: "/user/message" }],
     },
     {
       Icon: <Pets />,
       name: "pet",
       submenu: [
-        { name: "interested pets", link: "interested-pets" },
-        { name: "browse pets", link: "browse-pets" },
+        { name: "interested pets", link: "/user/interested-pets" },
+        { name: "browse pets", link: "/user/browse-pets" },
       ],
     },
     {
       Icon: <Settings />,
       name: "settings",
       submenu: [
-        { name: "account", link: "account" },
-        { name: "password", link: "password" },
+        { name: "account", link: "/user/account" },
+        { name: "password", link: "/user/password" },
       ],
     },
   ];
@@ -50,13 +50,13 @@ const UserIndex = () => {
         </Grid>
         <Grid sx={{ px: 2 }} item xs={12} md={10}>
           <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/interested-pets" component={InterestedPets} />
-            <Route path="/browse-pets" component={BrowsePets} />
-            <Route path="/account" component={Account} />
-            <Route path="/password" component={Password} />
-            <Route path="/message" component={Message} />
+            <Route path="/user" exact component={Home} />
+            <Route path="/user/profile" component={Profile} />
+            <Route path="/user/interested-pets" component={InterestedPets} />
+            <Route path="/user/browse-pets" component={BrowsePets} />
+            <Route path="/user/account" component={Account} />
+            <Route path="/user/password" component={Password} />
+            <Route path="/user/message" component={Message} />
             {/* <Route path="/add-pets" element={AddPet} /> */}
           </Switch>
         </Grid>

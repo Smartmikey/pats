@@ -19,6 +19,8 @@ import { useEffect, useState } from "react";
 import { colors } from "../Constants/index";
 import { useHistory, Link } from "react-router-dom";
 import useAuth from "../Hooks/Auth";
+import Axios from "../API/Axios";
+import { useCookies } from "react-cookie";
 
 interface Props {
   window?: () => Window;
@@ -27,6 +29,10 @@ interface Props {
 const HeaderNav = (props: Props) => {
   const { window } = props;
   const isUser: any = useAuth();
+  const [openPopOver, setOpenPopOver] = useState(false);
+  const [, , removeToken] = useCookies(["token"]);
+  const [userProfile, setUserProfile] = useState<any>(undefined);
+  const history = useHistory();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const navItems = [
@@ -38,12 +44,18 @@ const HeaderNav = (props: Props) => {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+
+  const logUserOut = () => {
+    const res = Axios.get("/logout");
+    setOpenPopOver(false);
+    removeToken("token");
+  };
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
   const loginAndSignup = [
-    { name: "Log in", link: "login" },
-    { name: "Sign up", link: "signup", type: "button" },
+    { name: "Log In", link: "login" },
+    { name: "Sign Up", link: "signup", type: "button" },
   ];
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -70,15 +82,15 @@ const HeaderNav = (props: Props) => {
     </Box>
   );
   const userLoggedin = () => {
-    
     if (isUser) {
       return (
-        <Link to={isUser?.role === "ROLE_MEMBER" ? "/breeder" : "/user"}>
-          <Avatar component="span">A</Avatar>
-        </Link>
+        // <Link to={isUser?.role === "ROLE_MEMBER" ? "/breeder" : "/user"}>
+        <Avatar onClick={() => setOpenPopOver(!openPopOver)} component="span">
+          {userProfile?.name[0]}
+        </Avatar>
+        // </Link>
       );
     } else {
-      
       return loginAndSignup.map((item, index) => {
         return (
           <Button
@@ -104,8 +116,12 @@ const HeaderNav = (props: Props) => {
   };
 
   useEffect(() => {
-    
-  }, [isUser])
+    const getBreederProfile = async () => {
+      const res = await Axios.get(`member/breeder/${isUser?.id}`);
+      setUserProfile(await res.data.data[0]);
+    };
+    getBreederProfile();
+  }, [isUser]);
 
   return (
     <Container>
@@ -129,7 +145,7 @@ const HeaderNav = (props: Props) => {
             <MenuIcon />
             <Link to="/">
               <img
-                src="Loo.svg"
+                src="/Loo.svg"
                 width={100}
                 style={{ marginLeft: 70 }}
                 alt="logo"
@@ -142,7 +158,7 @@ const HeaderNav = (props: Props) => {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             <Link to="/">
-              <img src="Loo.svg" alt="logo" />
+              <img src="/Loo.svg" alt="logo" width={130} />
             </Link>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
@@ -182,6 +198,59 @@ const HeaderNav = (props: Props) => {
           {userLoggedin()}
         </Drawer>
       </Box>
+
+      {openPopOver && (
+        <List
+          sx={{
+            position: "absolute",
+            bgcolor: colors.white,
+            m: 2,
+            zIndex: 9999,
+            width: "200px",
+            top: "60px",
+            right: 0,
+            borderRadius: "8px",
+            boxShadow: " 0 3px 8px rgb(0 0 0 / 0.15)",
+          }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                "&:hover": {
+                  bgcolor: colors.primary,
+                  color: colors.white,
+                },
+              }}
+              onClick={() => {
+                setOpenPopOver(!openPopOver)
+                isUser?.role === "ROLE_MEMBER"
+                  ? history.push("/breeder")
+                  : history.push("/user");
+              }}
+            >
+              <ListItemText>
+                Dashboard
+                {/* </Link> */}
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
+          <Divider />
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                "&:hover": {
+                  bgcolor: colors.primary,
+                  color: colors.white,
+                },
+              }}
+              // component="a"
+              onClick={() => logUserOut()}
+            >
+              <ListItemText primary="Logout" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      )}
     </Container>
   );
 };

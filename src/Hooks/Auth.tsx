@@ -8,6 +8,7 @@ const useAuth = () => {
 
   useEffect(() => {
     const token = userToken.token;
+    
     if (!token || token == null) {
        setUser(null);
        return;
@@ -21,7 +22,7 @@ const useAuth = () => {
         setUser(decodedToken);
       }
     }
-  }, []);
+  }, [userToken]);
 
   return user;
 };

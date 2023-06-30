@@ -1,4 +1,5 @@
 import * as React from "react";
+// import  from '@mui/react'
 import Autocomplete, { createFilterOptions } from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 import FormControl from "@mui/joy/FormControl";
@@ -12,8 +13,13 @@ import Stack from "@mui/joy/Stack";
 import { FormEvent, useState } from "react";
 import { Field } from "../interface/Pet";
 import { FieldValues, useForm } from "react-hook-form";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Autocomplete as ReactAutocomplete,
+  TextField,
+} from "@mui/material";
 import Axios from "../API/Axios";
+// import {  } from "@mui/joy";
 
 const filter = createFilterOptions<any>();
 
@@ -42,12 +48,20 @@ const AutocompleteWithDialog = ({
   };
 
   const handleSubmit = async (data: FieldValues) => {
-   
-
+    field.map(fields => {
+      if(fields.data){
+        data[fields.name+ '_id'] = getValue.state[fields.name]
+        // fields.data.map((subdata:any) =>{
+        // })
+      }
+    })
+    // console.log("data from inside: ",data);
+    
     const response = await Axios.post(endpoint, data);
     getValue.setState({
       ...getValue.state,
       title: { ...response.data.data },
+      refresh: !getValue.state.refresh,
     });
     // event.preventDefault();
     setValue({
@@ -75,6 +89,7 @@ const AutocompleteWithDialog = ({
                 getValue.setState({
                   ...getValue.state,
                   [title.toLowerCase().split(" ").join("_")]: newValue,
+                  refresh: !getValue.state.refresh,
                 });
               });
             } else if (newValue && newValue.inputValue) {
@@ -86,13 +101,14 @@ const AutocompleteWithDialog = ({
               getValue.setState({
                 ...getValue.state,
                 [title.toLowerCase().split(" ").join("_")]: newValue.inputValue,
+                refresh: !getValue.state.refresh,
               });
             } else {
-              
               setValue(newValue);
               getValue.setState({
                 ...getValue.state,
                 [title.toLowerCase().split(" ").join("_")]: newValue,
+                refresh: !getValue.state.refresh,
               });
             }
           }}
@@ -153,36 +169,41 @@ const AutocompleteWithDialog = ({
               add it!
             </Typography>
             <Stack spacing={2}>
-              {field.map((item) => (
-                <FormControl id={item.name}>
-                  <FormLabel>{item.name.toUpperCase()}</FormLabel>
-                  <Input
-                    autoFocus
-                    type="text"
-                    value={dialogValue[item.name]}
-                    {...register(item.name)}
-                    //   onChange={(event) =>
-                    //     setDialogValue({
-                    //       ...dialogValue,
-                    //       [item.name]: event.target.value,
-                    //     })
-                    //   }
-                  />
-                </FormControl>
-              ))}
-              {/* <FormControl id="year">
-                <FormLabel>year</FormLabel>
-                <Input
-                  type="number"
-                  value={dialogValue.year}
-                  onChange={(event) =>
-                    setDialogValue({
-                      ...dialogValue,
-                      year: event.target.value,
-                    })
-                  }
-                />
-              </FormControl> */}
+              {field.map((item, index) => {
+                // console.log(item);
+                return (
+                  <FormControl key={index} id={item.name}>
+                    <FormLabel>{item.name.toUpperCase()}</FormLabel>
+                    {!item?.data ? (
+                      <Input
+                        autoFocus
+                        type="text"
+                        value={dialogValue[item.name]}
+                        {...register(item.name)}
+                      />
+                    ) : (
+                      <ReactAutocomplete
+                        options={[...item.data]}
+                        onChange={(e, newValue) => {
+                          getValue.setState({ [item.name]: newValue?.id });
+                        }}
+                        renderInput={(params) => {
+                          const { size, ...rest } = params;
+                          return <TextField size="small" {...rest} />;
+                        }}
+                        // renderOption={(props, option: any) => (
+                        //   <Typography {...props}>{option.name}</Typography>
+                        // )}
+                        // variant="soft"
+                        // placeholder="e.g Male"
+                        getOptionLabel={(option: any) => option.name}
+                        sx={{ width: "100%" }}
+                      />
+                    )}
+                  </FormControl>
+                );
+              })}
+
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button variant="plain" color="neutral" onClick={handleClose}>
                   Cancel

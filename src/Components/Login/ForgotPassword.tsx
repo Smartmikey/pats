@@ -14,14 +14,21 @@ import { styled } from "@mui/styles";
 import { Link } from "react-router-dom";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
+import { FieldValues, useForm } from "react-hook-form";
 
 const ForgotPassword = () => {
+
+  const {register, handleSubmit } = useForm();
+
+  const requestPassword = (data: FieldValues) => {
+
+  }
   return (
     <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
       <Grid item md={4} sx={{position: 'relative'}}>
         <img style={{position: 'absolute', bottom: 0}} width='100%' src='dog-head.png' alt='dog head' />
       </Grid>
-      <Grid item md={8} sx={{ alignItems: "center" }}>
+      <Grid component='form' onSubmit={handleSubmit(requestPassword)} item md={8} sx={{ alignItems: "center" }}>
        
         <Container>
           <Title
@@ -41,7 +48,7 @@ const ForgotPassword = () => {
                 <InputLabel sx={{ mb: .2, fontWeight: 700 }}>
                   Email:
                 </InputLabel>
-                <InputWithoutBorder size='small' type='email' fullWidth />
+                <InputWithoutBorder {...register("email", {required: true})} size='small' type='email' fullWidth />
               </Box>
             </Grid>
             
@@ -55,6 +62,7 @@ const ForgotPassword = () => {
                     "&:hover": { bgcolor: colors.primary },
                     my: 4,
                   }}
+                  type='submit'
                   variant="contained"
                 >
                   Request change

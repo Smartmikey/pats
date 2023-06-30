@@ -23,19 +23,36 @@ import CodeOfEthics from "./Components/Discovery/CodeOfEthics";
 import UserIndex from "./Components/User/Index";
 import Wrapper from "./Wrapper";
 import UnauthorizedPage from "./UnauthorizedPage";
+import AnimalShelter from "./Legal/AnimalShelter";
+import BreederCode from "./Legal/BreederCode";
+import LivestockOwners from "./Legal/LivestockOwners";
+import PrivacyPolicy from "./Legal/PrivacyPolicy";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
 const breederPath = [
+  '/pet',
   "/breeder",
   "/breeder/profile",
+  "/breeder/pet",
   "/breeder/account",
   "/breeder/password",
   "/breeder/subscription",
   "/breeder/add-pets",
   "/breeder/available-pets",
+];
+const userPath = [
+  '/pet',
+  "/user",
+  "/user/profile",
+  "/user/message",
+  "/user/account",
+  "/user/password",
+  "/user/subscription",
+  "/user/browse-pets",
+  "/user/interested-pets",
 ];
 
 
@@ -51,25 +68,27 @@ root.render(
           <Route path="/how-it-works" component={LearnMore} />
           <Route path="/about-us" component={About} />
           <Route path="/change-password" component={ChangedPassword} />
-          <Route path="/forget-password" component={ForgotPassword} />
+          <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/code-of-ethics" component={CodeOfEthics} />
           <Route path="/discovery" component={Discovery} />
-          <Route path="/pets" component={Discover} />
+          <Route path="/pet/:id" component={Discover} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/signup-breeder" component={SignupBreeder} />
           <Route path="/unauthorized" component={UnauthorizedPage} />
-          <Route path="/breeder-profile/*" component={Profile} />
+          <Route path="/breeder-profile/:id" component={Profile} />
+          <Route path="/animal-shelter-and-animal-rescue-code-ethics" component={AnimalShelter} />
+          <Route path="/breeders-code-of-ethics" component={BreederCode} />
+          <Route path="/livestock-ouwners-code-of-ethics" component={LivestockOwners} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Wrapper
             allowedPaths={{
               breeder: breederPath,
-              user: ["/user", "/user/profile"],
+              user: userPath,
               unregistered: [],
             }}
           >
             <Route path="/breeder" component={Index} />
-            <Route path="/user/*" component={UserIndex} />
-            <Route path="/user" component={UserIndex} />
             <Route path="/user" component={UserIndex} />
           </Wrapper>
         </Switch>
