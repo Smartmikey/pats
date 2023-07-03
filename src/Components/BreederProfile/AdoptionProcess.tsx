@@ -1,7 +1,8 @@
 import { Box, Container, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { colors } from '../../Constants'
 
-const AdoptionProcess = () => {
+const AdoptionProcess = (data:any) => {
+  const {price, date_information} = data?.data
   return (
     <Box
         sx={{
@@ -19,9 +20,9 @@ const AdoptionProcess = () => {
             <Typography>If you're interested in a puppy from Little Paws, please contact the breeder. You'll be asked to provide information about yourself and what you are looking for so the breeder can help you find the right match. Once you apply, Mac will get back to you about availability, pricing and next steps.</Typography>
             <List sx={{ width: '100%', maxWidth: 450, px: 0,}}>
                 <ListItem sx={{px:0}}>
-              <ListItemText sx={{maxWidth: 100}} primary="Price" /><ListItemText >$100 - $200</ListItemText>
+              <ListItemText sx={{maxWidth: 100}} primary="Price" /><ListItemText >${price}</ListItemText>
               </ListItem>
-              <ListItem  sx={{px:0}}><ListItemText sx={{maxWidth: 100}} primary="Date" /><ListItemText  >Puppies will be available after 8 weeks of being born </ListItemText></ListItem>
+              <ListItem  sx={{px:0}}><ListItemText sx={{maxWidth: 100}} primary="Date" /><ListItemText  > {date_information} </ListItemText></ListItem>
               </List>
         </Container>
       </Box>

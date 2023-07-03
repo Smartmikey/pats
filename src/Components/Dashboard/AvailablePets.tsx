@@ -1,32 +1,32 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Title from "../../Common/Title";
-import PetCardList from "../Discovery/PetCardList";
-import { pets } from "../../data";
 import PetCard from "../Discovery/PetCard";
 import { colors } from "../../Constants";
-import Axios, { getAllPets } from "../../API/Axios";
+import Axios from "../../API/Axios";
 import useAuth from "../../Hooks/Auth";
+import { useHistory } from "react-router-dom";
 
 const AvailablePets = () => {
   const user: any = useAuth();
+  const [refresh, setRefresh] = useState(false)
   const [petss, setPetss] = useState<any>();
+  const history = useHistory()
+  const markAsSold = (petId: number) => {
+    Axios.put(`/breeder/pets/${petId}/update-status`, {status: 'SOLD'}).then(()=> setRefresh(!refresh)
+    )
+  }
   
   useEffect(() => {
     
     const getPets = async()=> {
 
       const res = await Axios.get(`/breeder/pets/${user?.id}/member`)
-      // .then((res) =>{
-      // console.log(res, res.data.data)
-      
-        setPetss(await res.data.data);
-      // }
-      // );
+      setPetss(await res.data.data);
     }
     getPets();
 
-  }, [user]);
+  }, [user, refresh]);
   return (
     <Box sx={{ pb: { xs: 4, md: 12, maxWidth: "96%" } }}>
       <Title sx={{ ml: 0 }} text="Available Pets" />
@@ -39,11 +39,11 @@ const AvailablePets = () => {
         }}
       >
         <Grid container spacing={3} sx={{ py: 6 }}>
-          {petss && petss?.map((item: any) => (
+          {petss?.filter((pet: any) => pet.status === 'AVAILABLE').length > 0 ? petss?.filter((pet: any) => pet.status === 'AVAILABLE')?.map((pet: any) => (
             <PetCard
-              key={item.id}
+              key={pet.id}
               size={4}
-              data={item}
+              data={pet}
               Action={
                 <>
                   <Button
@@ -56,7 +56,7 @@ const AvailablePets = () => {
                       textTransform: "initial",
                       "&:hover": { borderColor: colors.primary },
                     }}
-                    href="/breeder/pet"
+                    onClick={()=> markAsSold(pet.id)}
                   >
                     Mark as sold
                   </Button>
@@ -68,14 +68,20 @@ const AvailablePets = () => {
                       textTransform: "initial",
                       borderRadius: "6px",
                       "&:hover": { backgroundColor: colors.primary },
+                      
                     }}
+                    onClick={()=> history.push(`/breeder/edit-pet/${pet.id}`)}
                   >
                     Edit
                   </Button>
                 </>
               }
             />
-          ))}
+          )) : (
+            <Grid item xs={12} justifyContent="center">
+            <Typography align="center">No pets added yet</Typography>
+            </Grid>
+          )}
         </Grid>
       </Box>
       <Title sx={{ ml: 0 }} text="Past Pets" />
@@ -87,8 +93,8 @@ const AvailablePets = () => {
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.08)",
         }}
       >
-        {/* <Grid container spacing={3} sx={{ py: 6 }}>
-          {petss && petss?.map((item: any) => (
+        <Grid container spacing={3} sx={{ py: 6 }}>
+          {petss?.filter((pet: any) => pet.status === 'SOLD').length >0 ? petss?.filter((pet: any) => pet.status === 'SOLD')?.map((item: any) => (
             <PetCard
               key={item.id}
               size={4}
@@ -108,9 +114,11 @@ const AvailablePets = () => {
                 </Button>
               }
             />
-          ))}
-        </Grid> */}
-          <Typography align="center">Coming soon...</Typography>
+          )) : (
+            <Typography sx={{mx: 'auto'}} align="center">Past pets will be displayed here</Typography>
+          )}
+        </Grid>
+          {/* {petss?.filter((pet: any) => pet.status === 'SOLD').length < 1 && } */}
       </Box>
     </Box>
   );

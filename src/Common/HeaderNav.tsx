@@ -37,7 +37,7 @@ const HeaderNav = (props: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navItems = [
     { name: "About us", link: "about-us" },
-    { name: "How it works", link: "how-it-works" },
+    // { name: "How it works", link: "how-it-works" },
     { name: "Discover", link: "discovery" },
   ];
   // const navigate = useHistory;

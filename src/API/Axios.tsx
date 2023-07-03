@@ -1,9 +1,13 @@
 import axios from "axios";
+// require('dotenv').config()
 
-export default axios.create({
-  // baseURL: "http://api.yourpats.com/api/",
-  baseURL: "http://localhost/api",
+const Axios = axios.create({
+  // baseURL: 'http://localhost/api',
+  baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: false,
 });
+
+// console.log(process.env.REACT_APP_API_URL)
 
 export const setAuthToken = (token: string) => {
   if (token) {
@@ -15,5 +19,5 @@ export const getAllPets = async () => {
   const res = await axios.get("/breeder/pets/");
   
 };
-
+export default Axios
 // export const getPets =

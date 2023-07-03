@@ -1,11 +1,15 @@
 import { Modal, Box, Typography } from "@mui/material";
-import React from "react";
+import React, { ReactElement } from "react";
+import { colors } from "../Constants";
 
 interface Props {
   open: boolean;
+  title: string;
+  secondaryText?: any;
+  actions?: ReactElement;
 }
 
-const Popup = ({ open }: Props) => {
+const Popup = ({ open, title, secondaryText, actions }: Props) => {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -13,9 +17,9 @@ const Popup = ({ open }: Props) => {
     transform: "translate(-50%, -50%)",
     width: 400,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    borderRadius: "7px",
     boxShadow: 24,
-    p: 4,
+    // p: 4,
   };
 
   return (
@@ -24,14 +28,21 @@ const Popup = ({ open }: Props) => {
       //   onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Text in a modal
+      <Box sx={{position: 'relative'}}>
+        <img src='/green-paw.png' style={{position: 'absolute', width: '110px', top: 0, right: 0}} />
+        <Box sx={{p:4}}>
+        <Typography sx={{color: colors.textHeading, textAlign: 'center', fontWeight: 600}} variant="h6" component="h2">
+          {title}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          {secondaryText}
         </Typography>
+        {actions}
+        </Box>
+      </Box>
       </Box>
     </Modal>
   );

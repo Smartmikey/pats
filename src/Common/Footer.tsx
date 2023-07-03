@@ -1,7 +1,8 @@
 import { Instagram, LinkedIn, Twitter } from "@mui/icons-material";
-import { Box, Grid, IconButton, Link, Stack } from "@mui/material";
+import { Box, Grid, IconButton, Stack } from "@mui/material";
 import React from "react";
 import { colors } from "../Constants";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -55,34 +56,34 @@ const Footer = () => {
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={1}>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">About Us</Link>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">How it works?</Link>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Mission & values</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/about-us">About Us</Link>
+            {/* <Link style={{color: colors.dark, textDecoration: 'none'}} to="#">How it works?</Link> */}
+            {/* <Link style={{color: colors.dark, textDecoration: 'none'}} to="#">Mission & values</Link> */}
+          </Stack>
+        </Grid>
+        {/* <Grid item xs={12} md={2}>
+          <Stack spacing={1}>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="#">Code Of Ethics</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="#">Contact Us</Link>
+            {/* <Link style={{color: colors.dark, textDecoration: 'none'}} to="#">Pats Blog</Link>
+          </Stack>
+        </Grid> */}
+        <Grid item xs={12} md={2}>
+          <Stack spacing={1}>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/discovery">Find a pet</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/sign-up">Login/Sign up</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={1}>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="/code-of-ethics">Code Of Ethics</Link>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Contact Us</Link>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Pats Blog</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/animal-shelter-and-animal-rescue-code-ethics">Shelter & Rescue</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="breeders-code-of-ethics">Breeder code of ethics</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={1}>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Find a pet</Link>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Login/Sign up</Link>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={2}>
-          <Stack spacing={1}>
-            <Link sx={{color: colors.dark, textDecoration: 'none', fontWeight: 600}} href="#">Shelter & Rescue</Link>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Log in/Sign up</Link>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={2}>
-          <Stack spacing={1}>
-            <Link sx={{color: colors.dark, textDecoration: 'none', fontWeight: 600}} href="#">Breeders</Link>
-            <Link sx={{color: colors.dark, textDecoration: 'none'}} href="#">Log in/Sign up</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/livestock-ouwners-code-of-ethics">Livestock owners ethics</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/privacy-policy">Privacy policy</Link>
           </Stack>
         </Grid>
       </Grid>

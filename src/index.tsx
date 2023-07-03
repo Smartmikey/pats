@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import * as DOTENV from 'dotenv'
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -27,6 +28,8 @@ import AnimalShelter from "./Legal/AnimalShelter";
 import BreederCode from "./Legal/BreederCode";
 import LivestockOwners from "./Legal/LivestockOwners";
 import PrivacyPolicy from "./Legal/PrivacyPolicy";
+import PaymentForm from "./Common/PaymentForm";
+import EditPet from "./Components/Dashboard/EditPet";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -42,6 +45,7 @@ const breederPath = [
   "/breeder/subscription",
   "/breeder/add-pets",
   "/breeder/available-pets",
+  "/breeder/edit-pet/*",
 ];
 const userPath = [
   '/pet',
@@ -65,7 +69,7 @@ root.render(
         <HeaderNav />
         <Switch>
           <Route path="/" exact component={LandingPage} />
-          <Route path="/how-it-works" component={LearnMore} />
+          {/* <Route path="/how-it-works" component={LearnMore} /> */}
           <Route path="/about-us" component={About} />
           <Route path="/change-password" component={ChangedPassword} />
           <Route path="/forgot-password" component={ForgotPassword} />
@@ -81,6 +85,8 @@ root.render(
           <Route path="/breeders-code-of-ethics" component={BreederCode} />
           <Route path="/livestock-ouwners-code-of-ethics" component={LivestockOwners} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
+          {/* <Route path="/payment" component={PaymentForm} /> */}
+          {/* <Route path="/breeder/edit-pet/:id" component={EditPet} /> */}
           <Wrapper
             allowedPaths={{
               breeder: breederPath,
@@ -92,6 +98,7 @@ root.render(
             <Route path="/user" component={UserIndex} />
           </Wrapper>
         </Switch>
+          <Footer />
       </Router>
     </Provider>
     {/* </ThemeProvider> */}

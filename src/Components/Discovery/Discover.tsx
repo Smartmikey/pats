@@ -25,6 +25,7 @@ import PetCard from "./PetCard";
 import { useEffect, useState } from "react";
 import Axios from "../../API/Axios";
 import { useHistory, useParams, Link } from "react-router-dom";
+import { capitalizeFirstLowercaseRest } from "../../utility";
 
 const Discover = () => {
   const [pets, setPets] = useState<any>();
@@ -108,7 +109,7 @@ const Discover = () => {
             <Paper sx={{ p: { xs: 1, md: 3 }, width: "100%" }}>
               <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h3" fontWeight={600}>
-                  {pet?.name || ""}
+                  {capitalizeFirstLowercaseRest(pet?.name || "")}
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
                   <Link to="#">{pet?.breed.name}</Link> |{" "}
@@ -174,7 +175,7 @@ const Discover = () => {
                       <Typography fontWeight={600} sx={{ width: "140px" }}>
                         Cared for by
                       </Typography>
-                      <ListItemText><Link to={`/breeder-profile/${pet?.member_id}`}>{`${pet?.member.name } ${pet?.member.last_name }`}</Link></ListItemText>
+                      <ListItemText><Link to={`/breeder-profile/${pet?.member_id}`}>{`${capitalizeFirstLowercaseRest(pet?.member?.name) } ${capitalizeFirstLowercaseRest(pet?.member?.last_name) }`}</Link></ListItemText>
                     </ListItem>
                     <ListItem>
                       <Typography fontWeight={600} sx={{ width: "140px" }}>

@@ -38,7 +38,7 @@ const Signup = () => {
 
   return (
     <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
-      <Popup open={false} />
+      {/* <Popup open={false} /> */}
       <Grid item md={4} sx={{position: 'relative'}}>
         <img style={{position: 'absolute', bottom: 0}} width='100%' src='dog-head.png' alt='dog head' />
       </Grid>

@@ -18,14 +18,21 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import RadioGroup from "@mui/joy/RadioGroup";
 import FormLabel from "@mui/joy/FormLabel";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
 import Sheet from "@mui/joy/Sheet";
 import { FieldValues, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 import Axios from "../../API/Axios";
 import AutocompleteWithDialog from "../../Common/AutocompleteWithDialog";
+import { Autocomplete, Chip } from "@mui/joy";
+import { Close } from "@mui/icons-material";
+import { getIdsAsString } from "../../utility";
+import { Field } from "../../interface/Pet";
+import jwtDecode from "jwt-decode";
+import { useCookies } from "react-cookie";
+import { LoadingButton } from "@mui/lab";
 
 interface BreederFormInterface {
   breeder_type: string;
@@ -42,14 +49,24 @@ interface BreederFormInterface {
 
 const SignupBreeder = () => {
   const [incorrectPassword, setIncorrectPassword] = useState<Boolean>(false);
+  const [fetching, setFetching] = useState<Boolean>(false);
+  const [companyType, setCompanyType] = useState<any>();
+  const [breederType, setBreederType] = useState<any>([]);
+  const [userToken, setUserToken, removeToken] = useCookies(["token"]);
+
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [state, setState] = useReducer(
+    (state: any, newState: any) => ({ ...state, ...newState }),
+    {}
+  );
+  const navigate = useHistory();
   const registerBreeder = async (data: FieldValues) => {
+    setFetching(true);
     let { terms, confirm_password, ...rest } = data;
     if (data.confirm_password !== data.password) {
       setIncorrectPassword(true);
@@ -63,17 +80,64 @@ const SignupBreeder = () => {
       web_site: "",
       address: "",
       date_information: "",
-      company_type: 1,
-      breeder_type: 1,
-      location_id: 1
+      breeder_type: state.breeder_type,
+      location_id: state.location.id,
     };
     setIncorrectPassword(false);
-    const response = await Axios.post("/member/register", {...rest});
+    const response = await Axios.post("/member/register", { ...rest });
+    if (response.status === 200) {
+      const verify = await Axios.get(
+        `/s/member-activate/${response.data.token}`
+      );
+      console.log(verify);
+      try {
+        const logginRes: any = await Axios.post("/login", {
+          email: response.data.data.email,
+          password: data.password,
+        });
+
+        const {
+          data: { token },
+        } = await logginRes?.data;
+
+        const decodedToken: any = jwtDecode(token);
+        removeToken("token");
+        setUserToken("token", token);
+        if (decodedToken.role === "ROLE_MEMBER") {
+          return navigate.push("/breeder");
+        } else if (decodedToken.role === "ROLE_USER") {
+          return navigate.push("/user");
+        } else {
+          // setError('Invalid role');
+        }
+      } catch (error: any) {
+        setFetching(false);
+        // setErrorMsg(error.response.data.detail);
+        console.log(error);
+      }
+    }
   };
+  console.log(state);
+
+  const locationField: Field[] = [
+    { name: "name", type: "string" },
+    { name: "description", type: "string" },
+    { name: "city", type: "string", data: state.cityRes },
+    { name: "state", type: "string", data: state.stateRes },
+  ];
+  console.log(errors);
 
   useEffect(() => {
-    
-  }, [])
+    Axios.get("/company_type").then((res) => {
+      setCompanyType(res.data.data);
+    });
+    Axios.get("/category/pets/").then((res) => {
+      setBreederType(res.data.data);
+    });
+    Axios.get("/location").then((res) => {
+      setState({ locationRes: res.data.data });
+    });
+  }, []);
 
   return (
     <Grid
@@ -193,13 +257,21 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Location:
                 </InputLabel>
-                <InputWithoutBorder
+                <AutocompleteWithDialog
+                  getValue={{ state, setState }}
+                  data={state?.locationRes}
+                  field={locationField}
+                  endpoint="/location"
+                  title="location"
+                  sx={{ borderRadius: 0 }}
+                />
+                {/* <InputWithoutBorder
                   sx={{ borderColor: errors.location_id && "red" }}
                   {...register("location_id", { required: true })}
                   size="small"
                   fullWidth
                   type="address"
-                />
+                /> */}
                 {/* <AutocompleteWithDialog
                   getValue={{ state, setState }}
                   data={state?.petLocation}
@@ -251,11 +323,11 @@ const SignupBreeder = () => {
                     },
                   }}
                 >
-                  {["Shelter", "Breeder", "Livestock", "Rescue"].map(
-                    (value) => (
+                  {companyType &&
+                    companyType.map((value: any) => (
                       <Sheet
                         {...register("company_type", { required: true })}
-                        key={value}
+                        key={value.id}
                         variant="outlined"
                         sx={{
                           borderRadius: "md",
@@ -270,15 +342,14 @@ const SignupBreeder = () => {
                         }}
                       >
                         <Radio
-                          id={value}
-                          value={value}
+                          id={value.id}
+                          value={value.id}
                           checkedIcon={<CheckCircleRoundedIcon />}
                         />
-                        <img src={`${value}.svg`} width="50px" />
-                        <FormLabel htmlFor={value}>{value}</FormLabel>
+                        <img src={`${value.name}.svg`} width="50px" />
+                        <FormLabel htmlFor={value.id}>{value.name}</FormLabel>
                       </Sheet>
-                    )
-                  )}
+                    ))}
                 </RadioGroup>
                 {errors.company_type && (
                   <Typography variant="caption" sx={{ color: "red" }}>
@@ -292,12 +363,37 @@ const SignupBreeder = () => {
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Type of breeder:
                 </InputLabel>
-                <InputWithoutBorder
+                <Autocomplete
+                  variant="soft"
+                  // multiple
+                  // {...register("desired_pet", { required: true })}
+                  onChange={(e, newValue) => {
+                    setState({ breeder_type: newValue.id });
+                  }}
+                  getOptionLabel={(option: any) => option.name}
+                  // placeholder="Combo box"
+                  options={breederType}
+                  sx={{ borderRadius: 0 }}
+                  renderTags={(tags, getTagProps) =>
+                    tags.map((item, index) => (
+                      <Chip
+                        variant="solid"
+                        // color=""
+                        endDecorator={<Close />}
+                        {...getTagProps({ index })}
+                      >
+                        {item.name}
+                      </Chip>
+                    ))
+                  }
+                  // sx={{ width: 300 }}
+                />
+                {/* <InputWithoutBorder
                   sx={{ borderColor: errors.breeder_type && "red" }}
                   {...register("breeder_type", { required: true })}
                   size="small"
                   fullWidth
-                />
+                /> */}
                 {errors.breeder_type && (
                   <Typography variant="caption" sx={{ color: "red" }}>
                     breeder type cannot be blank
@@ -367,7 +463,7 @@ const SignupBreeder = () => {
                   </Typography>
                 }
               />
-              {errors.password && (
+              {errors.terms && (
                 <Typography variant="caption" sx={{ color: "red" }}>
                   Read and agree to our terms and conditions
                 </Typography>
@@ -375,7 +471,11 @@ const SignupBreeder = () => {
             </Grid>
             <Grid item xs={12}>
               <Container maxWidth="sm" sx={{ textAlign: "center" }}>
-                <Button
+                {fetching ? (
+                  <LoadingButton loading variant="outlined">
+                    Submit
+                  </LoadingButton>
+                ) :(<Button
                   // disabled={errors}
                   sx={{
                     bgcolor: colors.primary,
@@ -386,7 +486,7 @@ const SignupBreeder = () => {
                   type="submit"
                 >
                   Create account
-                </Button>
+                </Button>)}
                 {/* <Divider flexItem>or</Divider>
                 <Button
                   startIcon={<img src="google.png" width="20px" />}

@@ -160,7 +160,7 @@ const Profile = () => {
             <>
               <>
                 <Editor
-                  apiKey="yjlgp2hgqr7zs8y933q2y9hnei13zglvp76unch3m8zgr5cy"
+                  apiKey={process.env.REACT_APP_EDITOR_API_KEY}
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   initialValue={userProfile?.about || ""}
                   init={{

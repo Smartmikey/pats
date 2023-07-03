@@ -13,7 +13,7 @@ const Review = ({ size }: Props) => {
           component="img"
           alt="green iguana"
           height="140"
-          image="_placeholderImage.png"
+          image="/_placeholderImage.png"
           sx={{borderRadius: '12px'}}
         />
         <CardContent>

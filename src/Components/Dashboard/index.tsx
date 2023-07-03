@@ -10,6 +10,7 @@ import Subscription from "./Subscription";
 import AddPet from "./AddPet";
 import { House, Person, Pets, Settings } from "@mui/icons-material";
 import Home from "./Home";
+import EditPet from "./EditPet";
 
 const Index = () => {
   const menuItemsdata = [
@@ -57,6 +58,8 @@ const Index = () => {
             <Route path="/breeder/password" component={Password} />
             <Route path="/breeder/subscription" component={Subscription} />
             <Route path="/breeder/add-pets" component={AddPet} />
+            
+          <Route path="/breeder/edit-pet/:id" component={EditPet} />
             <Route path="/"  component={Home} />
           </Switch>
           {/* </Router> */}

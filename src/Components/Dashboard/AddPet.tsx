@@ -29,6 +29,7 @@ import { top100Films } from "../../data";
 import { Field } from "../../interface/Pet";
 import FormData from "form-data";
 import useAuth from "../../Hooks/Auth";
+import { AttachMoney } from "@mui/icons-material";
 
 
 const AddPet = () => {
@@ -55,20 +56,12 @@ const AddPet = () => {
     { name: "description", type: "string" },
   ];
 
-  // const TypeOfAnimal = [
-  //   {
-  //     id: 1,
-  //     name: "Dog",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Cat",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Rat",
-  //   },
-  // ];
+  const locationField: Field[] = [
+    { name: "name", type: "string" },
+    { name: "description", type: "string" },
+    { name: "city", type: "string", data: state.cityRes },
+    { name: "state", type: "string", data: state.stateRes },
+  ];
 
   let formData = new FormData();
 
@@ -119,6 +112,8 @@ const AddPet = () => {
       const petChar = Axios.get("pet/pet-characteristic/");
       const petCategory = Axios.get("category/pets/");
       const petLocation = Axios.get("location");
+      const cityRes = Axios.get("city");
+      const stateRes = Axios.get("state");
       // const petAge = Axios.get("pet/age");
 
       setState({
@@ -129,7 +124,9 @@ const AddPet = () => {
         // petAge: (await petAge).data.data,
         petChar: (await petChar).data.data,
         petCategory: (await petCategory).data.data,
-        petLocation: (await petLocation).data.data,
+        locationRes: (await petLocation).data.data,
+        cityRes: (await cityRes).data.data,
+        stateRes: (await stateRes).data.data,
       });
     };
     makeAllCalls();
@@ -268,6 +265,7 @@ const AddPet = () => {
               </Grid>
               <Grid item xs={12} md={8}>
                 <Input
+                startDecorator={<AttachMoney />}
                   {...register("price", { required: true })}
                   variant="soft"
                   placeholder="e.g $1000"
@@ -360,13 +358,13 @@ const AddPet = () => {
                 </FormLabel>
               </Grid>
               <Grid item xs={12} md={8}>
-                <AutocompleteWithDialog
-                  getValue={{ state, setState }}
-                  data={state?.petLocation}
-                  field={BreederFields}
-                  endpoint="/location/create"
-                  title="location"
-                />
+              <AutocompleteWithDialog
+                        getValue={{ state, setState }}
+                        data={state?.locationRes || []}
+                        field={locationField}
+                        endpoint="/location"
+                        title="location"
+                      />
               </Grid>
             </Grid>
           </Grid>

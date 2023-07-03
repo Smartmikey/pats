@@ -61,7 +61,7 @@ const PetCard = ({size, data, sx, Action}: Props) => {
         </Box>
         
         <CardContent>
-            <Typography sx={{fontWeight: 600}}>{data.member.display_name}</Typography>
+            <Typography sx={{fontWeight: 600}}>{capitalizeFirstLowercaseRest(data.member.name)} {capitalizeFirstLowercaseRest(data.member.last_name)}</Typography>
             <Typography variant="subtitle2">{data.breed.name}</Typography>
             <Typography variant="subtitle2">{data.age} | {data.gender.name}</Typography>
             <Divider sx={{my: 1.5}} />
@@ -69,12 +69,12 @@ const PetCard = ({size, data, sx, Action}: Props) => {
             {data.description}
           </Typography>
         </CardContent>
-        <CardActions sx={{ justifyContent: "end" }}>
+        {Action && (<CardActions sx={{ justifyContent: "end" }}>
           <Box>
             {Action}
             
           </Box>
-        </CardActions>
+        </CardActions>)}
       </Card>
     </Grid>
   );

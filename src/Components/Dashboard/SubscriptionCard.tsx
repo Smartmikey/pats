@@ -14,18 +14,21 @@ import {
 } from "@mui/material";
 import { colors } from "../../Constants";
 import { Pets } from "@mui/icons-material";
+import Popup from "../../Common/Popup";
 
 interface Props {
   name: string;
   price: number;
   index: number;
   benefits: string[];
+  onClick?: any;
+  active?: boolean;
 }
 
-const SubscriptionCard = ({ name, price, index, benefits }: Props) => {
+const SubscriptionCard = ({ name, price, index, benefits, onClick, active }: Props) => {
   // const {name, price, index, benefits} = data;
   return (
-    <Grid item xs={12} md={4}>
+    <Grid item xs={12} md={4} onClick={onClick}>
       <Box
         sx={{
           position: "relative",
@@ -35,7 +38,8 @@ const SubscriptionCard = ({ name, price, index, benefits }: Props) => {
           borderRadius: "5px",
           p: {xs: 1, md:3},
           minHeight: "400px",
-          cursor: "pointer"
+          cursor: "pointer",
+          borderTop: active ? `5px solid ${colors.primary}` : "1px solid rgba(217, 217, 217, 1)",
         }}
       >
         <Avatar

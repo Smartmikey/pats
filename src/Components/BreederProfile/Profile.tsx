@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../Constants";
 import AboutMe from "./AboutMe";
 import AdoptionProcess from "./AdoptionProcess";
@@ -18,13 +18,40 @@ import Explore from "./Explore";
 import Reviews from "./Reviews";
 import SimilarBreed from "./SimilarBreed";
 import WriteReview from "./WriteReview";
+import { useParams } from "react-router-dom";
+import Axios from "../../API/Axios";
+import { capitalize } from "@material-ui/core";
+import { capitalizeFirstLowercaseRest } from "../../utility";
 
 const Profile = () => {
   const [value, setValue] = useState("one");
-
+  const [breederProfile, setBreederProfile] = useState<any>()
+const { id } = useParams<any>();
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+console.log(breederProfile);
+
+  useEffect(() => {
+    // if (user?.id) {
+      Axios.get(`member/breeder/${id}`).then((res) => {
+        console.log(res);
+        
+        setBreederProfile(res.data.data[0]);
+      });
+    // }
+    // const getBreederProfile = async () => {
+    //   const cityRes = Axios.get("city");
+    //   const stateRes = Axios.get("state");
+    //   const locationRes = Axios.get("location");
+    //   setState({
+    //     cityRes: (await cityRes).data.data,
+    //     stateRes: (await stateRes).data.data,
+    //     locationRes: (await locationRes).data.data,
+    //   });
+    // };
+    // getBreederProfile();
+  }, [id]);
   return (
     <Box sx={{ mt: 12 }}>
       <Box maxHeight="300px">
@@ -50,8 +77,8 @@ const Profile = () => {
               sx={{ width: 150, height: 150, mt: -9 }}
             />
             <Box sx={{ flex: 1 }}>
-              <Typography variant="h4" sx={{fontSize: {xs: '24px'}}}>Little Paws Breeder</Typography>
-              <Typography variant="subtitle2">Random things</Typography>
+              <Typography variant="h4" sx={{fontSize: {xs: '24px'}}}>{capitalizeFirstLowercaseRest(`${breederProfile?.name} ${breederProfile?.last_name}`)}</Typography>
+              <Typography variant="subtitle2">Breed's {capitalizeFirstLowercaseRest(breederProfile?.breeder_type?.name)}</Typography>
             </Box>
             <Button
               sx={{
@@ -93,12 +120,12 @@ const Profile = () => {
           <ModifiedTab sx={{fontSize: {xs: '10px', md: '18px'}}} value="two" label="Available pets" />
           <ModifiedTab sx={{fontSize: {xs: '10px', md: '18px'}}} value="three" label="Reviews" />
         </Tabs>
-        {value === 'one' &&(<AboutMe />)}
-        {value === 'two' &&(<AvailablePets />)}
+        {value === 'one' &&(<AboutMe data={breederProfile || {}} />)}
+        {value === 'two' &&(<AvailablePets data={breederProfile || {}} />)}
         {value === 'three' &&(<Reviews />)}
         
       </Box>
-      {value === 'one' &&(<AdoptionProcess />)}
+      {value === 'one' &&(<AdoptionProcess data={breederProfile || {}} />)}
       {value === 'three' &&(<WriteReview />)}
       {(value === 'two' || value === 'three') &&(<SimilarBreed />)}
       

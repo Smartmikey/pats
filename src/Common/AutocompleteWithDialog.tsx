@@ -10,7 +10,7 @@ import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Field } from "../interface/Pet";
 import { FieldValues, useForm } from "react-hook-form";
 import {
@@ -30,14 +30,18 @@ const AutocompleteWithDialog = ({
   getValue,
   endpoint,
   placeholder,
+  sx,
+  defaultValueInput,
 }: AutoCompleteProps) => {
-  const [value, setValue] = useState<any | null>(null);
+  const [value, setValue] = useState<any | null>(defaultValueInput || null);
   const [open, toggleOpen] = useState(false);
   const { register, handleSubmit: handleUseFormSubmit } = useForm();
   let [dialogValue, setDialogValue] = useState<any>({
     name: "",
     description: "",
   });
+
+  
   const handleClose = () => {
     // setDialogValue({
     //   name: '',
@@ -55,22 +59,23 @@ const AutocompleteWithDialog = ({
         // })
       }
     })
-    // console.log("data from inside: ",data);
     
     const response = await Axios.post(endpoint, data);
     getValue.setState({
       ...getValue.state,
-      title: { ...response.data.data },
+      [title]: { ...response.data.data },
       refresh: !getValue.state.refresh,
     });
     // event.preventDefault();
     setValue({
       ...data,
     });
-
+    
     handleClose();
   };
-
+  useEffect(() => {
+  
+}, [value])
   return (
     <React.Fragment>
       <FormControl>
@@ -104,6 +109,7 @@ const AutocompleteWithDialog = ({
                 refresh: !getValue.state.refresh,
               });
             } else {
+              
               setValue(newValue);
               getValue.setState({
                 ...getValue.state,
@@ -114,19 +120,20 @@ const AutocompleteWithDialog = ({
           }}
           filterOptions={(options, params) => {
             const filtered = filter(options, params);
-
+            
             if (params.inputValue !== "") {
               filtered.push({
                 inputValue: params.inputValue,
                 name: `Add "${params.inputValue}"`,
               });
             }
-
+            
             return filtered;
           }}
           options={data}
           getOptionLabel={(option) => {
             // e.g value selected with enter, right from the input
+            
             if (typeof option === "string") {
               return option;
             }
@@ -144,8 +151,9 @@ const AutocompleteWithDialog = ({
               {option.name}
             </AutocompleteOption>
           )}
-          sx={{ width: "100%" }}
-        />
+          sx={{...{ width: "100%" }, ...sx}}
+          defaultValue={defaultValueInput}
+          />
       </FormControl>
       <Modal open={open} onClose={handleClose}>
         <ModalDialog>
@@ -170,7 +178,6 @@ const AutocompleteWithDialog = ({
             </Typography>
             <Stack spacing={2}>
               {field.map((item, index) => {
-                // console.log(item);
                 return (
                   <FormControl key={index} id={item.name}>
                     <FormLabel>{item.name.toUpperCase()}</FormLabel>
@@ -225,6 +232,8 @@ interface AutoCompleteProps {
   title: string;
   getValue: any;
   placeholder?: string;
+  sx?: any,
+  defaultValueInput?: any;
 }
 
 interface FilmOptionType {
