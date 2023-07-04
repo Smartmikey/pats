@@ -30,7 +30,7 @@ import { Field } from "../../interface/Pet";
 import FormData from "form-data";
 import useAuth from "../../Hooks/Auth";
 import { AttachMoney } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const EditPet = () => {
   const {
@@ -41,7 +41,7 @@ const EditPet = () => {
     formState: { errors },
   } = useForm();
 
-  
+  const history = useHistory();
   const [state, setState] = useReducer(
     (state: any, newState: any) => ({ ...state, ...newState }),
     {
@@ -104,6 +104,7 @@ const EditPet = () => {
 
     if (response) reset();
     setState({ isPetAdded: true });
+    history.goBack();
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

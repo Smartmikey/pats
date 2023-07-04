@@ -85,18 +85,17 @@ const Discover = () => {
                 show={1}
                 slide={1}
               >
-                {pet.photos.map((photo: any) => (
+                {pet.photos ? pet.photos.map((photo: any) => (
                   <img
                     src={`${HOSTURL}/${photo.filepath + photo.filename}`}
                     width="100%"
                     alt={pet.name}
                   />
-                ))}
-                {/* <img
+                )):  <img
                 src="/_placeholderimage.png"
                 width="100%"
                 alt="placeholder "
-              />
+              />} {/*}
               <img
                 src="/_placeholderimage.png"
                 width="100%"
