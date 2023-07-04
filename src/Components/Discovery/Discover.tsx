@@ -94,7 +94,7 @@ const Discover = () => {
                 )):  <img
                 src="/_placeholderimage.png"
                 width="100%"
-                alt="placeholder "
+                alt="placeholder test"
               />} {/*}
               <img
                 src="/_placeholderimage.png"
