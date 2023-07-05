@@ -1106,6 +1106,447 @@ const PrivacyPolicy = () => {
           The CCPA/CPRA provides California residents with specific rights
           regarding their personal information. If You are a resident of
           California, You have the following rights:
+          <ul>
+            <li>
+              The right to notice. You have the right to be notified which
+              categories of Personal Data are being collected and the purposes
+              for which the Personal Data is being used.
+            </li>
+            <li>
+              The right to know/access. Under CCPA/CPRA, You have the right to
+              request that We disclose information to You about Our collection,
+              use, sale, disclosure for business purposes and share of personal
+              information. Once We receive and confirm Your request, We will
+              disclose to You:
+              <ul>
+                <li>
+                  The categories of personal information We collected about You
+                </li>
+                <li>
+                  The categories of sources for the personal information We
+                  collected about You
+                </li>
+                <li>
+                  Our business or commercial purposes for collecting or selling
+                  that personal information
+                </li>
+                <li>
+                  The categories of third parties with whom We share that
+                  personal information
+                </li>
+                <li>
+                  The specific pieces of personal information We collected about
+                  You
+                </li>
+                <li>
+                  If we sold Your personal information or disclosed Your
+                  personal information for a business purpose, We will disclose
+                  to You:
+                  <ul>
+                    <li>
+                      The categories of personal information categories sold
+                    </li>
+                    <li>
+                      The categories of personal information categories
+                      disclosed
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              The right to say no to the sale or sharing of Personal Data
+              (opt-out). You have the right to direct Us to not sell Your
+              personal information. To submit an opt-out request, please see the
+              "Do Not Sell My Personal Information" section or contact Us.
+            </li>
+            <li>
+              The right to correct Personal Data. You have the right to correct
+              or rectify any any inaccurate personal information about You that
+              We collected. Once We receive and confirm Your request, We will
+              use commercially reasonable efforts to correct (and direct our
+              Service Providers to correct) Your personal information, unless an
+              exception applies.
+            </li>
+            <li>
+              The right to limit use and disclosure of sensitive Personal Data.
+              You have the right to request to limit the use or disclosure of
+              certain sensitive personal information We collected about You,
+              unless an exception applies. To submit, please see the "Limit the
+              Use or Disclosure of My Sensitive Personal Information" section or
+              contact Us.
+            </li>
+            <li>
+              The right to delete Personal Data. You have the right to request
+              the deletion of Your Personal Data under certain circumstances,
+              subject to certain exceptions. Once We receive and confirm Your
+              request, We will delete (and direct Our Service Providers to
+              delete) Your personal information from our records, unless an
+              exception applies. We may deny Your deletion request if retaining
+              the information is necessary for Us or Our Service Providers to:
+              <ul>
+                <li>
+                  Complete the transaction for which We collected the personal
+                  information, provide a good or service that You requested,
+                  take actions reasonably anticipated within the context of our
+                  ongoing business relationship with You, or otherwise perform
+                  our contract with You.
+                </li>
+                <li>
+                  Detect security incidents, protect against malicious,
+                  deceptive, fraudulent, or illegal activity, or prosecute those
+                  responsible for such activities.
+                </li>
+                <li>
+                  Debug products to identify and repair errors that impair
+                  existing intended functionality.
+                </li>
+                <li>
+                  Exercise free speech, ensure the right of another consumer to
+                  exercise their free speech rights, or exercise another right
+                  provided for by law.
+                </li>
+                <li>
+                  Comply with the California Electronic Communications Privacy
+                  Act (Cal. Penal Code § 1546 et. seq.).
+                </li>
+                <li>
+                  Engage in public or peer-reviewed scientific, historical, or
+                  statistical research in the public interest that adheres to
+                  all other applicable ethics and privacy laws, when the
+                  information's deletion may likely render impossible or
+                  seriously impair the research's achievement, if You previously
+                  provided informed consent.
+                </li>
+                <li>
+                  Enable solely internal uses that are reasonably aligned with
+                  consumer expectations based on Your relationship with Us.
+                </li>
+                <li>Comply with a legal obligation.</li>
+                <li>
+                  Make other internal and lawful uses of that information that
+                  are compatible with the context in which You provided it.
+                </li>
+              </ul>
+            </li>
+            <li>
+              The right not to be discriminated against. You have the right not
+              to be discriminated against for exercising any of Your consumer's
+              rights, including by:
+              <ul>
+                <li>Denying goods or services to You</li>
+                <li>
+                  Charging different prices or rates for goods or services,
+                  including the use of discounts or other benefits or imposing
+                  penalties
+                </li>
+                <li>
+                  Providing a different level or quality of goods or services to
+                  You
+                </li>
+                <li>
+                  Suggesting that You will receive a different price or rate for
+                  goods or services or a different level or quality of goods or
+                  services
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </Typography>
+        <Title
+          text="Exercising Your CCPA/CPRA Data Protection Rights"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Please see the "Do Not Sell My Personal Information" section and
+          "Limit the Use or Disclosure of My Sensitive Personal Information"
+          section for more information on how to opt out and limit the use of
+          sensitive information collected.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Additionally, in order to exercise any of Your rights under the
+          CCPA/CPRA, and if You are a California resident, You can contact Us:
+          <ul>
+            <li>
+              By email:{" "}
+              <Link to="mailto:info@yourpats.com" target="_blank">
+                info@yourpats.com
+              </Link>
+            </li>
+          </ul>
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Only You, or a person registered with the California Secretary of
+          State that You authorize to act on Your behalf, may make a verifiable
+          request related to Your personal information.
+          <br />
+          Your request to Us must:{" "}
+          <ul>
+            <li>
+              Provide sufficient information that allows Us to reasonably verify
+              You are the person about whom We collected personal information or
+              an authorized representative
+            </li>
+            <li>
+              Describe Your request with sufficient detail that allows Us to
+              properly understand, evaluate, and respond to it
+            </li>
+            <p>
+              We cannot respond to Your request or provide You with the required
+              information if We cannot:
+            </p>
+            <li>Verify Your identity or authority to make the request</li>
+            <li>And confirm that the personal information relates to You</li>
+          </ul>
+          We will disclose and deliver the required information free of charge
+          within 45 days of receiving Your verifiable request. The time period
+          to provide the required information may be extended once by an
+          additional 45 days when reasonably necessary and with prior notice.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Any disclosures We provide will only cover the 12-month period
+          preceding the verifiable request's receipt.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          For data portability requests, We will select a format to provide Your
+          personal information that is readily usable and should allow You to
+          transmit the information from one entity to another entity without
+          hindrance.
+        </Typography>
+        <Title
+          text="Do Not Sell My Personal Information"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          As defined in the CCPA/CPRA, "sell" and "sale" mean selling, renting,
+          releasing, disclosing, disseminating, making available, transferring,
+          or otherwise communicating orally, in writing, or by electronic or
+          other means, a Consumer's personal information by the Business to a
+          third party for valuable consideration. This means that We may have
+          received some kind of benefit in return for sharing personal
+          information, but not necessarily a monetary benefit.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          We do not sell personal information as the term sell is commonly
+          understood. We do allow Service Providers to use Your personal
+          information for the business purposes described in Our Privacy Policy,
+          for activities such as advertising, marketing, and analytics, and
+          these may be deemed a sale under CCPA/CPRA.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          You have the right to opt-out of the sale of Your personal
+          information. Once We receive and confirm a verifiable consumer request
+          from You, we will stop selling Your personal information. To exercise
+          Your right to opt-out, please contact Us.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          The Service Providers we partner with (for example, our analytics or
+          advertising partners) may use technology on the Service that sells
+          personal information as defined by the CCPA/CPRA law. If you wish to
+          opt out of the use of Your personal information for interest-based
+          advertising purposes and these potential sales as defined under
+          CCPA/CPRA law, you may do so by following the instructions below.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Please note that any opt out is specific to the browser You use. You
+          may need to opt out on every browser that You use.
+        </Typography>
+        <Title text="Website" sx={{ m: 1, ml: 0 }} variation="small" />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          If applicable, click "Privacy Preferences", "Update Privacy
+          Preferences" or "Do Not Sell My Personal Information" buttons listed
+          on the Service to review your privacy preferences and opt out of
+          cookies and other technologies that We may use. Please note that You
+          will need to opt out from each browser that You use to access the
+          Service.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Additionally, You can opt out of receiving ads that are personalized
+          as served by our Service Providers by following our instructions
+          presented on the Service:
+          <ul>
+            <li>
+              • The NAI's opt-out platform:{" "}
+              <Link
+                to="http://www.networkadvertising.org/choices/"
+                target="_blank"
+              >
+                http://www.networkadvertising.org/choices/
+              </Link>
+            </li>
+            <li>
+              • The EDAA's opt-out platform{" "}
+              <Link to="http://www.youronlinechoices.com/" target="_blank">
+                http://www.youronlinechoices.com/
+              </Link>
+            </li>
+            <li>
+              • The DAA's opt-out platform:{" "}
+              <Link
+                to="http://optout.aboutads.info/?c=2&lang=EN"
+                target="_blank"
+              >
+                http://optout.aboutads.info/?c=2&lang=EN
+              </Link>
+            </li>
+          </ul>
+          <p>
+            The opt out will place a cookie on Your computer that is unique to
+            the browser You use to opt out. If you change browsers or delete the
+            cookies saved by your browser, You will need to opt out again.
+          </p>
+        </Typography>
+        <Title text="Mobile Devices" sx={{ m: 1, ml: 0 }} variation="small" />
+
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Your mobile device may give You the ability to opt out of the use of
+          information about the apps You use in order to serve You ads that are
+          targeted to Your interests:
+          <ul>
+            <li>
+              • "Opt out of Interest-Based Ads" or "Opt out of Ads
+              Personalization" on Android devices
+            </li>
+            <li>• "Limit Ad Tracking" on iOS devices</li>
+          </ul>
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          You can also stop the collection of location information from Your
+          mobile device by changing the preferences on Your mobile device.
+        </Typography>
+        <Title
+          text="Limit the Use or Disclosure of My Sensitive Personal Information"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          If You are a California resident, You have the right to limit the use
+          and disclosure of Your sensitive personal information to that use
+          which is necessary to perform the services or provide the goods
+          reasonably expected by an average Consumer who requests such services
+          or goods.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          We collect, use and disclose sensitive personal information in ways
+          that are necessary to provide the Service. For more information on how
+          We use Your personal information, please see the "Use of Your Personal
+          Data" section or contact us.
+        </Typography>
+        <Title
+          text="'Do Not Track' Policy as Required by California Online Privacy Protection Act (CalOPPA)"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Our Service does not respond to Do Not Track signals.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          However, some third party websites do keep track of Your browsing
+          activities. If You are visiting such websites, You can set Your
+          preferences in Your web browser to inform websites that You do not
+          want to be tracked. You can enable or disable DNT by visiting the
+          preferences or settings page of Your web browser.
+        </Typography>
+        <Title
+          text="Your California Privacy Rights (California's Shine the Light law)"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Under California Civil Code Section 1798 (California's Shine the Light
+          law), California residents with an established business relationship
+          with us can request information once a year about sharing their
+          Personal Data with third parties for the third parties' direct
+          marketing purposes.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          If you'd like to request more information under the California Shine
+          the Light law, and if You are a California resident, You can contact
+          Us using the contact information provided below.{" "}
+        </Typography>
+        <Title
+          text="California Privacy Rights for Minor Users (California Business and Professions Code Section 22581)"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          California Business and Professions Code Section 22581 allows
+          California residents under the age of 18 who are registered users of
+          online sites, services or applications to request and obtain removal
+          of content or information they have publicly posted.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          To request removal of such data, and if You are a California resident,
+          You can contact Us using the contact information provided below, and
+          include the email address associated with Your account.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Be aware that Your request does not guarantee complete or
+          comprehensive removal of content or information posted online and that
+          the law may not permit or require removal in certain circumstances.
+        </Typography>
+        <Title
+          text="Children's Privacy"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+          Our Service does not address anyone under the age of 13. We do not
+          knowingly collect personally identifiable information from anyone
+          under the age of 13. If You are a parent or guardian and You are aware
+          that Your child has provided Us with Personal Data, please contact Us.
+          If We become aware that We have collected Personal Data from anyone
+          under the age of 13 without verification of parental consent, We take
+          steps to remove that information from Our servers.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+          If We need to rely on consent as a legal basis for processing Your
+          information and Your country requires consent from a parent, We may
+          require Your parent's consent before We collect and use that
+          information.{" "}
+        </Typography>
+        <Title
+          text="Links to Other Websites"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+        Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+        We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
+        </Typography>
+        <Title
+          text="Changes to this Privacy Policy"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+        We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+        We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy.
+        </Typography>
+        <Typography sx={{ m: 1, ml: 0 }}>
+        You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+        </Typography>
+        <Title
+          text="Contact Us"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ m: 1, ml: 0 }}>
+        If you have any questions about this Privacy Policy, You can contact us:
+        <ul>
+            <li>
+              By email:{" "}
+              <Link to="mailto:info@yourpats.com" target="_blank">
+                info@yourpats.com
+              </Link>
+            </li>
+          </ul>
         </Typography>
       </Container>
     </Box>
