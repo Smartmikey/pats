@@ -33,14 +33,14 @@ const Login = () => {
   const [fetching, setFetching] = useState(false);
   const navigate = useHistory();
 
-  const isUserLoggedIn = async () => {
+  // const isUserLoggedIn = async () => {
     
 
-    if (await userToken.token) {
-      return (window.location.href = "/");
-    }
-    return null;
-  };
+  //   if (await userToken.token) {
+  //     return (window.location.href = "/");
+  //   }
+  //   return null;
+  // };
 
   const onSubmit = async (data: any) => {
     setFetching(true);

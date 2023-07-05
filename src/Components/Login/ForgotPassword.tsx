@@ -15,13 +15,25 @@ import { Link } from "react-router-dom";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
 import { FieldValues, useForm } from "react-hook-form";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
+import Axios from "../../API/Axios";
 
 const ForgotPassword = () => {
-
-  const {register, handleSubmit } = useForm();
+  const [fetching, setFetching] = useState(false);
+  const [message, setMessage] = useState("")
+  const {register, handleSubmit, reset } = useForm();
 
   const requestPassword = (data: FieldValues) => {
-
+    
+    setFetching(true)
+    Axios.post('user/requestpasswordreset', data).then(response => {
+      if(response.status === 200) {
+        setMessage("Check your email for further instructions")
+      }
+      reset();
+      setFetching(false)
+    });
   }
   return (
     <Grid container sx={{ mt: 12, minHeight: { md: "60vh" } }}>
@@ -49,6 +61,7 @@ const ForgotPassword = () => {
                   Email:
                 </InputLabel>
                 <InputWithoutBorder {...register("email", {required: true})} size='small' type='email' fullWidth />
+                {message && <Typography color={colors.primary}>{message}</Typography>}
               </Box>
             </Grid>
             
@@ -56,7 +69,11 @@ const ForgotPassword = () => {
             
             <Grid item xs={12}>
               <Container maxWidth="sm" sx={{ textAlign: "center" }}>
-                <Button
+                {fetching ? (
+                  <LoadingButton loading variant="outlined">
+                    Submit
+                  </LoadingButton>
+                ) : (<Button
                   sx={{
                     bgcolor: colors.primary,
                     "&:hover": { bgcolor: colors.primary },
@@ -66,7 +83,7 @@ const ForgotPassword = () => {
                   variant="contained"
                 >
                   Request change
-                </Button>
+                </Button>)}
                 {/* <Divider flexItem>or</Divider>
                 <Button
                   startIcon={<img src="google.png" width="20px" />}

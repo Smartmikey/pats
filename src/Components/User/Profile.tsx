@@ -50,7 +50,6 @@ const Profile = () => {
     { name: "city", type: "string", data: state.cityRes },
     { name: "state", type: "string", data: state.stateRes },
   ];
-
   const updateUserProfile = async (data: FieldValues) => {
     const { id, ...rest } = userProfile;
 
@@ -69,31 +68,26 @@ const Profile = () => {
     }
     console.log(response);
   };
-
+  console.log(userProfile, user?.id);
 
   useEffect(() => {
+    if (user?.id) {
+      Axios.get(`member/breeder/${user?.id}`).then((res) => {
+        setUserProfile(res.data.data[0]);
+      });
+    }
     const getBreederProfile = async () => {
-      const locationRes = await Axios.get("location");
-      const cityRes = await Axios.get("city");
-      const stateRes = await Axios.get("state");
-      const desiredRes = await Axios.get("/category/pets/");
-      const breedRes = await Axios.get("/pet/breed");
-      const sizeRes = await Axios.get("/pet/size");
-      // const colorRes = await Axios.get("/pet/color");
-      const genderRes = await Axios.get("/pet/gender");
+      const cityRes = Axios.get("city");
+      const stateRes = Axios.get("state");
+      const locationRes = Axios.get("location");
       setState({
-        locationRes: await locationRes.data.data,
-        cityRes: await cityRes.data.data,
-        stateRes: await stateRes.data.data,
-        desiredRes: await desiredRes.data.data,
-        breedRes: await breedRes.data.data,
-        sizeRes: await sizeRes.data.data,
-        // colorRes: await colorRes.data.data,
-        genderRes: await genderRes.data.data,
+        cityRes: (await cityRes).data.data,
+        stateRes: (await stateRes).data.data,
+        locationRes: (await locationRes).data.data,
       });
     };
     getBreederProfile();
-  }, [user, state.refresh]);
+  }, [user?.id]);
   return (
     <Box>
       <Box maxHeight="300px">

@@ -504,6 +504,609 @@ const PrivacyPolicy = () => {
           improve the functionality of Our Service, or We are legally obligated
           to retain this data for longer time periods.
         </Typography>
+        <Title
+          text="Transfer of Your Personal Data"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography>
+          Your information, including Personal Data, is processed at the
+          Company's operating offices and in any other places where the parties
+          involved in the processing are located. It means that this information
+          may be transferred to — and maintained on — computers located outside
+          of Your state, province, country or other governmental jurisdiction
+          where the data protection laws may differ than those from Your
+          jurisdiction.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          Your consent to this Privacy Policy followed by Your submission of
+          such information represents Your agreement to that transfer.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          The Company will take all steps reasonably necessary to ensure that
+          Your data is treated securely and in accordance with this Privacy
+          Policy and no transfer of Your Personal Data will take place to an
+          organization or a country unless there are adequate controls in place
+          including the security of Your data and other personal information.
+        </Typography>
+        <Title
+          text="Delete Your Personal Data"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography>
+          You have the right to delete or request that We assist in deleting the
+          Personal Data that We have collected about You.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          Our Service may give You the ability to delete certain information
+          about You from within the Service.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          You may update, amend, or delete Your information at any time by
+          signing in to Your Account, if you have one, and visiting the account
+          settings section that allows you to manage Your personal information.
+          You may also contact Us to request access to, correct, or delete any
+          personal information that You have provided to Us.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          Please note, however, that We may need to retain certain information
+          when we have a legal obligation or lawful basis to do so.
+        </Typography>
+        <Title
+          text="Disclosure of Your Personal Data"
+          sx={{ m: 1, ml: 0 }}
+          variation="medium"
+        />
+        <Title
+          text="Business Transactions"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography>
+          If the Company is involved in a merger, acquisition or asset sale,
+          Your Personal Data may be transferred. We will provide notice before
+          Your Personal Data is transferred and becomes subject to a different
+          Privacy Policy.
+        </Typography>
+        <Title text="Law enforcement" sx={{ m: 1, ml: 0 }} variation="small" />
+        <Typography sx={{ mt: 2 }}>
+          Under certain circumstances, the Company may be required to disclose
+          Your Personal Data if required to do so by law or in response to valid
+          requests by public authorities (e.g. a court or a government agency).
+        </Typography>
+        <Title
+          text="Other legal requirements"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ mt: 2 }}>
+          The Company may disclose Your Personal Data in the good faith belief
+          that such action is necessary to:
+          <ul>
+            <li>Comply with a legal obligation</li>
+            <li>Protect and defend the rights or property of the Company</li>
+            <li>
+              Prevent or investigate possible wrongdoing in connection with the
+              Service
+            </li>
+            <li>
+              Protect the personal safety of Users of the Service or the public
+            </li>
+            <li>Protect against legal liability</li>
+          </ul>
+        </Typography>
+        <Title
+          text="Security of Your Personal Data"
+          sx={{ m: 1, ml: 0 }}
+          variation="medium"
+        />
+        <Typography sx={{ mt: 2 }}>
+          The security of Your Personal Data is important to Us, but remember
+          that no method of transmission over the Internet, or method of
+          electronic storage is 100% secure. While We strive to use commercially
+          acceptable means to protect Your Personal Data, We cannot guarantee
+          its absolute security.
+        </Typography>
+        <Title
+          text="Detailed Information on the Processing of Your Personal Data"
+          sx={{ m: 1, ml: 0 }}
+          variation="medium"
+        />
+        <Typography sx={{ mt: 2 }}>
+          The Service Providers We use may have access to Your Personal Data.
+          These third-party vendors collect, store, use, process and transfer
+          information about Your activity on Our Service in accordance with
+          their Privacy Policies.
+        </Typography>
+        <Title text="Analytics" sx={{ m: 1, ml: 0 }} variation="small" />
+        <Typography sx={{ mt: 2 }}>
+          We may use third-party Service providers to monitor and analyze the
+          use of our Service.
+          <ul>
+            <li>Google Analytics</li>
+          </ul>
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          Google Analytics is a web analytics service offered by Google that
+          tracks and reports website traffic. Google uses the data collected to
+          track and monitor the use of our Service. This data is shared with
+          other Google services. Google may use the collected data to
+          contextualize and personalize the ads of its own advertising network.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          You can opt-out of having made your activity on the Service available
+          to Google Analytics by installing the Google Analytics opt-out browser
+          add-on. The add-on prevents the Google Analytics JavaScript (ga.js,
+          analytics.js and dc.js) from sharing information with Google Analytics
+          about visits activity.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          You may opt-out of certain Google Analytics features through your
+          mobile device settings, such as your device advertising settings or by
+          following the instructions provided by Google in their Privacy Policy:{" "}
+          <Link to="https://policies.google.com/privacy" target="_blank">
+            https://policies.google.com/privacy
+          </Link>
+          .
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          For more information on the privacy practices of Google, please visit
+          the Google Privacy & Terms web page:{" "}
+          <Link to="https://policies.google.com/privacy" target="_blank">
+            https://policies.google.com/privacy
+          </Link>
+          .
+        </Typography>
+        <Title text="Email Marketing" sx={{ m: 1, ml: 0 }} variation="small" />
+        <Typography sx={{ mt: 2 }}>
+          We may use Your Personal Data to contact You with newsletters,
+          marketing or promotional materials and other information that may be
+          of interest to You. You may opt-out of receiving any, or all, of these
+          communications from Us by following the unsubscribe link or
+          instructions provided in any email We send or by contacting Us.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          We may use Email Marketing Service Providers to manage and send emails
+          to You.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          <ul>
+            <li>Mailchimp</li>
+          </ul>
+          Mailchimp is an email marketing sending service provided by The Rocket
+          Science Group LLC.
+          <br />
+          For more information on the privacy practices of Mailchimp, please
+          visit their Privacy policy:{" "}
+          <Link to="https://mailchimp.com/legal/privacy/" target="_blank">
+            https://mailchimp.com/legal/privacy/
+          </Link>
+        </Typography>
+        <Title text="Payments" sx={{ m: 1, ml: 0 }} variation="small" />
+        <Typography sx={{ mt: 2 }}>
+          We may provide paid products and/or services within the Service. In
+          that case, we may use third-party services for payment processing
+          (e.g. payment processors).
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          We will not store or collect Your payment card details. That
+          information is provided directly to Our third-party payment processors
+          whose use of Your personal information is governed by their Privacy
+          Policy. These payment processors adhere to the standards set by
+          PCI-DSS as managed by the PCI Security Standards Council, which is a
+          joint effort of brands like Visa, Mastercard, American Express and
+          Discover. PCI-DSS requirements help ensure the secure handling of
+          payment information. to You.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          <ul>
+            <li>Stripe</li>
+          </ul>
+          Their Privacy Policy can be viewed at{" "}
+          <Link to="https://stripe.com/us/privacy" target="_blank">
+            https://stripe.com/us/privacy
+          </Link>
+        </Typography>
+        <Title
+          text="CCPA/CPRA Privacy Notice"
+          sx={{ m: 1, ml: 0 }}
+          variation="medium"
+        />
+        <Typography sx={{ mt: 2 }}>
+          This privacy notice section for California residents supplements the
+          information contained in Our Privacy Policy and it applies solely to
+          all visitors, users, and others who reside in the State of California.
+        </Typography>
+
+        <Title
+          text="Categories of Personal Information Collected"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ mt: 2 }}>
+          We collect information that identifies, relates to, describes,
+          references, is capable of being associated with, or could reasonably
+          be linked, directly or indirectly, with a particular Consumer or
+          Device. The following is a list of categories of personal information
+          which we may collect or may have been collected from California
+          residents within the last twelve (12) months.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          Please note that the categories and examples provided in the list
+          below are those defined in the CCPA/CPRA. This does not mean that all
+          examples of that category of personal information were in fact
+          collected by Us, but reflects our good faith belief to the best of Our
+          knowledge that some of that information from the applicable category
+          may be and may have been collected. For example, certain categories of
+          personal information would only be collected if You provided such
+          personal information directly to Us.
+          <ul>
+            <li>
+              Category A: Identifiers.{" "}
+              <p>
+                Examples: A real name, alias, postal address, unique personal
+                identifier, online identifier, Internet Protocol address, email
+                address, account name, driver's license number, passport number,
+                or other similar identifiers.
+              </p>
+              <p>Collected: Yes.</p>
+            </li>
+            <li>
+              Category B: Personal information categories listed in the
+              California Customer Records statute (Cal. Civ. Code § 1798.80(e)).
+              <p>
+                Examples: A name, signature, Social Security number, physical
+                characteristics or description, address, telephone number,
+                passport number, driver's license or state identification card
+                number, insurance policy number, education, employment,
+                employment history, bank account number, credit card number,
+                debit card number, or any other financial information, medical
+                information, or health insurance information. Some personal
+                information included in this category may overlap with other
+                categories.
+              </p>
+              <p>Collected: Yes.</p>
+            </li>
+            <li>
+              Category C: Protected classification characteristics under
+              California or federal law.
+              <p>
+                Examples: Age (40 years or older), race, color, ancestry,
+                national origin, citizenship, religion or creed, marital status,
+                medical condition, physical or mental disability, sex (including
+                gender, gender identity, gender expression, pregnancy or
+                childbirth and related medical conditions), sexual orientation,
+                veteran or military status, genetic information (including
+                familial genetic information).
+              </p>
+              <p>Collected: No.</p>
+            </li>
+            <li>
+              Category D: Commercial information.
+              <p>
+                Examples: Records and history of products or services purchased
+                or considered.
+              </p>
+              <p>Collected: Yes.</p>
+            </li>
+            <li>
+              Category E: Biometric information.
+              <p>
+                Examples: Genetic, physiological, behavioral, and biological
+                characteristics, or activity patterns used to extract a template
+                or other identifier or identifying information, such as,
+                fingerprints, faceprints, and voiceprints, iris or retina scans,
+                keystroke, gait, or other physical patterns, and sleep, health,
+                or exercise data.
+              </p>
+              <p>Collected: No.</p>
+            </li>
+            <li>
+              Category F: Internet or other similar network activity.
+              <p>Examples: Interaction with our Service or advertisement.</p>
+              <p>Collected: Yes.</p>
+            </li>
+            <li>
+              Category G: Geolocation data.
+              <p>Examples: Approximate physical location. </p>
+              <p>Collected: Yes.</p>
+            </li>
+            <li>
+              Category H: Sensory data.
+              <p>
+                Examples: Audio, electronic, visual, thermal, olfactory, or
+                similar information.{" "}
+              </p>
+              <p>Collected: No.</p>
+            </li>
+            <li>
+              Category I: Professional or employment-related information.{" "}
+              <p>
+                Examples: Current or past job history or performance
+                evaluations.{" "}
+              </p>
+              <p>Collected: No.</p>
+            </li>
+            <li>
+              Category J: Non-public education information (per the Family
+              Educational Rights and Privacy Act (20 U.S.C. Section 1232g, 34
+              C.F.R. Part 99)).
+              <p>
+                Examples: Education records directly related to a student
+                maintained by an educational institution or party acting on its
+                behalf, such as grades, transcripts, class lists, student
+                schedules, student identification codes, student financial
+                information, or student disciplinary records.
+              </p>
+              <p>Collected: No.</p>
+            </li>
+            <li>
+              Category K: Inferences drawn from other personal information.
+              <p>
+                Examples: Profile reflecting a person's preferences,
+                characteristics, psychological trends, predispositions,
+                behavior, attitudes, intelligence, abilities, and aptitudes.
+              </p>
+              <p>Collected: No.</p>
+            </li>
+            <li>
+              Category L: Sensitive personal information.
+              <p>
+                Examples: Account login and password information, geolocation
+                data.
+              </p>
+              <p>Collected: Yes.</p>
+            </li>
+            <p>Under CCPA/CPRA, personal information does not include:</p>
+            <li>Publicly available information from government records</li>
+            <li>Deidentified or aggregated consumer information</li>
+            <li>
+              Information excluded from the CCPA/CPRA's scope, such as:
+              <ul>
+                <li>
+                  Health or medical information covered by the Health Insurance
+                  Portability and Accountability Act of 1996 (HIPAA) and the
+                  California Confidentiality of Medical Information Act (CMIA)
+                  or clinical trial data
+                </li>
+                <li>
+                  Personal Information covered by certain sector-specific
+                  privacy laws, including the Fair Credit Reporting Act (FRCA),
+                  the Gramm-Leach-Bliley Act (GLBA) or California Financial
+                  Information Privacy Act (FIPA), and the Driver's Privacy
+                  Protection Act of 1994
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </Typography>
+        <Title
+          text="Sources of Personal Information"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ mt: 2 }}>
+          We obtain the categories of personal information listed above from the
+          following categories of sources:
+          <ul>
+            <li>
+              Directly from You. For example, from the forms You complete on our
+              Service, preferences You express or provide through our Service,
+              or from Your purchases on our Service.
+            </li>
+            <li>
+              Indirectly from You. For example, from observing Your activity on
+              our Service.
+            </li>
+            <li>
+              Automatically from You. For example, through cookies We or our
+              Service Providers set on Your Device as You navigate through our
+              Service.
+            </li>
+            <li>
+              From Service Providers. For example, third-party vendors to
+              monitor and analyze the use of our Service, third-party vendors
+              for payment processing, or other third-party vendors that We use
+              to provide the Service to You.
+            </li>
+          </ul>
+        </Typography>
+        <Title
+          text="Use of Personal Information"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ mt: 2 }}>
+          We may use or disclose personal information We collect for "business
+          purposes" or "commercial purposes" (as defined under the CCPA/CPRA),
+          which may include the following examples:
+          <ul>
+            <li>To operate our Service and provide You with Our Service.</li>
+            <li>
+              To provide You with support and to respond to Your inquiries,
+              including to investigate and address Your concerns and monitor and
+              improve our Service.
+            </li>
+            <li>
+              To fulfill or meet the reason You provided the information. For
+              example, if You share Your contact information to ask a question
+              about our Service, We will use that personal information to
+              respond to Your inquiry. If You provide Your personal information
+              to purchase a product or service, We will use that information to
+              process Your payment and facilitate delivery.
+            </li>
+            <li>
+              To respond to law enforcement requests and as required by
+              applicable law, court order, or governmental regulations.
+            </li>
+            <li>
+              As described to You when collecting Your personal information or
+              as otherwise set forth in the CCPA/CPRA.
+            </li>
+            <li>For internal administrative and auditing purposes.</li>
+            <li>
+              To detect security incidents and protect against malicious,
+              deceptive, fraudulent or illegal activity, including, when
+              necessary, to prosecute those responsible for such activities.
+            </li>
+            <li>Other one-time uses.</li>
+          </ul>
+          <p>
+            Please note that the examples provided above are illustrative and
+            not intended to be exhaustive. For more details on how we use this
+            information, please refer to the "Use of Your Personal Data"
+            section.
+            <br />
+            If We decide to collect additional categories of personal
+            information or use the personal information We collected for
+            materially different, unrelated, or incompatible purposes We will
+            update this Privacy Policy.
+          </p>
+        </Typography>
+        <Title
+          text="Disclosure of Personal Information"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ mt: 2 }}>
+          We may use or disclose and may have used or disclosed in the last
+          twelve (12) months the following categories of personal information
+          for business or commercial purposes:
+          <ul>
+            <li>Category A: Identifiers</li>
+            <li>
+              Category B: Personal information categories listed in the
+              California Customer Records statute (Cal. Civ. Code § 1798.80(e))
+            </li>
+            <li>Category D: Commercial information</li>
+            <li>Category F: Internet or other similar network activity</li>
+            <li>Category G: Geolocation data</li>
+            <li>Category L: Sensitive personal information</li>
+          </ul>
+          <p>
+            Please note that the categories listed above are those defined in
+            the CCPA/CPRA. This does not mean that all examples of that category
+            of personal information were in fact disclosed, but reflects our
+            good faith belief to the best of our knowledge that some of that
+            information from the applicable category may be and may have been
+            disclosed.
+            <br />
+            When We disclose personal information for a business purpose or a
+            commercial purpose, We enter a contract that describes the purpose
+            and requires the recipient to both keep that personal information
+            confidential and not use it for any purpose except performing the
+            contract.
+          </p>
+        </Typography>
+        <Title
+          text="Share of Personal Information"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+        <Typography sx={{ mt: 2 }}>
+          We may share, and have shared in the last twelve (12) months, Your
+          personal information identified in the above categories with the
+          following categories of third parties:
+          <ul>
+            <li>Service Providers</li>
+            <li>Payment processors</li>
+            <li>Our affiliates</li>
+            <li>Our business partners</li>
+            <li>
+              Third party vendors to whom You or Your agents authorize Us to
+              disclose Your personal information in connection with products or
+              services We provide to You
+            </li>
+          </ul>
+        </Typography>
+        <Title
+          text="Sale of Personal Information"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+
+        <Typography sx={{ mt: 2 }}>
+          As defined in the CCPA/CPRA, "sell" and "sale" mean selling, renting,
+          releasing, disclosing, disseminating, making available, transferring,
+          or otherwise communicating orally, in writing, or by electronic or
+          other means, a Consumer's personal information by the Business to a
+          third party for valuable consideration. This means that We may have
+          received some kind of benefit in return for sharing personal
+          information, but not necessarily a monetary benefit.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          We do not sell personal information as the term sell is commonly
+          understood. We do allow Service Providers to use Your personal
+          information for the business purposes described in Our Privacy Policy,
+          for activities such as advertising, marketing, and analytics, and
+          these may be deemed a sale under CCPA/CPRA.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          We may sell and may have sold in the last twelve (12) months the
+          following categories of personal information:
+          <ul>
+            <li>Category A: Identifiers</li>
+            <li>
+              Category B: Personal information categories listed in the
+              California Customer Records statute (Cal. Civ. Code § 1798.80(e))
+            </li>
+            <li>Category D: Commercial information</li>
+            <li>Category F: Internet or other similar network activity</li>
+            <li>Category G: Geolocation data</li>
+            <li>Category L: Sensitive personal information</li>
+
+            <p>
+              Please note that the categories listed above are those defined in
+              the CCPA/CPRA. This does not mean that all examples of that
+              category of personal information were in fact sold, but reflects
+              our good faith belief to the best of Our knowledge that some of
+              that information from the applicable category may be and may have
+              been shared for value in return.
+            </p>
+          </ul>
+        </Typography>
+        <Title
+          text="Sale of Personal Information of Minors Under 16 Years of Age"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+
+        <Typography sx={{ mt: 2 }}>
+          We do not knowingly collect personal information from minors under the
+          age of 16 through our Service, although certain third party websites
+          that we link to may do so. These third-party websites have their own
+          terms of use and privacy policies and We encourage parents and legal
+          guardians to monitor their children's Internet usage and instruct
+          their children to never provide information on other websites without
+          their permission.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          We do not sell the personal information of Consumers We actually know
+          are less than 16 years of age, unless We receive affirmative
+          authorization (the "right to opt-in") from either the Consumer who is
+          between 13 and 16 years of age, or the parent or guardian of a
+          Consumer less than 13 years of age. Consumers who opt-in to the sale
+          of personal information may opt-out of future sales at any time. To
+          exercise the right to opt-out, You (or Your authorized representative)
+          may submit a request to Us by contacting Us.
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          If You have reason to believe that a child under the age of 13 (or 16)
+          has provided Us with personal information, please contact Us with
+          sufficient detail to enable Us to delete that information.
+        </Typography>
+        <Title
+          text="Your Rights under the CCPA/CPRA"
+          sx={{ m: 1, ml: 0 }}
+          variation="small"
+        />
+
+        <Typography sx={{ mt: 2 }}>
+          The CCPA/CPRA provides California residents with specific rights
+          regarding their personal information. If You are a resident of
+          California, You have the following rights:
+        </Typography>
       </Container>
     </Box>
   );
