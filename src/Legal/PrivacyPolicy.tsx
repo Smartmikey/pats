@@ -1513,10 +1513,14 @@ const PrivacyPolicy = () => {
           variation="small"
         />
         <Typography sx={{ m: 1, ml: 0 }}>
-        Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit.
+          Our Service may contain links to other websites that are not operated
+          by Us. If You click on a third party link, You will be directed to
+          that third party's site. We strongly advise You to review the Privacy
+          Policy of every site You visit.
         </Typography>
         <Typography sx={{ m: 1, ml: 0 }}>
-        We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
+          We have no control over and assume no responsibility for the content,
+          privacy policies or practices of any third party sites or services.
         </Typography>
         <Title
           text="Changes to this Privacy Policy"
@@ -1524,22 +1528,24 @@ const PrivacyPolicy = () => {
           variation="small"
         />
         <Typography sx={{ m: 1, ml: 0 }}>
-        We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.
+          We may update Our Privacy Policy from time to time. We will notify You
+          of any changes by posting the new Privacy Policy on this page.
         </Typography>
         <Typography sx={{ m: 1, ml: 0 }}>
-        We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy.
+          We will let You know via email and/or a prominent notice on Our
+          Service, prior to the change becoming effective and update the "Last
+          updated" date at the top of this Privacy Policy.
         </Typography>
         <Typography sx={{ m: 1, ml: 0 }}>
-        You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+          You are advised to review this Privacy Policy periodically for any
+          changes. Changes to this Privacy Policy are effective when they are
+          posted on this page.
         </Typography>
-        <Title
-          text="Contact Us"
-          sx={{ m: 1, ml: 0 }}
-          variation="small"
-        />
+        <Title text="Contact Us" sx={{ m: 1, ml: 0 }} variation="small" />
         <Typography sx={{ m: 1, ml: 0 }}>
-        If you have any questions about this Privacy Policy, You can contact us:
-        <ul>
+          If you have any questions about this Privacy Policy, You can contact
+          us:
+          <ul>
             <li>
               By email:{" "}
               <Link to="mailto:info@yourpats.com" target="_blank">
