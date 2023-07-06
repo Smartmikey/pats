@@ -6,7 +6,11 @@ import { createTextMask } from "redux-form-input-masks";
 import { colors } from "../Constants";
 import Axios from "../API/Axios";
 
-function PaymentForm() {
+interface PaymentProps {
+  close?: any;
+}
+
+function PaymentForm({ close }: PaymentProps) {
   const {
     handleSubmit,
     register,
@@ -43,8 +47,10 @@ function PaymentForm() {
       amount: 100,
     };
     Axios.post("/payment/generate-card-token", data).then((res) =>
-      Axios.post("/payment/create-payment-charge", {tokenid:res.data, amount: 120}).then((charge) =>
-        console.log(charge)
+      Axios.post("/payment/create-payment-charge", {tokenid:res.data, amount: 120})
+      .then((charge) =>{
+      close();
+        console.log()}
       )
     );
     //   console.log(data);
@@ -172,6 +178,19 @@ function PaymentForm() {
         helperText={errors.cvv?.message && "CVV must be 3 digits"}
       />
 
+      <Button
+        variant="outlined"
+        // type="submit"
+        sx={{
+          borderColor: colors.primary,
+          color: colors.primary,
+          "&:hover": { color: colors.primary, borderColor: colors.primary, },
+          mr: 2,
+        }}
+        onClick={()=> close()}
+      >
+        Close
+      </Button>
       <Button
         variant="contained"
         type="submit"

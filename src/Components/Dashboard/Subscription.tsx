@@ -55,6 +55,8 @@ const Subscription = () => {
     } else return "";
   };
 
+
+
   // console.log(getTitle());
 
   return (
@@ -179,7 +181,7 @@ const Subscription = () => {
                 ${getField("price")}  {" "}
               </Typography>monthly
             </Typography> */}
-            <PaymentForm />
+            <PaymentForm close={()=>setOpenPaymentPopUp(false)} />
           </Box>
         }
         open={openPaymentPopUp}
