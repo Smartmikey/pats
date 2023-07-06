@@ -9,7 +9,7 @@ const PetCard = (data:any) => {
   const {data: pet} = data;
   
   return (
-    <Box onClick={()=> location.push(`/pet/${pet.id}`)} sx={{position: 'relative', color: colors.white, borderRadius: '15px', width: '300px', height: '300px', backgroundSize:'cover', backgroundPosition: 'center', backgroundImage: pet.photos[0] ? `url(${HOSTURL}/${pet.photos[0].filepath + pet.photos[0].filename})` : `url(/_placeholderimage.png)` }}>
+    <Box onClick={()=> location.push(`/pet/${pet.id}`)} sx={{position: 'relative', color: colors.white, borderRadius: '15px', width: '300px', height: '300px', backgroundSize:'cover', backgroundPosition: 'center', backgroundImage: pet.photos[0] ? `url(${pet.photos[0].fullpath})` : `url(/_placeholderimage.png)` }}>
         {/* <img src='cat-pet.jpg' alt='cat' width='100%' style={{borderRadius: '20px'}} /> */}
         <List  sx={{lineHeight: 0.5, bgcolor: colors.darkTransparent, borderRadius: '0 0 12px 12px', position: 'absolute', width: '100%', bottom: 0, }}>
             <ListItem sx={{fontWeight: '600', textTransform: 'uppercase',}}>{pet?.name}</ListItem>

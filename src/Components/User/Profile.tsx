@@ -90,7 +90,7 @@ const Profile = () => {
   }, [user?.id]);
   return (
     <Box>
-      <Box maxHeight="300px">
+      <Box maxHeight="300px" component='form' onSubmit={handleSubmit(updateUserProfile)}>
         <CardMedia
           component="img"
           height="200px"
@@ -726,6 +726,7 @@ const Profile = () => {
             ) : (
               <Typography sx={{ color: colors.primary }}>Yes</Typography>
             )}
+            <Button type="submit">Update</Button>
           </Grid>
         </Grid>
       </Box>

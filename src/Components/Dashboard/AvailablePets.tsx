@@ -16,6 +16,10 @@ const AvailablePets = () => {
     Axios.put(`/breeder/pets/${petId}/update-status`, {status: 'SOLD'}).then(()=> setRefresh(!refresh)
     )
   }
+  const handleDeletePet = (petId: number) => {
+    Axios.delete(`/breeder/pets/${petId}`,).then(()=> setRefresh(!refresh)
+    )
+  }
   
   useEffect(() => {
     
@@ -109,6 +113,7 @@ const AvailablePets = () => {
                     borderRadius: "6px",
                     "&:hover": { backgroundColor: colors.primary },
                   }}
+                  onClick={()=> handleDeletePet(item.id)}
                 >
                   Delete
                 </Button>

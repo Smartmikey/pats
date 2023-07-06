@@ -44,10 +44,18 @@ const LandingPage = () => {
   };
 
   const getPetsByCategory = async (category_id: string) => {
-    const response = await Axios.get(
-      `/breeder/pets/${category_id}/category?category_pet_id=${category_id}`
-    );
-    setPetByCategory(response.data.data);
+    if(category_id === "others"){
+      const response = await Axios.get(
+        `/breeder/pets/`
+      );
+      setPetByCategory(response.data.data);
+    }else {
+
+      const response = await Axios.get(
+        `/breeder/pets/${category_id}/category?category_pet_id=${category_id}`
+      );
+      setPetByCategory(response.data.data);
+    }
   };
 
   useEffect(() => {
@@ -190,6 +198,7 @@ const LandingPage = () => {
               borderRadius: 3,
               "&:hover": { bgcolor: colors.textHeading },
             }}
+            onClick={() => getPetsByCategory("others")}
           >
             Others
           </Button>

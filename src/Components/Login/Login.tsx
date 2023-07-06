@@ -16,7 +16,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import Axios, { setAuthToken } from "../../API/Axios";
 import Title from "../../Common/Title";
 import { colors } from "../../Constants";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -28,13 +28,12 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [userToken, setUserToken, removeToken] = useCookies(['token']);
-  const [errorMsg, setErrorMsg] = useState("")
+  const [userToken, setUserToken, removeToken] = useCookies(["token"]);
+  const [errorMsg, setErrorMsg] = useState("");
   const [fetching, setFetching] = useState(false);
   const navigate = useHistory();
 
   // const isUserLoggedIn = async () => {
-    
 
   //   if (await userToken.token) {
   //     return (window.location.href = "/");
@@ -48,27 +47,32 @@ const Login = () => {
       const response: any = await Axios.post("/login", {
         ...data,
       });
-
-      const {
-        data: { token },
-      } = await response?.data;
-
-      const decodedToken: any = jwtDecode(token);
-      setAuthToken(token);
-      removeToken('token');
-      setUserToken("token",token);
-      if (decodedToken.role === "ROLE_MEMBER") {
-        return  navigate.push("/breeder");
-      } else if (decodedToken.role === "ROLE_USER") {
-  
-        return navigate.push("/user");
-      } else {
-        // setError('Invalid role');
+      if (!response.data) {
+        console.log("response", response);
+        return setErrorMsg("Username or password incorrect");
       }
-    } catch (error:any) {
+
+      if (response.data) {
+        const {
+          data: { token },
+        } = await response?.data;
+
+        const decodedToken: any = jwtDecode(token);
+        setAuthToken(token);
+        removeToken("token");
+        setUserToken("token", token);
+        if (decodedToken.role === "ROLE_MEMBER") {
+          return navigate.push("/breeder");
+        } else if (decodedToken.role === "ROLE_USER") {
+          return navigate.push("/user");
+        } else {
+          // setError('Invalid role');
+        }
+      }
+    } catch (error: any) {
       setFetching(false);
-      setErrorMsg(error.response.data.detail);
-      console.log(error);
+      setErrorMsg(error.response ? error.response.data.detail : "User not found");
+      console.log("error", error);
     }
   };
 
@@ -129,8 +133,10 @@ const Login = () => {
             </Grid>
             {errorMsg && (
               <Grid item xs={12}>
-                <Typography variant="caption" color="red">{errorMsg}</Typography>
-                </Grid>
+                <Typography variant="caption" color="red">
+                  {errorMsg}
+                </Typography>
+              </Grid>
             )}
             <Grid item xs={12}>
               <Link

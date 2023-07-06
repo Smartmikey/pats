@@ -87,7 +87,7 @@ const Discover = () => {
               >
                 {pet.photos ? pet.photos.map((photo: any) => (
                   <img
-                    src={`${HOSTURL}/${photo.filepath + photo.filename}`}
+                    src={photo.fullpath}
                     width="100%"
                     alt={pet.name}
                   />

@@ -66,7 +66,7 @@ const Profile = () => {
     }
     console.log(response);
   };
-  console.log(userProfile, user?.id);
+  // console.log(userProfile, user?.id);
 
   useEffect(() => {
     if (user?.id) {
