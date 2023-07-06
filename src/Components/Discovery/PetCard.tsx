@@ -54,7 +54,7 @@ const PetCard = ({size, data, sx, Action}: Props) => {
           // onClick={()=> history.push(`/pet/${data.id}`)}
           component="img"
           height="194"
-          image={data.photos[0] ? `${HOSTURL}/${data.photos[0]?.fullpath}` : "/_placeholderimage.png"}
+          image={data.photos[0] ? data.photos[0]?.fullpath : "/_placeholderimage.png"}
           alt={data.name}
         />
         {data.photos.length > 1 && (<BannerOnImage variant="overline" >{data.photos.length - 1} more photos</BannerOnImage>)}
