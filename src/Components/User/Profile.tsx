@@ -27,7 +27,7 @@ import useAuth from "../../Hooks/Auth";
 import Axios from "../../API/Axios";
 import AutocompleteWithDialog from "../../Common/AutocompleteWithDialog";
 import { Field } from "../../interface/Pet";
-import { getIdsAsString } from "../../utility";
+import { capitalizeFirstLowercaseRest, getIdsAsString } from "../../utility";
 const Profile = () => {
   const [state, setState] = useReducer(
     (state: any, newState: any) => ({ ...state, ...newState }),
@@ -43,6 +43,7 @@ const Profile = () => {
   const handleEditing = () => {
     setValue(!value);
   };
+  console.log(userProfile);
 
   const locationField: Field[] = [
     { name: "name", type: "string" },
@@ -54,11 +55,14 @@ const Profile = () => {
     const { id, ...rest } = userProfile;
 
     data = {
-      company_type: userProfile.company_type_id,
+      company_type: userProfile?.company_type_id,
       breeder_type: userProfile.breeder_type_id,
       location_id: userProfile.location_id,
       ...data,
       about: editorRef.current.getContent(),
+      price: 0,
+      web_site: "",
+      date_information: "",
     };
     const response = await Axios.put(`/member/breeder/${id}`, data);
     if (response.status === 200) {
@@ -79,18 +83,28 @@ const Profile = () => {
     const getBreederProfile = async () => {
       const cityRes = Axios.get("city");
       const stateRes = Axios.get("state");
-      const locationRes = Axios.get("location");
+      const sizeRes = Axios.get("pet/size");
+      const desiredRes = Axios.get("category/pets");
+      const genderRes = Axios.get("/pet/gender");
+      const breedRes = Axios.get("/pet/breed");
       setState({
         cityRes: (await cityRes).data.data,
         stateRes: (await stateRes).data.data,
-        locationRes: (await locationRes).data.data,
+        desiredRes: (await desiredRes).data.data,
+        sizeRes: (await sizeRes).data.data,
+        genderRes: (await genderRes).data.data,
+        breedRes: (await breedRes).data.data,
       });
     };
     getBreederProfile();
   }, [user?.id]);
   return (
-    <Box>
-      <Box maxHeight="300px" component='form' onSubmit={handleSubmit(updateUserProfile)}>
+    <Box component="form"
+        onSubmit={handleSubmit(updateUserProfile)}>
+      <Box
+        maxHeight="300px"
+        
+      >
         <CardMedia
           component="img"
           height="200px"
@@ -118,9 +132,14 @@ const Profile = () => {
             />
             <Box sx={{ flex: 1 }}>
               <Typography variant="h4" sx={{ fontSize: { xs: "24px" } }}>
-                Little Paws Breeder
+                {capitalizeFirstLowercaseRest(
+                  `${userProfile?.name} ${userProfile?.last_name}`
+                )}
               </Typography>
-              <Typography variant="subtitle2">Random things</Typography>
+              <Typography variant="subtitle2">
+                Breed's{" "}
+                {capitalizeFirstLowercaseRest(userProfile?.breeder_type?.name)}
+              </Typography>
             </Box>
             <Button
               variant="outlined"
@@ -193,26 +212,9 @@ const Profile = () => {
             </>
           ) : (
             <>
-              <Typography>
-                I am a dedicated and passionate breeder with a love for all
-                things canine. My interest in breeding started at a young age
-                and has only grown over the years as I have gained knowledge and
-                experience in the field. I am committed to breeding healthy,
-                happy, and well-tempered dogs. I spend a lot of time researching
-                and studying different breeds, paying close attention to their
-                physical characteristics and temperaments. I also make sure to
-                keep up-to-date with best practices in breeding and genetics to
-                ensure that my dogs are healthy and free of any genetic
-                disorders. My breeding program is focused on producing
-                high-quality dogs that are not only beautiful, but also have
-                great dispositions and temperaments. I am proud of the work that
-                I do and the dogs that I produce, and I enjoy sharing my
-                knowledge and passion for breeding with others. When I'm not
-                busy breeding, I enjoy spending time with my dogs and taking
-                them on adventures. I also love to compete in dog shows and
-                events, as it allows me to showcase the qualities of my dogs and
-                meet other breeders and enthusiasts.
-              </Typography>
+              <Typography dangerouslySetInnerHTML={{
+                  __html: userProfile?.about,
+                }} />
             </>
           )}
           <Typography variant="h5" sx={{ my: 4, color: colors.textHeading }}>
@@ -234,10 +236,10 @@ const Profile = () => {
                       <OutlinedInput
                         {...register("name")}
                         size="small"
-                        value="John "
+                        defaultValue={userProfile?.name}
                       />
                     ) : (
-                      <ListItemText>John </ListItemText>
+                      <ListItemText>{userProfile?.name} </ListItemText>
                     )}
                   </ListItem>
                   <ListItem>
@@ -246,10 +248,10 @@ const Profile = () => {
                       <OutlinedInput
                         {...register("last_name")}
                         size="small"
-                        value="John Doe"
+                        defaultValue={userProfile?.last_name}
                       />
                     ) : (
-                      <ListItemText>John Doe</ListItemText>
+                      <ListItemText>{userProfile?.last_name}</ListItemText>
                     )}
                   </ListItem>
                   <ListItem>
@@ -258,10 +260,10 @@ const Profile = () => {
                       <OutlinedInput
                         {...register("email")}
                         size="small"
-                        value="John@doe.com"
+                        defaultValue={userProfile?.email}
                       />
                     ) : (
-                      <ListItemText>John@doe.com</ListItemText>
+                      <ListItemText>{userProfile?.email}</ListItemText>
                     )}
                   </ListItem>
                 </List>
@@ -274,24 +276,22 @@ const Profile = () => {
                       <OutlinedInput
                         {...register("phone_number")}
                         size="small"
-                        value="(342) 8785 453"
+                        defaultValue={userProfile?.phone_number}
                       />
                     ) : (
-                      <ListItemText>(342) 8785 453</ListItemText>
+                      <ListItemText>{userProfile?.phone_number}</ListItemText>
                     )}
                   </ListItem>
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Location" />
                     {value ? (
-                      <AutocompleteWithDialog
-                        getValue={{ state, setState }}
-                        data={state?.locationRes}
-                        field={locationField}
-                        endpoint="/location"
-                        title="location"
+                      <OutlinedInput
+                        {...register("address")}
+                        size="small"
+                        defaultValue={userProfile?.address || ""}
                       />
                     ) : (
-                      <ListItemText>Fort Lauderdale, FL</ListItemText>
+                      <ListItemText>{userProfile?.address}</ListItemText>
                     )}
                   </ListItem>
                 </List>
@@ -322,9 +322,9 @@ const Profile = () => {
                 multiple
                 // {...register("desired_pet", { required: true })}
                 onChange={(e, newValue) => {
-                  setState({ desired_pet: getIdsAsString(newValue)});
+                  setState({ desired_pet: getIdsAsString(newValue) });
                 }}
-                getOptionLabel={(option:any) => option.name}
+                getOptionLabel={(option: any) => option.name}
                 // placeholder="Combo box"
                 options={state?.desiredRes}
                 renderTags={(tags, getTagProps) =>
@@ -365,9 +365,9 @@ const Profile = () => {
                 variant="soft"
                 multiple
                 onChange={(e, newValue) => {
-                  setState({ breed_id: getIdsAsString(newValue)});
+                  setState({ breed_id: getIdsAsString(newValue) });
                 }}
-                getOptionLabel={(option:any) => option.name}
+                getOptionLabel={(option: any) => option.name}
                 // placeholder="Combo box"
                 options={state?.breedRes}
                 renderTags={(tags, getTagProps) =>
@@ -449,9 +449,9 @@ const Profile = () => {
                 variant="soft"
                 multiple
                 onChange={(e, newValue) => {
-                  setState({ size_id: getIdsAsString(newValue)});
+                  setState({ size_id: getIdsAsString(newValue) });
                 }}
-                getOptionLabel={(option:any) => option.name}
+                getOptionLabel={(option: any) => option.name}
                 // placeholder="Combo box"
                 options={state?.sizeRes}
                 renderTags={(tags, getTagProps) =>
@@ -568,25 +568,25 @@ const Profile = () => {
             <Typography sx={{ fontWeight: 600, mb: 2 }}>Gender</Typography>
             {value ? (
               <Autocomplete
-              variant="soft"
-              multiple
-              getOptionLabel={(option:any) => option.name}
-              // placeholder="Combo box"
-              options={state?.genderRes}
-              renderTags={(tags, getTagProps) =>
-                tags.map((item, index) => (
-                  <Chip
-                    variant="solid"
-                    color="primary"
-                    endDecorator={<Close />}
-                    {...getTagProps({ index })}
-                  >
-                    {item.name}
-                  </Chip>
-                ))
-              }
-              // sx={{ width: 300 }}
-            />
+                variant="soft"
+                multiple
+                getOptionLabel={(option: any) => option.name}
+                // placeholder="Combo box"
+                options={state?.genderRes}
+                renderTags={(tags, getTagProps) =>
+                  tags.map((item, index) => (
+                    <Chip
+                      variant="solid"
+                      color="primary"
+                      endDecorator={<Close />}
+                      {...getTagProps({ index })}
+                    >
+                      {item.name}
+                    </Chip>
+                  ))
+                }
+                // sx={{ width: 300 }}
+              />
             ) : (
               <Typography sx={{ color: colors.primary }}>Any</Typography>
             )}
@@ -726,8 +726,41 @@ const Profile = () => {
             ) : (
               <Typography sx={{ color: colors.primary }}>Yes</Typography>
             )}
-            <Button type="submit">Update</Button>
+            
           </Grid>
+          {value && (
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: colors.primary,
+                  color: colors.primary,
+                  mx: 0.6,
+                  "&:hover": {
+                    borderColor: colors.primary,
+                    color: colors.dark,
+                  },
+                }}
+              >
+                cancel
+              </Button>
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  bgcolor: colors.primary,
+                  color: colors.white,
+                  mx: 0.6,
+                  "&:hover": {
+                    bgcolor: colors.primary,
+                    color: colors.dark,
+                  },
+                }}
+              >
+                Save changes
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Box>
     </Box>

@@ -223,7 +223,7 @@ const Discover = () => {
 
       <Container>
         <Title
-          text={`More dogs from ${pet?.member.display_name}`}
+          text={`More pets from ${pet?.member.name + " " + pet?.member.last_name}`}
           align="left"
           variation="small"
         />
