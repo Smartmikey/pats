@@ -77,8 +77,8 @@ console.log(breederProfile);
               sx={{ width: 150, height: 150, mt: -9 }}
             />
             <Box sx={{ flex: 1 }}>
-              <Typography variant="h4" sx={{fontSize: {xs: '24px'}}}>{capitalizeFirstLowercaseRest(`${breederProfile?.name} ${breederProfile?.last_name}`)}</Typography>
-              <Typography variant="subtitle2">Breed's {capitalizeFirstLowercaseRest(breederProfile?.breeder_type?.name)}</Typography>
+              <Typography variant="h4" sx={{fontSize: {xs: '24px'}}}>{capitalizeFirstLowercaseRest(`${breederProfile?.business_name || ""}`)}</Typography>
+              <Typography variant="subtitle2" sx={{fontWeight: 800}}>{breederProfile?.member_type}</Typography>
             </Box>
             <Button
               sx={{

@@ -35,9 +35,10 @@ const Signup = () => {
   const navigate = useHistory();
   const registerUser = async (data: any) => {
     setFetching(true);
+    try {
     data = {
       ...data,
-      location_id: 0,
+      // location_id: 0,
       company_type: 0,
       breeder_type: 0,
       about: "",
@@ -45,6 +46,9 @@ const Signup = () => {
       web_site: "",
       address: "",
       date_information: "",
+      phone_number: "",
+      city_id:0,
+      business_name: "",
     };
     const { accepted, confirmPassword, ...rest } = data;
 
@@ -53,11 +57,11 @@ const Signup = () => {
       const response = await Axios.post("/user/register", { ...rest });
       console.log(data, response);
       if (response.status === 200) {
-        const verify = await Axios.get(
-          `/s/user-activate/${response.data.token}`
-        );
-        console.log(verify);
-        try {
+        // const verify = await Axios.get(
+        //   `/s/member-activate/${response.data.token}`
+        // );
+        // console.log(verify);
+        
           const logginRes: any = await Axios.post("/login", {
             email: response.data.data.email,
             password: data.password,
@@ -77,13 +81,14 @@ const Signup = () => {
           } else {
             // setError('Invalid role');
           }
-        } catch (error: any) {
+          setFetching(false);
+        } 
+      }
+    }catch (error: any) {
           setFetching(false);
           // setErrorMsg(error.response.data.detail);
           console.log(error);
         }
-      }
-    }
   };
 
   return (
@@ -177,7 +182,7 @@ const Signup = () => {
                 )}
               </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
               <Box sx={{ mt: 0.5 }}>
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Phone number:
@@ -194,7 +199,7 @@ const Signup = () => {
                   </Typography>
                 )}
               </Box>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} md={6}>
               <Box sx={{ mt: 0.5 }}>
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>

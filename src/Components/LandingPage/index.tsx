@@ -112,17 +112,17 @@ const LandingPage = () => {
             <TextField
               id="looking-for"
               size="small"
-              sx={{ mx: 1, my: { xs: 1, md: "unset" } }}
+              sx={{ mx: 1, my: { xs: 1, md: "unset" }, minWidth: '300px' }}
               label="What are you looking for?"
               variant="outlined"
             />
-            <TextField
+            {/* <TextField
               id="Location"
               size="small"
               sx={{ mx: 1, my: { xs: 1, md: "unset" } }}
               label="Location"
               variant="outlined"
-            />
+            /> */}
             <Button
               sx={{
                 my: { xs: 1, md: "unset" },
@@ -228,13 +228,6 @@ const LandingPage = () => {
 
               return <PetCard key={index + "category"} data={data} />;
             })}
-            {/* <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard /> */}
           </Carousel>
         )}
 

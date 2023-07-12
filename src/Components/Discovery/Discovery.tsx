@@ -26,8 +26,8 @@ const Discovery = () => {
 
   return (
     <Box sx={{ p: { xs: 2, md: 5 } }}>
-      <Grid container sx={{ mt: 12 }}>
-        <Grid item xs={3} sx={{ display: { xs: "none", md: "block" } }}>
+      <Grid container sx={{ mt: 12, px: {xs: 4, md: 8} }}>
+        {/* <Grid item xs={3} sx={{ display: { xs: "none", md: "block" } }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="body1" sx={{ mr: 1, fontWeight: "700" }}>
               Filter by
@@ -44,8 +44,8 @@ const Discovery = () => {
             </Button>
           </Box>
           <FilterSidebar />
-        </Grid>
-        <Grid item md={9} xs={12}>
+        </Grid> */}
+        <Grid item md={12} xs={12}>
           <Box
             sx={{
               background: colors.gray,

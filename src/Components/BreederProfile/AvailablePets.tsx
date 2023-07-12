@@ -1,12 +1,14 @@
-import { Box, Grid,  } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Box, Button, Grid,  } from '@mui/material'
+import { Link, useHistory } from 'react-router-dom'
 import { pets } from '../../data'
 import PetCard from '../Discovery/PetCard'
 import { useEffect, useState } from 'react'
 import Axios from '../../API/Axios'
+import { colors } from '../../Constants'
 
 const AvailablePets = (data:any) => {
-  const [pets, setPets] = useState<any>()
+  const [pets, setPets] = useState<any>();
+  const history = useHistory();
 
     useEffect(() => {
     
@@ -26,38 +28,24 @@ const AvailablePets = (data:any) => {
               key={pet.id}
               size={4}
               data={pet}
-              // Action={
-              //   <>
-              //     <Button
-              //       variant="outlined"
-              //       sx={{
-              //         color: colors.primary,
-              //         borderColor: colors.primary,
-              //         mx: 1,
-              //         borderRadius: "6px",
-              //         textTransform: "initial",
-              //         "&:hover": { borderColor: colors.primary },
-              //       }}
-              //       onClick={()=> markAsSold(pet.id)}
-              //     >
-              //       Mark as sold
-              //     </Button>
-              //     <Button
-              //       variant="contained"
-              //       sx={{
-              //         backgroundColor: colors.primary,
-              //         mx: 1,
-              //         textTransform: "initial",
-              //         borderRadius: "6px",
-              //         "&:hover": { backgroundColor: colors.primary },
-                      
-              //       }}
-              //       onClick={()=> history.push(`/breeder/edit-pet/${pet.id}`)}
-              //     >
-              //       Edit
-              //     </Button>
-              //   </>
-              // }
+              Action={
+                <>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      color: colors.primary,
+                      borderColor: colors.primary,
+                      mx: 1,
+                      textTransform: "initial",
+                      borderRadius: "6px",
+                      "&:hover": { borderColor: colors.primary },
+                    }}
+                    onClick={() => history.push(`/pet/${pet?.id}`)}
+                  >
+                    View more
+                  </Button>
+                </>
+              }
             />
           ))}
             

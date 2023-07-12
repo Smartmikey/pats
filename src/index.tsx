@@ -46,6 +46,14 @@ const breederPath = [
   "/breeder/add-pets",
   "/breeder/available-pets",
   "/breeder/edit-pet/*",
+  "/user",
+  "/user/profile",
+  "/user/message",
+  "/user/account",
+  "/user/password",
+  "/user/subscription",
+  "/user/browse-pets",
+  "/user/interested-pets",
 ];
 const userPath = [
   '/pet',

@@ -47,8 +47,8 @@ const Profile = () => {
 
   const locationField: Field[] = [
     { name: "name", type: "string" },
-    { name: "description", type: "string" },
-    { name: "city", type: "string", data: state.cityRes },
+    // { name: "description", type: "string" },
+    // { name: "city", type: "string", data: state.cityRes },
     { name: "state", type: "string", data: state.stateRes },
   ];
   const updateUserProfile = async (data: FieldValues) => {
@@ -57,12 +57,15 @@ const Profile = () => {
     data = {
       company_type: userProfile?.company_type_id,
       breeder_type: userProfile.breeder_type_id,
-      location_id: userProfile.location_id,
+      city_id: state.city.id,
       ...data,
       about: editorRef.current.getContent(),
       price: 0,
       web_site: "",
       date_information: "",
+      business_name: '',
+      phone_number: "",
+      address: "",
     };
     const response = await Axios.put(`/member/breeder/${id}`, data);
     if (response.status === 200) {
@@ -77,7 +80,11 @@ const Profile = () => {
   useEffect(() => {
     if (user?.id) {
       Axios.get(`member/breeder/${user?.id}`).then((res) => {
-        setUserProfile(res.data.data[0]);
+        Axios.get(`city/${res.data.data[0].city_id}`).then(cityItem => {
+
+          setUserProfile({...res.data.data[0], city: cityItem.data.data[0]});
+        })
+
       });
     }
     const getBreederProfile = async () => {
@@ -270,7 +277,7 @@ const Profile = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <List sx={{ width: "100%", maxWidth: 450 }}>
-                  <ListItem>
+                  {/* <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Phone" />
                     {value ? (
                       <OutlinedInput
@@ -281,17 +288,21 @@ const Profile = () => {
                     ) : (
                       <ListItemText>{userProfile?.phone_number}</ListItemText>
                     )}
-                  </ListItem>
+                  </ListItem> */}
                   <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Location" />
                     {value ? (
-                      <OutlinedInput
-                        {...register("address")}
-                        size="small"
-                        defaultValue={userProfile?.address || ""}
-                      />
+                     <AutocompleteWithDialog
+                     getValue={{ state, setState }}
+                     data={state?.cityRes || []}
+                     field={locationField}
+                     endpoint="/city"
+                     title="city"
+                    //  variant="soft"
+                    tone
+                   />
                     ) : (
-                      <ListItemText>{userProfile?.address}</ListItemText>
+                      <ListItemText>{userProfile?.city.name}</ListItemText>
                     )}
                   </ListItem>
                 </List>
@@ -741,6 +752,7 @@ const Profile = () => {
                     color: colors.dark,
                   },
                 }}
+                onClick={()=> handleEditing()}
               >
                 cancel
               </Button>

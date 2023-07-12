@@ -70,20 +70,20 @@ const Footer = () => {
         </Grid> */}
         <Grid item xs={12} md={2}>
           <Stack spacing={1}>
-            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/discovery">Find a pet</Link>
-            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/sign-up">Login/Sign up</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/discovery">Find A Pet</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/sign-up">Login/Sign Up</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={1}>
             <Link style={{color: colors.dark, textDecoration: 'none'}} to="/animal-shelter-and-animal-rescue-code-ethics">Shelter & Rescue</Link>
-            <Link style={{color: colors.dark, textDecoration: 'none'}} to="breeders-code-of-ethics">Breeder code of ethics</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="breeders-code-of-ethics">Breeder Code of Ethics</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={1}>
-            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/livestock-ouwners-code-of-ethics">Livestock owners ethics</Link>
-            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/privacy-policy">Privacy policy</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/livestock-ouwners-code-of-ethics">Livestock Owners Ethics</Link>
+            <Link style={{color: colors.dark, textDecoration: 'none'}} to="/privacy-policy">Privacy Policy</Link>
           </Stack>
         </Grid>
       </Grid>

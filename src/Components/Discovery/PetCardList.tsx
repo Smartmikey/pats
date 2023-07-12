@@ -4,10 +4,23 @@ import PetCard from "./PetCard";
 import { pets } from "../../data";
 import { colors } from "../../Constants";
 import Axios from "../../API/Axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import useAuth from "../../Hooks/Auth";
 const PetCardList = () => {
 const [pets, setPets] = useState<any>();
+const user:any = useAuth();
 const history = useHistory();
+const handleContactClick = (id: string) => {
+  
+  if (user?.role === "ROLE_MEMBER") {
+    return history.push(`/breeder/${id}`);
+  } else if (user?.role === "ROLE_USER") {
+    return history.push(`/user/message/${id}`);
+  }else {
+    return history.push(`/login`);
+
+  }
+};
   useEffect(() => {
     Axios.get("/breeder/pets")
       .then((response) => {
@@ -54,6 +67,7 @@ const history = useHistory();
                   borderRadius: "6px",
                   "&:hover": { backgroundColor: colors.primary },
                 }}
+                onClick={()=> handleContactClick(item?.member_id)}
               >
                 Contact
               </Button>

@@ -43,8 +43,8 @@ const Profile = () => {
 
   const locationField: Field[] = [
     { name: "name", type: "string" },
-    { name: "description", type: "string" },
-    { name: "city", type: "string", data: state.cityRes },
+    // { name: "description", type: "string" },
+    // { name: "city", type: "string", data: state.cityRes },
     { name: "state", type: "string", data: state.stateRes },
   ];
 
@@ -54,8 +54,14 @@ const Profile = () => {
     data = {
       company_type: userProfile.company_type_id,
       breeder_type: userProfile.breeder_type_id,
-      location_id: userProfile.location_id,
+      city_id: state.city.id,
+      web_site: '',
+      phone_number: "",
+      address:"",
+      price: 0,
+      date_information: "",
       ...data,
+      location_id:1,
       about: editorRef.current.getContent(),
     };
     const response = await Axios.put(`/member/breeder/${id}`, data);
@@ -69,19 +75,23 @@ const Profile = () => {
   // console.log(userProfile, user?.id);
 
   useEffect(() => {
-    if (user?.id) {
-      Axios.get(`member/breeder/${user?.id}`).then((res) => {
-        setUserProfile(res.data.data[0]);
-      });
-    }
     const getBreederProfile = async () => {
+      if (user?.id) {
+        Axios.get(`member/breeder/${user?.id}`).then((res) => {
+          Axios.get(`city/${res.data.data[0].city_id}`).then(cityItem => {
+
+            setUserProfile({...res.data.data[0], city: cityItem.data.data[0]});
+          })
+  
+        });
+      }
       const cityRes = Axios.get("city");
       const stateRes = Axios.get("state");
-      const locationRes = Axios.get("location");
+      // const locationRes = Axios.get("city");
       setState({
         cityRes: (await cityRes).data.data,
         stateRes: (await stateRes).data.data,
-        locationRes: (await locationRes).data.data,
+        // locationRes: (await locationRes).data.data,
       });
     };
     getBreederProfile();
@@ -267,7 +277,7 @@ const Profile = () => {
                       <ListItemText>{userProfile?.email || ""}</ListItemText>
                     )}
                   </ListItem>
-                  <ListItem>
+                  {/* <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Website" />{" "}
                     {value ? (
                       <OutlinedInput
@@ -278,7 +288,7 @@ const Profile = () => {
                     ) : (
                       <ListItemText>{userProfile?.web_site || ""}</ListItemText>
                     )}
-                  </ListItem>
+                  </ListItem> */}
                 </List>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -298,38 +308,75 @@ const Profile = () => {
                     )}
                   </ListItem>
                   <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Phone" />
+                    <ListItemText sx={{ maxWidth: 100 }} primary="Business name" />
                     {value ? (
                       <OutlinedInput
-                        {...register("phone_number")}
+                        {...register("business_name")}
                         size="small"
-                        defaultValue={userProfile?.phone_number || ""}
+                        defaultValue={userProfile?.business_name || ""}
                       />
                     ) : (
                       <ListItemText>
-                        {userProfile?.phone_number || ""}
+                        {userProfile?.business_name || ""}
                       </ListItemText>
                     )}
                   </ListItem>
                   <ListItem>
-                    <ListItemText sx={{ maxWidth: 100 }} primary="Address" />
+                    <ListItemText sx={{ maxWidth: 100 }} primary="Location" />
                     {value ? (
-                      <OutlinedInput
-                        {...register("address")}
-                        size="small"
-                        defaultValue={userProfile?.address || ""}
-                      />
+                      <AutocompleteWithDialog
+                      getValue={{ state, setState }}
+                      data={state?.cityRes || []}
+                      field={locationField}
+                      endpoint="/city"
+                      title="city"
+                      tone
+                    />
                     ) : (
-                      <ListItemText>{userProfile?.address || ""}</ListItemText>
+                      <ListItemText>{userProfile?.city.name || ""}</ListItemText>
                     )}
                   </ListItem>
                 </List>
               </Grid>
+              {value && (
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: colors.primary,
+                  color: colors.primary,
+                  mx: 0.6,
+                  "&:hover": {
+                    borderColor: colors.primary,
+                    color: colors.dark,
+                  },
+                }}
+                onClick={()=> handleEditing()}
+              >
+                cancel
+              </Button>
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  bgcolor: colors.primary,
+                  color: colors.white,
+                  mx: 0.6,
+                  "&:hover": {
+                    bgcolor: colors.primary,
+                    color: colors.dark,
+                  },
+                }}
+              >
+                Save changes
+              </Button>
+            </Grid>
+          )}
             </Grid>
           </Box>
         </Container>
       </Box>
-      <Title
+      {/* <Title
         text="Process for getting a puppy"
         sx={{ ml: 0, mb: 1 }}
         variation="small"
@@ -352,7 +399,7 @@ const Profile = () => {
             />
             {/* <button onClick={() => {}}>Log editor content</button>
           </>
-        ) : ( */}
+        ) : (
         <Typography>
           If you're interested in a puppy from Little Paws, please contact the
           breeder. You'll be asked to provide information about yourself and
@@ -360,7 +407,7 @@ const Profile = () => {
           match. Once you apply, Mac will get back to you about availability,
           pricing and next steps.
         </Typography>
-        {/* )} */}
+        {/* )} 
         <Grid container>
           <Grid item xs={12}>
             <List sx={{ width: "100%", maxWidth: 650 }}>
@@ -392,44 +439,12 @@ const Profile = () => {
               {/* <ListItem>
                     <ListItemText sx={{ maxWidth: 100 }} primary="Website" />{" "}
                     {value ? <OutlinedInput size="small" value="John@doe.com" /> :<ListItemText>www.jhondow.com</ListItemText>}
-                  </ListItem> */}
+                  </ListItem> 
             </List>
           </Grid>
-          {value && (
-            <Grid item xs={12} sx={{ textAlign: "center" }}>
-              <Button
-                variant="outlined"
-                sx={{
-                  borderColor: colors.primary,
-                  color: colors.primary,
-                  mx: 0.6,
-                  "&:hover": {
-                    borderColor: colors.primary,
-                    color: colors.dark,
-                  },
-                }}
-              >
-                cancel
-              </Button>
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{
-                  bgcolor: colors.primary,
-                  color: colors.white,
-                  mx: 0.6,
-                  "&:hover": {
-                    bgcolor: colors.primary,
-                    color: colors.dark,
-                  },
-                }}
-              >
-                Save changes
-              </Button>
-            </Grid>
-          )}
+         
         </Grid>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

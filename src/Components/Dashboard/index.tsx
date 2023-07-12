@@ -2,7 +2,7 @@ import { Box, Button, Grid } from "@mui/material";
 import React from "react";
 import Profile from "./Profile";
 import VerticalMenu from "../../Common/VerticalMenu";
-import { Route, Switch, BrowserRouter as Router, } from "react-router-dom";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import AvailablePets from "./AvailablePets";
 import Account from "./Account";
 import Password from "./Password";
@@ -46,10 +46,9 @@ const Index = () => {
     <Box sx={{ mt: 9 }}>
       <Grid container>
         <Grid item xs={0} md={2} sx={{ display: { xs: "none", md: "grid" } }}>
-          <VerticalMenu  data={menuItemsdata}/>
+          <VerticalMenu data={menuItemsdata} />
         </Grid>
         <Grid sx={{ px: 2 }} item xs={12} md={10}>
-         
           {/* <Router> */}
           <Switch>
             <Route path="/breeder/profile" component={Profile} />
@@ -58,9 +57,9 @@ const Index = () => {
             <Route path="/breeder/password" component={Password} />
             <Route path="/breeder/subscription" component={Subscription} />
             <Route path="/breeder/add-pets" component={AddPet} />
-            
-          <Route path="/breeder/edit-pet/:id" component={EditPet} />
-            <Route path="/"  component={Home} />
+
+            <Route path="/breeder/edit-pet/:id" component={EditPet} />
+            <Route path="/breeder/:id?" component={Home} />
           </Switch>
           {/* </Router> */}
         </Grid>

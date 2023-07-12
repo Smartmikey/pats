@@ -53,6 +53,7 @@ const SignupBreeder = () => {
   const [companyType, setCompanyType] = useState<any>();
   const [breederType, setBreederType] = useState<any>([]);
   const [userToken, setUserToken, removeToken] = useCookies(["token"]);
+  const [errorMsg, setErrorMsg] = useState("")
 
   const {
     register,
@@ -67,30 +68,33 @@ const SignupBreeder = () => {
   const navigate = useHistory();
   const registerBreeder = async (data: FieldValues) => {
     setFetching(true);
-    let { terms, confirm_password, ...rest } = data;
-    if (data.confirm_password !== data.password) {
-      setIncorrectPassword(true);
-      return;
-    }
-    rest = {
-      ...rest,
-      member_type: "",
-      about: "",
-      price: "",
-      web_site: "",
-      address: "",
-      date_information: "",
-      breeder_type: state.breeder_type,
-      location_id: state.location.id,
-    };
-    setIncorrectPassword(false);
-    const response = await Axios.post("/member/register", { ...rest });
-    if (response.status === 200) {
-      const verify = await Axios.get(
-        `/s/member-activate/${response.data.token}`
-      );
-      console.log(verify);
-      try {
+    try {
+      let { terms, confirm_password, ...rest } = data;
+      if (data.confirm_password !== data.password) {
+        setIncorrectPassword(true);
+        setFetching(false);
+        return;
+      }
+      rest = {
+        ...rest,
+        member_type: "",
+        about: "",
+        price: "",
+        web_site: "",
+        address: "",
+        date_information: "",
+        breeder_type: state.breeder_type,
+        city_id: state.location.id,
+
+      };
+      setIncorrectPassword(false);
+      const response = await Axios.post("/member/register", { ...rest });
+      if (response.status === 200) {
+        // const verify = await Axios.get(
+        //   `/s/member-activate/${response.data.token}`
+        // );
+        // console.log(verify);
+
         const logginRes: any = await Axios.post("/login", {
           email: response.data.data.email,
           password: data.password,
@@ -110,22 +114,30 @@ const SignupBreeder = () => {
         } else {
           // setError('Invalid role');
         }
-      } catch (error: any) {
         setFetching(false);
-        // setErrorMsg(error.response.data.detail);
-        console.log(error);
+      } else {
+        console.log("got here");
+
+        setFetching(false);
       }
+    } catch (error: any) {
+
+      setFetching(false);
+      setErrorMsg("All fields are required");
+      console.log("we have some error", error);
     }
   };
-  console.log(state);
+
+  if(errorMsg){
+    setTimeout(()=> setErrorMsg(""), 5000);
+  }
 
   const locationField: Field[] = [
     { name: "name", type: "string" },
-    { name: "description", type: "string" },
-    { name: "city", type: "string", data: state.cityRes },
+    // { name: "description", type: "string" },
+    // { name: "city", type: "string", data: state.cityRes },
     { name: "state", type: "string", data: state.stateRes },
   ];
-  console.log(errors);
 
   useEffect(() => {
     Axios.get("/company_type").then((res) => {
@@ -134,7 +146,7 @@ const SignupBreeder = () => {
     Axios.get("/category/pets/").then((res) => {
       setBreederType(res.data.data);
     });
-    Axios.get("/location").then((res) => {
+    Axios.get("/city").then((res) => {
       setState({ locationRes: res.data.data });
     });
   }, []);
@@ -233,7 +245,7 @@ const SignupBreeder = () => {
                 )}
               </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
               <Box sx={{ mt: 0.5 }}>
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Phone number:
@@ -251,7 +263,7 @@ const SignupBreeder = () => {
                   </Typography>
                 )}
               </Box>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} md={6}>
               <Box sx={{ mt: 0.5 }}>
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
@@ -259,10 +271,10 @@ const SignupBreeder = () => {
                 </InputLabel>
                 <AutocompleteWithDialog
                   getValue={{ state, setState }}
-                  data={state?.locationRes}
+                  data={state?.cityRes}
                   field={locationField}
-                  endpoint="/location"
-                  title="location"
+                  endpoint="/city"
+                  title="city"
                   sx={{ borderRadius: 0 }}
                 />
                 {/* <InputWithoutBorder
@@ -279,7 +291,7 @@ const SignupBreeder = () => {
                   endpoint="/location/create"
                   title="location"
                   /> */}
-                {errors.location_id && (
+                {errors.city_id && (
                   <Typography variant="caption" sx={{ color: "red" }}>
                     location cannot be blank
                   </Typography>
@@ -288,9 +300,9 @@ const SignupBreeder = () => {
             </Grid>
             <Grid item xs={12} md={12}>
               <Box sx={{ mt: 0.5 }}>
-                <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
+                {/* <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Company Type:
-                </InputLabel>
+                </InputLabel> */}
                 <RadioGroup
                   aria-label="company_type"
                   // onChange={(e) => console.log(e)}
@@ -358,7 +370,7 @@ const SignupBreeder = () => {
                 )}
               </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
               <Box sx={{ mt: 0.5 }}>
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
                   Type of breeder:
@@ -393,7 +405,7 @@ const SignupBreeder = () => {
                   {...register("breeder_type", { required: true })}
                   size="small"
                   fullWidth
-                /> */}
+                /> 
                 {errors.breeder_type && (
                   <Typography variant="caption" sx={{ color: "red" }}>
                     breeder type cannot be blank
@@ -401,7 +413,7 @@ const SignupBreeder = () => {
                 )}
               </Box>
             </Grid>
-            <Grid item xs={12} md={6}></Grid>
+            <Grid item xs={12} md={6}></Grid> */}
             <Grid item xs={12} md={6}>
               <Box sx={{ mt: 0.5 }}>
                 <InputLabel sx={{ mb: 0.2, fontWeight: 700 }}>
@@ -470,23 +482,30 @@ const SignupBreeder = () => {
               )}
             </Grid>
             <Grid item xs={12}>
+            {errorMsg && (
+                  <Typography variant="caption" sx={{ color: "red" }}>
+                    {errorMsg}
+                  </Typography>
+                )}
               <Container maxWidth="sm" sx={{ textAlign: "center" }}>
                 {fetching ? (
                   <LoadingButton loading variant="outlined">
                     Submit
                   </LoadingButton>
-                ) :(<Button
-                  // disabled={errors}
-                  sx={{
-                    bgcolor: colors.primary,
-                    "&:hover": { bgcolor: colors.primary },
-                    my: 4,
-                  }}
-                  variant="contained"
-                  type="submit"
-                >
-                  Create account
-                </Button>)}
+                ) : (
+                  <Button
+                    // disabled={errors}
+                    sx={{
+                      bgcolor: colors.primary,
+                      "&:hover": { bgcolor: colors.primary },
+                      my: 4,
+                    }}
+                    variant="contained"
+                    type="submit"
+                  >
+                    Create account
+                  </Button>
+                )}
                 {/* <Divider flexItem>or</Divider>
                 <Button
                   startIcon={<img src="google.png" width="20px" />}

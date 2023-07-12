@@ -31,7 +31,6 @@ import FormData from "form-data";
 import useAuth from "../../Hooks/Auth";
 import { AttachMoney } from "@mui/icons-material";
 
-
 const AddPet = () => {
   const {
     register,
@@ -42,11 +41,12 @@ const AddPet = () => {
   } = useForm();
 
   const [selected, setSelected] = useState<string[]>([]);
-  
+const [photoUrl, setPhotoUrl] = useState<any[]>([])
   const [state, setState] = useReducer(
     (state: any, newState: any) => ({ ...state, ...newState }),
     {
       refresh: false,
+      photoUrl: [],
     }
   ); // useState<any>({});
   const user: any = useAuth();
@@ -58,13 +58,20 @@ const AddPet = () => {
 
   const locationField: Field[] = [
     { name: "name", type: "string" },
-    { name: "description", type: "string" },
-    { name: "city", type: "string", data: state.cityRes },
+    // { name: "description", type: "string" },
+    // { name: "city", type: "string", data: state.cityRes },
     { name: "state", type: "string", data: state.stateRes },
   ];
 
+  const deleteImage = (index: number) => {
+    console.log(index, photoUrl, photoUrl.splice(index, 1));
+    
+    // setPhotoUrl([...photoUrl.splice(index, 1)])
+    // displayImages()
+  };
   let formData = new FormData();
-
+  console.log(photoUrl);
+  
   const createPet = async (data: FieldValues) => {
     // const headers = formData.getHeaders();
     const dataToPost: any = {
@@ -72,10 +79,11 @@ const AddPet = () => {
       category_id: state.type_of_animal?.id,
       breed_id: state.breed?.id,
       size_id: state.size?.id,
-      location_id: state.location?.id,
+      city_id: state.city?.id,
       pet_characteristic: selected,
       member_id: user?.id,
       gender_id: state.gender_id,
+      location_id: 0,
     };
 
     for (const key in dataToPost) {
@@ -91,18 +99,26 @@ const AddPet = () => {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
-    if(response) reset();
-    setState({isPetAdded: true});
+    if (response) reset();
+    setState({ isPetAdded: true });
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-
+      console.log(state.photos);
       setState({ photos: event.target.files });
-     
+      // setPhotoUrl(event.target.files)
+      for (let i = 0; i < event.target.files.length; i++) {
+        photoUrl.push(event.target.files[i])
+        // setPhotoUrl([...photoUrl,URL.createObjectURL(event.target.files[i])]);
+      }
+
+      // setState({photoUrl: [...state.photoUrl,URL.createObjectURL(file)]})
+      // }
+      //  event.target.files?.map((file:any) =>{
+      //  })
     }
   };
-
 
   useEffect(() => {
     const makeAllCalls = async () => {
@@ -130,7 +146,6 @@ const AddPet = () => {
       });
     };
     makeAllCalls();
-    
   }, [state.refresh, state.gender_id]);
   return (
     <Box>
@@ -171,6 +186,43 @@ const AddPet = () => {
             />
           </Button>
         </Box>
+          <Box
+            sx={{
+              display: "flex",
+              height: "150px",
+              // width: "150px",
+              borderRadius: "5px",
+              // boxShadow: "0 0 5px rgba(0, 0, 0, 0.15)",
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            {photoUrl &&
+              photoUrl?.map((image: any, index: number) => (
+                <Box component="span" key={index} sx={{mx:1}}>
+                  <Box
+                    component="img"
+                    src={URL.createObjectURL(image)}
+                    sx={{ width: "100%", height: "100%" }}
+                    // onClick={() => deleteImage(index)}
+                  />
+                  <span
+                    // component="span"
+                    
+                    style={{
+                      position: "absolute",
+                      top: "4px",
+                      right: "4px",
+                      cursor: "pointer",
+                      fontSize: "22px",
+                      color: "white",
+                    }}
+                  >
+                    &times;
+                  </span>
+                </Box>
+              ))}
+          </Box>
         <Divider />
 
         <Grid container spacing={8} sx={{ mt: 2 }}>
@@ -208,7 +260,7 @@ const AddPet = () => {
                
                 /> */}
                 <Input
-                  {...register("name", {required: true})}
+                  {...register("name", { required: true })}
                   variant="soft"
                   placeholder="e.g pet name"
                 />
@@ -265,7 +317,7 @@ const AddPet = () => {
               </Grid>
               <Grid item xs={12} md={8}>
                 <Input
-                startDecorator={<AttachMoney />}
+                  startDecorator={<AttachMoney />}
                   {...register("price", { required: true })}
                   variant="soft"
                   placeholder="e.g $1000"
@@ -358,13 +410,13 @@ const AddPet = () => {
                 </FormLabel>
               </Grid>
               <Grid item xs={12} md={8}>
-              <AutocompleteWithDialog
-                        getValue={{ state, setState }}
-                        data={state?.locationRes || []}
-                        field={locationField}
-                        endpoint="/location"
-                        title="location"
-                      />
+                <AutocompleteWithDialog
+                  getValue={{ state, setState }}
+                  data={state?.cityRes || []}
+                  field={locationField}
+                  endpoint="/city"
+                  title="city"
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -465,7 +517,11 @@ const AddPet = () => {
             </Button>
           </Grid>
         </Grid>
-        {state.isPetAdded && <Typography color="green" textAlign='center'>Pet successfully added</Typography>}
+        {state.isPetAdded && (
+          <Typography color="green" textAlign="center">
+            Pet successfully added
+          </Typography>
+        )}
       </Box>
     </Box>
   );

@@ -26,17 +26,33 @@ import { useEffect, useState } from "react";
 import Axios from "../../API/Axios";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { capitalizeFirstLowercaseRest } from "../../utility";
+import Popup from "../../Common/Popup";
+import PaymentForm from "../../Common/PaymentForm";
+import useAuth from "../../Hooks/Auth";
 
 const Discover = () => {
   const [pets, setPets] = useState<any>();
   const [pet, setPet] = useState<any>();
   const [petsByMember, setPetsByMember] = useState<any>();
   const { id } = useParams<any>();
+  const user: any = useAuth();
   const history = useHistory();
+
+  const [openPaymentPopUp, setOpenPaymentPopUp] = useState(false);
+
+  const handleContactClick = (id: string) => {
+    if (user?.role === "ROLE_MEMBER") {
+      return history.push(`/breeder/${id}`);
+    } else if (user?.role === "ROLE_USER") {
+      return history.push(`/user/message/${id}`);
+    }else {
+      return history.push(`/login`);
+  
+    }
+  };
 
   useEffect(() => {
     const makeAllCalls = () => {
-
       Axios.get(`/breeder/pets/${id}`).then((response) => {
         setPet(response.data.data[0]);
         Axios.get(`/breeder/pets/${response.data.data[0].member_id}/member`)
@@ -52,7 +68,7 @@ const Discover = () => {
           })
           .catch((error) => console.log(error));
       });
-    }
+    };
     makeAllCalls();
   }, [id]);
   return (
@@ -85,17 +101,18 @@ const Discover = () => {
                 show={1}
                 slide={1}
               >
-                {pet.photos ? pet.photos.map((photo: any) => (
+                {pet.photos ? (
+                  pet.photos.map((photo: any) => (
+                    <img src={photo.fullpath} width="100%" alt={pet.name} />
+                  ))
+                ) : (
                   <img
-                    src={photo.fullpath}
+                    src="/_placeholderimage.png"
                     width="100%"
-                    alt={pet.name}
+                    alt="placeholder test"
                   />
-                )):  <img
-                src="/_placeholderimage.png"
-                width="100%"
-                alt="placeholder test"
-              />} {/*}
+                )}{" "}
+                {/*}
               <img
                 src="/_placeholderimage.png"
                 width="100%"
@@ -174,7 +191,13 @@ const Discover = () => {
                       <Typography fontWeight={600} sx={{ width: "140px" }}>
                         Cared for by
                       </Typography>
-                      <ListItemText><Link to={`/breeder-profile/${pet?.member_id}`}>{`${capitalizeFirstLowercaseRest(pet?.member?.name) } ${capitalizeFirstLowercaseRest(pet?.member?.last_name) }`}</Link></ListItemText>
+                      <ListItemText>
+                        <Link
+                          to={`/breeder-profile/${pet?.member_id}`}
+                        >{`${capitalizeFirstLowercaseRest(
+                          pet?.member?.business_name
+                        )}`}</Link>
+                      </ListItemText>
                     </ListItem>
                     <ListItem>
                       <Typography fontWeight={600} sx={{ width: "140px" }}>
@@ -204,18 +227,36 @@ const Discover = () => {
                   <ListItemText>${pet?.price}</ListItemText>
                 </ListItem>
               </List>
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: colors.primary,
-                  color: colors.white,
-                  display: "block",
-                  "&:hover": { bgcolor: colors.primary },
-                  mx: "auto",
-                }}
-              >
-                Contact
-              </Button>
+              <Box sx={{ mx: "auto", textAlign: "center" }}>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    borderColor: colors.primary,
+                    color: colors.primary,
+                    // display: "block",
+                    "&:hover": { borderColor: colors.primary },
+                    // mx: "auto",
+                    mr: 4,
+                  }}
+                  onClick={() => setOpenPaymentPopUp(!openPaymentPopUp)}
+                >
+                  Purchase pet
+                </Button>
+
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: colors.primary,
+                    color: colors.white,
+                    // display: "block",
+                    "&:hover": { bgcolor: colors.primary },
+                    // mx: "auto",
+                  }}
+                  onClick={()=> handleContactClick(pet?.member_id)}
+                >
+                  Contact
+                </Button>
+              </Box>
             </Paper>
           </Grid>
         </Grid>
@@ -223,7 +264,7 @@ const Discover = () => {
 
       <Container>
         <Title
-          text={`More pets from ${pet?.member.name + " " + pet?.member.last_name}`}
+          text={`More pets from ${pet?.member.business_name}`}
           align="left"
           variation="small"
         />
@@ -351,6 +392,15 @@ const Discover = () => {
         >
           See more
         </Button> */}
+        <Popup
+          title="Card Payment"
+          secondaryText={
+            <Box>
+              <PaymentForm price={pet?.price} petId={pet?.id} close={() => setOpenPaymentPopUp(false)} />
+            </Box>
+          }
+          open={openPaymentPopUp}
+        />
       </Container>
 
       <Explore />

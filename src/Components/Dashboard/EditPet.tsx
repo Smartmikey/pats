@@ -60,8 +60,8 @@ const EditPet = () => {
 
   const locationField: Field[] = [
     { name: "name", type: "string" },
-    { name: "description", type: "string" },
-    { name: "city", type: "string", data: state.cityRes },
+    // { name: "description", type: "string" },
+    // { name: "city", type: "string", data: state.cityRes },
     { name: "state", type: "string", data: state.stateRes },
   ];
 
@@ -69,7 +69,6 @@ const EditPet = () => {
 
   const editPet = async (data: FieldValues) => {
     // const headers = formData.getHeaders();
-    console.log(state);
     
     const dateStructure = data.born_at.split("T")
     const dataToPost: any = {
@@ -78,7 +77,7 @@ const EditPet = () => {
       category_id: state?.type_of_animal?.id || state.category_id,
       breed_id: state.breed?.id,
       size_id: state.size?.id,
-      location_id: state.location?.id,
+      city_id: state.city?.id,
       pet_characteristic: selected.toLocaleString(),
       member_id: user?.id,
       gender_id: state.gender_id,
@@ -121,7 +120,7 @@ const EditPet = () => {
       const petBreed = await Axios.get("pet/breed");
       const petChar = await Axios.get("pet/pet-characteristic/");
       const petCategory = await Axios.get("category/pets/");
-      const petLocation = await Axios.get("location");
+      const petLocation = await Axios.get("city");
       const cityRes = await Axios.get("city");
       const stateRes = await Axios.get("state");
       // const petAge = await Axios.get("pet/age");
@@ -396,8 +395,8 @@ const EditPet = () => {
                     getValue={{ state, setState }}
                     data={state?.locationRes}
                     field={locationField}
-                    endpoint="/location"
-                    title="location"
+                    endpoint="/city"
+                    title="city"
                     defaultValueInput={
                       state?.petProfile.location
                     }

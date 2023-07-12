@@ -32,6 +32,7 @@ const AutocompleteWithDialog = ({
   placeholder,
   sx,
   defaultValueInput,
+  tone
 }: AutoCompleteProps) => {
   const [value, setValue] = useState<any | null>(defaultValueInput || null);
   const [open, toggleOpen] = useState(false);
@@ -82,6 +83,7 @@ const AutocompleteWithDialog = ({
         <Autocomplete
           value={value}
           placeholder={placeholder}
+          // variant="soft"
           onChange={(event, newValue) => {
             if (typeof newValue === "string") {
               // timeout to avoid instant validation of the dialog's form.
@@ -145,7 +147,7 @@ const AutocompleteWithDialog = ({
           selectOnFocus
           clearOnBlur
           handleHomeEndKeys
-          variant="soft"
+          variant={tone ? "outlined" : "soft"}
           renderOption={(props, option) => (
             <AutocompleteOption key={option.name} {...props}>
               {option.name}
@@ -234,6 +236,7 @@ interface AutoCompleteProps {
   placeholder?: string;
   sx?: any,
   defaultValueInput?: any;
+  tone?: boolean;
 }
 
 interface FilmOptionType {

@@ -49,7 +49,6 @@ const Subscription = () => {
   ];
   const getField = (name: string) => {
     let sub = subscriptionItems.filter((item: any) => item.index === active);
-    console.log(sub);
     if (sub[0]) {
       return sub[0][name];
     } else return "";
@@ -96,6 +95,7 @@ const Subscription = () => {
                 },
               }}
               variant="outlined"
+              disabled={!active}
               onClick={() =>
                 active !== null
                   ? setOpenPopUp(true)
@@ -181,7 +181,7 @@ const Subscription = () => {
                 ${getField("price")}  {" "}
               </Typography>monthly
             </Typography> */}
-            <PaymentForm close={()=>setOpenPaymentPopUp(false)} />
+            <PaymentForm price={subscriptionItems[active!]?.price} close={()=>setOpenPaymentPopUp(false)} />
           </Box>
         }
         open={openPaymentPopUp}

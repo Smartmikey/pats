@@ -1,58 +1,57 @@
 import { FieldValue, FieldValues, useForm } from "react-hook-form";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 import { useState } from "react";
 import InputMask from "react-input-mask";
 import { createTextMask } from "redux-form-input-masks";
 import { colors } from "../Constants";
 import Axios from "../API/Axios";
+import useAuth from "../Hooks/Auth";
+import { CalendarMonth, CreditCard, Password } from "@mui/icons-material";
 
 interface PaymentProps {
   close?: any;
+  price: number;
+  petId?: string;
 }
 
-function PaymentForm({ close }: PaymentProps) {
+function PaymentForm({ close, price, petId }: PaymentProps) {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
 
-  const [expiration, setExpiration] = useState("");
+  const [error, setError] = useState("");
+  const user:any = useAuth();
+  const [paymentSuccess, setPaymentSuccess] = useState(false)
 
-  //   const validateExpirationFormat = (input: string) => {
-  //     const expirationRegex = /^(0[1-9]|1[0-2])\/([0-9]){2}$/;
-
-  //     if (!expirationRegex.test(input)) {
-  //       return ""; // Return empty string if the input doesn't match the format
-  //     }
-
-  //     const [month, year] = input.split("/");
-  //     console.log(input, month);
-
-  //     return `${month.padStart(2, "0")}/${year}`;
-  //   };
-  //   const handleChange = (event: any) => {
-  //     const input = event.target.value;
-  //     const formattedExpiration = validateExpirationFormat(input);
-  //     // console.log(formattedExpiration, input);
-
-  //     setExpiration(formattedExpiration);
-  //   };
+  
   const onSubmit = (data: FieldValues) => {
     data = {
       ...data,
-      cardnumber: card.cardno.split("-").join("").split(" ").join(""),
-      expmonth: card.expirydt.split("/")[0],
-      expyear: card.expirydt.split("/")[1],
-      amount: 100,
+      card_number: card.cardno.split("-").join("").split(" ").join(""),
+      exp_month: card.expirydt.split("/")[0],
+      exp_year: card.expirydt.split("/")[1],
+      amount: price,
+      member_id: user?.id,
+      pet_id: petId || 0
+
     };
-    Axios.post("/payment/generate-card-token", data).then((res) =>
-      Axios.post("/payment/create-payment-charge", {tokenid:res.data, amount: 120})
-      .then((charge) =>{
-      close();
-        console.log()}
-      )
-    );
+    Axios.post("/payment/generate-card-token", data).then((res) =>{
+    
+      Axios.post("/payment/create-payment-charge", {
+        token_id: res.data,
+        amount: price,
+      }).then((charge) => {
+        close();
+        setPaymentSuccess(true)
+      })}
+      
+    ).catch((error) => {
+      console.log(error);
+  
+    setError(error.response.data.detail)
+    });
     //   console.log(data);
   };
 
@@ -140,6 +139,9 @@ function PaymentForm({ close }: PaymentProps) {
         sx={{ my: 1 }}
         value={cc_format(card.cardno)}
         onChange={onChange}
+        InputProps={{
+          endAdornment: (<CreditCard />)
+        }}
         // {...register("cardNumber", {
         //   required: "Card number is required",
         //   minLength: { value: 16, message: "Card number must be 16 digits" },
@@ -153,6 +155,9 @@ function PaymentForm({ close }: PaymentProps) {
         fullWidth
         value={expriy_format(card.expirydt)}
         onChange={onChangeExp}
+        InputProps={{
+          endAdornment: (<CalendarMonth />)
+        }}
         //   onChange={handleChange}
         sx={{ my: 1 }}
         // {...register("expirationDate", {
@@ -170,6 +175,9 @@ function PaymentForm({ close }: PaymentProps) {
         inputProps={{
           maxLength: 3,
         }}
+        InputProps={{
+          endAdornment: (<Password />)
+        }}
         {...register("cvv", {
           required: true,
           maxLength: { value: 3, message: "CVV must be 3 digits" },
@@ -177,17 +185,17 @@ function PaymentForm({ close }: PaymentProps) {
         error={!!errors.cvv}
         helperText={errors.cvv?.message && "CVV must be 3 digits"}
       />
-
+{error && <Typography textAlign='center' color='red' variant="caption">{error}</Typography>}
       <Button
         variant="outlined"
         // type="submit"
         sx={{
           borderColor: colors.primary,
           color: colors.primary,
-          "&:hover": { color: colors.primary, borderColor: colors.primary, },
+          "&:hover": { color: colors.primary, borderColor: colors.primary },
           mr: 2,
         }}
-        onClick={()=> close()}
+        onClick={() => close()}
       >
         Close
       </Button>

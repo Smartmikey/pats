@@ -1,12 +1,31 @@
 import { Person, PetsRounded } from "@mui/icons-material";
 import { Box, Container, Divider, Grid, IconButton, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../Constants";
 import Index from "../Chat/Index";
+import Axios from "../../API/Axios";
+import useAuth from "../../Hooks/Auth";
+
 
 const Home = () => {
+
+  const [pets, setPets] = useState([])
+  const [userProfile, setUserProfile] = useState<any>("")
+  const user:any = useAuth();
+  useEffect(() => {
+    const getPets = async()=> {
+      if (user?.id) {
+        Axios.get(`member/breeder/${user?.id}`).then((res) => {
+          setUserProfile(res.data.data[0]);
+        });
+      }
+      const res = await Axios.get(`/breeder/pets/${user?.id}/member`)
+      setPets(await res.data.data);
+    }
+    getPets();
+  }, [user?.id])
   return <Box>
-    <Typography variant="h4" sx={{fontWeight: 600, my:2}}>Hello! <Box component="span" sx={{color: colors.primary}}>Little Paws Breeder</Box></Typography>
+    <Typography variant="h4" sx={{fontWeight: 600, my:2}}>Hello! <Box component="span" sx={{color: colors.primary}}>{userProfile?.business_name}</Box></Typography>
     <Box
         sx={{
           border: "1px solid rgba(239, 239, 239, 1)",
@@ -22,7 +41,7 @@ const Home = () => {
                 <IconButton sx={{bgcolor: colors.primary,  m: 2}}><PetsRounded sx={{fontSize: 34, color: colors.white}} /></IconButton>
                 <Box>
                     <Typography>Animals <Box component="span" sx={{fontWeight: 800}}>sold</Box></Typography>
-                    <Typography variant="h5" sx={{color: colors.primary}}>9</Typography>
+                    <Typography variant="h5" sx={{color: colors.primary}}>{pets?.filter((pet: any) => pet.status === 'SOLD').length}</Typography>
                 </Box>
             </Box>
         </Grid>
@@ -32,7 +51,7 @@ const Home = () => {
                 <IconButton sx={{bgcolor: colors.primary,  m: 2}}><PetsRounded sx={{fontSize: 34,  color: colors.white}} /></IconButton>
                 <Box>
                     <Typography>Animals <Box component="span" sx={{fontWeight: 800}}>Available</Box></Typography>
-                    <Typography variant="h5" sx={{color: colors.primary}}>6</Typography>
+                    <Typography variant="h5" sx={{color: colors.primary}}>{pets?.filter((pet: any) => pet.status === 'AVAILABLE').length}</Typography>
                 </Box>
             </Box>
         </Grid>
@@ -42,7 +61,7 @@ const Home = () => {
                 <IconButton sx={{bgcolor: colors.primary,  m: 2}}><Person sx={{fontSize: 34,  color: colors.white}} /></IconButton>
                 <Box>
                     <Typography>Customers <Box component="span" sx={{fontWeight: 800}}>in contact</Box></Typography>
-                    <Typography variant="h5" sx={{color: colors.primary}}>3</Typography>
+                    <Typography variant="h5" sx={{color: colors.primary}}>0</Typography>
                 </Box>
             </Box>
         </Grid>

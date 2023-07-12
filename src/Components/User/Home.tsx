@@ -14,12 +14,23 @@ import BreederCard from "../../Common/BreederCard";
 import Axios from "../../API/Axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import useAuth from "../../Hooks/Auth";
 
 const Home = () => {
 
   const [pets, setPets] = useState<any>();
   const history = useHistory();
-
+  const user:any = useAuth();
+  const handleContactClick = (id: string) => {
+    if (user?.role === "ROLE_MEMBER") {
+      return history.push(`/breeder/${id}`);
+    } else if (user?.role === "ROLE_USER") {
+      return history.push(`/user/message/${id}`);
+    }else {
+      return history.push(`/login`);
+  
+    }
+  };
   const handleCategoryChange = async(category: string)=> {
     if(category === 'others'){
       return Axios.get('/breeder/pets').then((res) => {setPets(res.data.data)})
@@ -189,6 +200,7 @@ const Home = () => {
                       borderRadius: "6px",
                       "&:hover": { backgroundColor: colors.primary },
                     }}
+                    onClick={()=> handleContactClick(item?.member_id)}
                   >
                     Contact
                   </Button>
