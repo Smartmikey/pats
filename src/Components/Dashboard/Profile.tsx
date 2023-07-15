@@ -333,7 +333,7 @@ const Profile = () => {
                       tone
                     />
                     ) : (
-                      <ListItemText>{userProfile?.city.name || ""}</ListItemText>
+                      <ListItemText>{userProfile?.city?.name || ""}</ListItemText>
                     )}
                   </ListItem>
                 </List>

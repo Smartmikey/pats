@@ -30,7 +30,7 @@ const HeaderNav = (props: Props) => {
   const { window } = props;
   const isUser: any = useAuth();
   const [openPopOver, setOpenPopOver] = useState(false);
-  const [, , removeToken] = useCookies(["token"]);
+  const [token, , removeToken] = useCookies(["token"]);
   const [userProfile, setUserProfile] = useState<any>(undefined);
   const history = useHistory();
 
@@ -46,9 +46,9 @@ const HeaderNav = (props: Props) => {
   };
 
   const logUserOut = () => {
-    const res = Axios.get("/logout");
-    setOpenPopOver(false);
     removeToken("token");
+    setOpenPopOver(false);
+    const res = Axios.get("/logout");
   };
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -61,7 +61,7 @@ const HeaderNav = (props: Props) => {
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         <Link to="/">
-          <img src="/Loo.svg" alt="logo" />
+          <Box component='img' sx={{display: {xs: "none", sm: 'inline'}}} src="/Loo.svg" alt="logo" />
         </Link>
       </Typography>
       <Divider />
@@ -121,7 +121,7 @@ const HeaderNav = (props: Props) => {
       setUserProfile(await res.data.data[0]);
     };
     getBreederProfile();
-  }, [isUser]);
+  }, [isUser, token]);
 
   return (
     <Container>

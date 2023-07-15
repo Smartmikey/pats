@@ -5,12 +5,20 @@ import { colors } from "../../Constants";
 import { useState } from "react";
 import Popup from "../../Common/Popup";
 import PaymentForm from "../../Common/PaymentForm";
+import Axios from "../../API/Axios";
+import { useHistory } from "react-router-dom";
 
-const Subscription = () => {
+interface Props {
+  window: () => Window;
+}
+
+const Subscription = (props:Props) => {
+  // const {window} = props
   const [active, setActive] = useState<number | null>(null);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [openPaymentPopUp, setOpenPaymentPopUp] = useState(false);
   const [error, setError] = useState("");
+  const history = useHistory();
   const subscriptionItems: any = [
     {
       name: "Pay per post",
@@ -53,6 +61,16 @@ const Subscription = () => {
       return sub[0][name];
     } else return "";
   };
+
+  const getSubscriptionLink = () => {
+    Axios.post('/payment/create-link-payment-stripe').then(res => {
+      if(res){
+        console.log(res);
+        
+        return window.open(res.data.url, '_blank' );
+      }
+    })
+  }
 
 
 
@@ -153,7 +171,7 @@ const Subscription = () => {
                 bgcolor: colors.primary,
                 "&:hover": { bgcolor: colors.primary }
               }}
-              onClick={()=> {setOpenPopUp(false); setOpenPaymentPopUp(true)}}
+              onClick={()=>getSubscriptionLink()}//{setOpenPopUp(false); setOpenPaymentPopUp(true)}}
             >
               Confirm
             </Button>

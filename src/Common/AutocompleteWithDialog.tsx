@@ -32,7 +32,7 @@ const AutocompleteWithDialog = ({
   placeholder,
   sx,
   defaultValueInput,
-  tone
+  tone,
 }: AutoCompleteProps) => {
   const [value, setValue] = useState<any | null>(defaultValueInput || null);
   const [open, toggleOpen] = useState(false);
@@ -42,7 +42,6 @@ const AutocompleteWithDialog = ({
     description: "",
   });
 
-  
   const handleClose = () => {
     // setDialogValue({
     //   name: '',
@@ -53,14 +52,14 @@ const AutocompleteWithDialog = ({
   };
 
   const handleSubmit = async (data: FieldValues) => {
-    field.map(fields => {
-      if(fields.data){
-        data[fields.name+ '_id'] = getValue.state[fields.name]
+    field.map((fields) => {
+      if (fields.data) {
+        data[fields.name + "_id"] = getValue.state[fields.name];
         // fields.data.map((subdata:any) =>{
         // })
       }
-    })
-    
+    });
+
     const response = await Axios.post(endpoint, data);
     getValue.setState({
       ...getValue.state,
@@ -71,12 +70,10 @@ const AutocompleteWithDialog = ({
     setValue({
       ...data,
     });
-    
+
     handleClose();
   };
-  useEffect(() => {
-  
-}, [value])
+  useEffect(() => {}, [value]);
   return (
     <React.Fragment>
       <FormControl>
@@ -84,23 +81,51 @@ const AutocompleteWithDialog = ({
           value={value}
           placeholder={placeholder}
           // variant="soft"
-          onChange={(event, newValue) => {
+          onChange={async(event, newValue) => {
             if (typeof newValue === "string") {
               // timeout to avoid instant validation of the dialog's form.
               setTimeout(() => {
-                toggleOpen(true);
                 setDialogValue({
                   name: newValue,
                   //   year: '',
                 });
+                if(endpoint !== "/city"){
+                  
+                  Axios.post(endpoint, {name: newValue, description: ""})
+                  .then(response => {
+                    
+                    getValue.setState({
+                      ...getValue.state,
+                      [title]: { ...response.data.data },
+                      refresh: !getValue.state.refresh,
+                    });
+                  });
+                }else {
+                  toggleOpen(true);
+
+                }
                 getValue.setState({
                   ...getValue.state,
                   [title.toLowerCase().split(" ").join("_")]: newValue,
-                  refresh: !getValue.state.refresh,
+                  // refresh: !getValue.state.refresh,
                 });
               });
             } else if (newValue && newValue.inputValue) {
-              toggleOpen(true);
+              if(endpoint !== "/city"){
+
+                Axios.post(endpoint, {name: newValue.inputValue, description: ""})
+                  .then(response => {
+  
+                    getValue.setState({
+                      ...getValue.state,
+                      [title]: { ...response.data.data },
+                      refresh: !getValue.state.refresh,
+                    });
+                  });
+              }else {
+
+                toggleOpen(true);
+              }
               setDialogValue({
                 name: newValue.inputValue,
                 // year: '',
@@ -108,10 +133,9 @@ const AutocompleteWithDialog = ({
               getValue.setState({
                 ...getValue.state,
                 [title.toLowerCase().split(" ").join("_")]: newValue.inputValue,
-                refresh: !getValue.state.refresh,
+                // refresh: !getValue.state.refresh,
               });
             } else {
-              
               setValue(newValue);
               getValue.setState({
                 ...getValue.state,
@@ -122,20 +146,20 @@ const AutocompleteWithDialog = ({
           }}
           filterOptions={(options, params) => {
             const filtered = filter(options, params);
-            
+
             if (params.inputValue !== "") {
               filtered.push({
                 inputValue: params.inputValue,
                 name: `Add "${params.inputValue}"`,
               });
             }
-            
+
             return filtered;
           }}
           options={data}
           getOptionLabel={(option) => {
             // e.g value selected with enter, right from the input
-            
+
             if (typeof option === "string") {
               return option;
             }
@@ -153,9 +177,9 @@ const AutocompleteWithDialog = ({
               {option.name}
             </AutocompleteOption>
           )}
-          sx={{...{ width: "100%" }, ...sx}}
+          sx={{ ...{ width: "100%" }, ...sx }}
           defaultValue={defaultValueInput}
-          />
+        />
       </FormControl>
       <Modal open={open} onClose={handleClose}>
         <ModalDialog>
@@ -234,7 +258,7 @@ interface AutoCompleteProps {
   title: string;
   getValue: any;
   placeholder?: string;
-  sx?: any,
+  sx?: any;
   defaultValueInput?: any;
   tone?: boolean;
 }

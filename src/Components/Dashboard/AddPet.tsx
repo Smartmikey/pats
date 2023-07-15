@@ -30,6 +30,8 @@ import { Field } from "../../interface/Pet";
 import FormData from "form-data";
 import useAuth from "../../Hooks/Auth";
 import { AttachMoney } from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
 
 const AddPet = () => {
   const {
@@ -39,9 +41,10 @@ const AddPet = () => {
     reset,
     formState: { errors },
   } = useForm();
-
+  const history = useHistory();
   const [selected, setSelected] = useState<string[]>([]);
-const [photoUrl, setPhotoUrl] = useState<any[]>([])
+  const [photoUrl, setPhotoUrl] = useState<any[]>([]);
+  const [startLoading, setStartLoading] = useState(false)
   const [state, setState] = useReducer(
     (state: any, newState: any) => ({ ...state, ...newState }),
     {
@@ -65,14 +68,14 @@ const [photoUrl, setPhotoUrl] = useState<any[]>([])
 
   const deleteImage = (index: number) => {
     console.log(index, photoUrl, photoUrl.splice(index, 1));
-    
+
     // setPhotoUrl([...photoUrl.splice(index, 1)])
     // displayImages()
   };
   let formData = new FormData();
-  console.log(photoUrl);
-  
+
   const createPet = async (data: FieldValues) => {
+    setStartLoading(true)
     // const headers = formData.getHeaders();
     const dataToPost: any = {
       ...data,
@@ -94,13 +97,22 @@ const [photoUrl, setPhotoUrl] = useState<any[]>([])
     for (let i = 0; i < state.photos.length; i++) {
       formData.append("photos", state.photos[i], state.photos[i].name);
     }
-
-    const response = await Axios.post("breeder/pets/", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    if (response) reset();
-    setState({ isPetAdded: true });
+    try {
+      const response = await Axios.post("breeder/pets/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+  
+      if (response) {
+        reset();
+        setState({ isPetAdded: true });
+        setTimeout(() => {
+          history.push("/add-to-pet");
+        }, 2000);
+      }
+      
+    } catch (error) {
+      setStartLoading(false);
+    }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +121,7 @@ const [photoUrl, setPhotoUrl] = useState<any[]>([])
       setState({ photos: event.target.files });
       // setPhotoUrl(event.target.files)
       for (let i = 0; i < event.target.files.length; i++) {
-        photoUrl.push(event.target.files[i])
+        photoUrl.push(event.target.files[i]);
         // setPhotoUrl([...photoUrl,URL.createObjectURL(event.target.files[i])]);
       }
 
@@ -186,43 +198,43 @@ const [photoUrl, setPhotoUrl] = useState<any[]>([])
             />
           </Button>
         </Box>
-          <Box
-            sx={{
-              display: "flex",
-              height: "150px",
-              // width: "150px",
-              borderRadius: "5px",
-              // boxShadow: "0 0 5px rgba(0, 0, 0, 0.15)",
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            {photoUrl &&
-              photoUrl?.map((image: any, index: number) => (
-                <Box component="span" key={index} sx={{mx:1}}>
-                  <Box
-                    component="img"
-                    src={URL.createObjectURL(image)}
-                    sx={{ width: "100%", height: "100%" }}
-                    // onClick={() => deleteImage(index)}
-                  />
-                  <span
-                    // component="span"
-                    
-                    style={{
-                      position: "absolute",
-                      top: "4px",
-                      right: "4px",
-                      cursor: "pointer",
-                      fontSize: "22px",
-                      color: "white",
-                    }}
-                  >
-                    &times;
-                  </span>
-                </Box>
-              ))}
-          </Box>
+        <Box
+          sx={{
+            display: "flex",
+            height: "150px",
+            // width: "150px",
+            borderRadius: "5px",
+            // boxShadow: "0 0 5px rgba(0, 0, 0, 0.15)",
+            overflow: "hidden",
+            position: "relative",
+          }}
+        >
+          {photoUrl &&
+            photoUrl?.map((image: any, index: number) => (
+              <Box component="span" key={index} sx={{ mx: 1 }}>
+                <Box
+                  component="img"
+                  src={URL.createObjectURL(image)}
+                  sx={{ width: "100%", height: "100%" }}
+                  // onClick={() => deleteImage(index)}
+                />
+                <span
+                  // component="span"
+
+                  style={{
+                    position: "absolute",
+                    top: "4px",
+                    right: "4px",
+                    cursor: "pointer",
+                    fontSize: "22px",
+                    color: "white",
+                  }}
+                >
+                  &times;
+                </span>
+              </Box>
+            ))}
+        </Box>
         <Divider />
 
         <Grid container spacing={8} sx={{ mt: 2 }}>
@@ -498,10 +510,15 @@ const [photoUrl, setPhotoUrl] = useState<any[]>([])
                 },
                 mx: 4,
               }}
+              onClick={()=> history.push('/breeder')}
             >
               Cancel
             </Button>
-            <Button
+            { startLoading ? (
+                  <LoadingButton loading variant="outlined">
+                    Submit
+                  </LoadingButton>
+                ) :(<Button
               variant="contained"
               type="submit"
               sx={{
@@ -514,7 +531,7 @@ const [photoUrl, setPhotoUrl] = useState<any[]>([])
               }}
             >
               Add pets
-            </Button>
+            </Button>)}
           </Grid>
         </Grid>
         {state.isPetAdded && (

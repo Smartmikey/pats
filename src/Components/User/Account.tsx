@@ -7,7 +7,7 @@ import { colors } from "../../Constants";
 const Account = () => {
   return (
     <Box>
-      <Title sx={{ ml: 0 }} text="Account" />
+      {/* <Title sx={{ ml: 0 }} text="Account" />
       <Box
         sx={{
           border: "1px solid rgba(239, 239, 239, 1)",
@@ -38,7 +38,7 @@ const Account = () => {
             </Button>
           </Container>
         </form>
-      </Box>
+      </Box> */}
 
       <Box
         sx={{

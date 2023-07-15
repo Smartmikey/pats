@@ -51,6 +51,16 @@ const Discover = () => {
     }
   };
 
+  const getSubscriptionLink = () => {
+    Axios.post('/payment/create-link-payment-stripe').then(res => {
+      if(res){
+        console.log(res);
+        
+        return window.open(res.data.url, '_blank' );
+      }
+    })
+  }
+
   useEffect(() => {
     const makeAllCalls = () => {
       Axios.get(`/breeder/pets/${id}`).then((response) => {
@@ -238,7 +248,7 @@ const Discover = () => {
                     // mx: "auto",
                     mr: 4,
                   }}
-                  onClick={() => setOpenPaymentPopUp(!openPaymentPopUp)}
+                  onClick={() => getSubscriptionLink()}//setOpenPaymentPopUp(!openPaymentPopUp)}
                 >
                   Purchase pet
                 </Button>
