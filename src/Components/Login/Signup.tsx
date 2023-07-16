@@ -39,15 +39,15 @@ const Signup = () => {
     data = {
       ...data,
       // location_id: 0,
-      company_type: 0,
-      breeder_type: 0,
+      company_type: 1,
+      breeder_type: 1,
       about: "",
       price: "",
       web_site: "",
       address: "",
       date_information: "",
       phone_number: "",
-      city_id:0,
+      city_id:1,
       business_name: "",
     };
     const { accepted, confirmPassword, ...rest } = data;
