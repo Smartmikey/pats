@@ -271,7 +271,7 @@ const SignupBreeder = () => {
                 </InputLabel>
                 <AutocompleteWithDialog
                   getValue={{ state, setState }}
-                  data={state?.cityRes}
+                  data={state?.locationRes}
                   field={locationField}
                   endpoint="/city"
                   title="city"

@@ -54,7 +54,7 @@ const Signup = () => {
 
     // rest.location = 'nigeria'
     if (confirmPassword === rest.password) {
-      const response = await Axios.post("/member/register", { ...rest });
+      const response = await Axios.post("/user/register", { ...rest });
       console.log(data, response);
       if (response.status === 200) {
         // const verify = await Axios.get(
