@@ -7,7 +7,7 @@ const Axios = axios.create({
   // withCredentials: true,
 });
 
-console.log(process.env.REACT_APP_API_URL)
+// console.log(process.env.REACT_APP_API_URL)
 
 export const setAuthToken = (token: string) => {
   if (token) {
