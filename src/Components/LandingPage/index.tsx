@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Container,
@@ -23,7 +24,7 @@ import {
   ArrowForwardIos,
   SwipeLeftSharp,
 } from "@mui/icons-material";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -44,13 +45,10 @@ const LandingPage = () => {
   };
 
   const getPetsByCategory = async (category_id: string) => {
-    if(category_id === "others"){
-      const response = await Axios.get(
-        `/breeder/pets/`
-      );
+    if (category_id === "others") {
+      const response = await Axios.get(`/breeder/pets/`);
       setPetByCategory(response.data.data);
-    }else {
-
+    } else {
       const response = await Axios.get(
         `/breeder/pets/${category_id}/category?category_pet_id=${category_id}`
       );
@@ -108,13 +106,40 @@ const LandingPage = () => {
           }}
         >
           <img src="pats.svg" style={{ width: "200px" }} alt="pats logo" />
-          <Box sx={{ mt: 3, mb: 18, textAlign: "center" }}>
-            <TextField
+          <Box sx={{ mt: 3, mb: 18, textAlign: "center", display: 'flex' }}>
+            {/* <TextField
               id="looking-for"
               size="small"
-              sx={{ mx: 1, my: { xs: 1, md: "unset" }, minWidth: '300px' }}
               label="What are you looking for?"
               variant="outlined"
+            /> */}
+            <Autocomplete
+              // id="free-solo-demo"
+              sx={{ mx: 1, my: { xs: 1, md: "unset" }, minWidth: "300px" }}
+              freeSolo
+              options={pets}
+              size="small"
+              renderOption={(props, option: any) => (
+                <Box sx={{padding: '20px', '&:hover': {bgcolor: '#e9e9e9'}}}>
+                <Link to={`/pet/${option.id}`} style={{textDecoration: 'none', color: '#000000'}}>
+                  <Grid container>
+                    <Grid item xs={4}>
+                    <img src={option?.photos[0]?.fullpath} width={80} style={{borderRadius: '15px'}} />
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography sx={{mb: 1}} >{option.name}</Typography>
+                      
+                      <Typography sx={{color: "#3d3d3d"}}>{option.breed.name}</Typography>
+                      
+                    </Grid>
+                  </Grid>
+                </Link>
+                </Box>
+              )}
+              getOptionLabel={(option: any) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="What are you looking for?" />
+              )}
             />
             {/* <TextField
               id="Location"
@@ -225,7 +250,6 @@ const LandingPage = () => {
             slide={1}
           >
             {petByCategory?.map((data: any, index: number) => {
-
               return <PetCard key={index + "category"} data={data} />;
             })}
           </Carousel>
